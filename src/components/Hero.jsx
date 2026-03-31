@@ -21,11 +21,16 @@ const Hero = () => {
           </p>
 
           <div className="buttons">
-            <a href="#" className="btn-primary" onMouseMove={handleMouseMove}>
+            <a 
+              href="#" 
+              className="btn-primary" 
+              onMouseMove={handleMouseMove}
+            >
               Baixar CV
             </a>
             <a href="https://www.linkedin.com/in/renato-paiva-developer/" target="_blank" rel="noopener noreferrer" 
-               className="btn-secondary" onMouseMove={handleMouseMove}
+               className="btn-secondary" 
+               onMouseMove={handleMouseMove}
             >
               <FaLinkedin className="linkedin-icon" /> LinkedIn
             </a>

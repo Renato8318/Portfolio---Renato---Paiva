@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { FaWhatsapp, FaLinkedin, FaReact, FaHtml5, FaCss3Alt, FaJsSquare } from "react-icons/fa";
+import { FaWhatsapp, FaLinkedin, FaReact, FaHtml5, FaCss3Alt, FaJsSquare, FaBars, FaTimes, FaArrowUp } from "react-icons/fa";
 import Hero from "./components/Hero";
 import Sobre from "./components/Sobre";
 import Tecnologias from "./components/Tecnologias";
@@ -10,12 +10,21 @@ import Projetos from "./components/Projetos";
 import Experiencia from "./components/Experiencia";
 import ProjetoDetalhes from "./components/ProjetoDetalhes";
 
-function App() {
+function AppContent() {
   const [greeting, setGreeting] = useState("");
+  const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem("theme");
     return saved ? JSON.parse(saved) : true;
   });
+
+  const location = useLocation();
+  const isHome = location.pathname === "/";
+
+  // Função para formatar o link dinamicamente
+  const getNavLink = (id) => {
+    return isHome ? `#${id}` : `/#${id}`;
+  };
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
@@ -42,19 +51,28 @@ function App() {
   };
 
   return (
-    <Router>
+    <>
       <header className="header" onMouseMove={handleMouseMove}>
         <div className="header-container">
-          <nav className="nav">
-            <ul className="nav-list">
-              <li><a href="#home">Início</a></li>
-              <li><a href="#sobre">Sobre</a></li>
-              <li><a href="#tecnologias">Tecnologias</a></li>
-              <li><a href="#projetos">Projetos</a></li>
-              <li><a href="#experiencia">Experiência</a></li>
-              <li><a href="#contato">Contato</a></li>
+          <button 
+            className="menu-toggle" 
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Abrir menu"
+          >
+            {menuOpen ? <FaTimes /> : <FaBars />}
+          </button>
+
+          <nav className={`nav ${menuOpen ? "open" : ""}`}>
+            <ul className="nav-list" onClick={() => setMenuOpen(false)}>
+              <li><a href={getNavLink("home")}>Início</a></li>
+              <li><a href={getNavLink("sobre")}>Sobre</a></li>
+              <li><a href={getNavLink("tecnologias")}>Tecnologias</a></li>
+              <li><a href={getNavLink("projetos")}>Projetos</a></li>
+              <li><a href={getNavLink("experiencia")}>Experiência</a></li>
+              <li><a href={getNavLink("contato")}>Contato</a></li>
             </ul>
           </nav>
+
           <button
             className="dark-toggle"
             onClick={() => setDarkMode(!darkMode)}
@@ -117,8 +135,23 @@ function App() {
               <FaJsSquare title="JavaScript" />
             </div>
           </div>
+          <button 
+            className="back-to-top" 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            aria-label="Voltar ao topo"
+          >
+            <FaArrowUp /> <span>Topo</span>
+          </button>
         </div>
       </footer>
+    </>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <AppContent />
     </Router>
   );
 }

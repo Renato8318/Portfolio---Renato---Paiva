@@ -1,4 +1,10 @@
 /* Configurações de Variáveis */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
 :root {
   --primary-color: #10b981; /* Verde Esmeralda vibrante */
   --bg-dark: #09090b;       /* Preto Zinco profundo */
@@ -6,20 +12,23 @@
   --card-bg: #18181b;       /* Cinza Zinco para cards */
   --text-white: #ffffff;
   --text-gray: #a1a1aa;
+  overflow-x: hidden;
   --border-subtle: rgba(255, 255, 255, 0.1);
 }
 
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 110px; /* Ajustado para a altura exata do header + marquee */
+  overflow-x: hidden;
 }
 
 body {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
   transition: background-color 0.3s ease, color 0.3s ease;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 body.dark {
@@ -59,44 +68,41 @@ body.dark::before {
   animation: backgroundPulse 10s infinite alternate ease-in-out;
 }
 
-/* Efeito de Asteroide (Estrela Cadente) no Modo Dark */
+/* Efeito de Varredura de Radar (Scanline Global) no Modo Dark */
 body.dark::after {
   content: "";
   position: fixed;
-  top: -100px;
-  right: -100px;
-  width: 3px;
-  height: 200px;
-  /* Início em branco para parecer incandescente */
-  background: linear-gradient(to bottom, #fff, var(--primary-color), transparent);
-  transform: rotate(45deg);
-  pointer-events: none;
-  z-index: 0;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--primary-color);
   opacity: 0;
-  /* Brilho intenso usando múltiplos drop-shadows */
-  filter: drop-shadow(0 0 10px var(--primary-color)) drop-shadow(0 0 20px var(--primary-color)) blur(0.5px);
-  animation: asteroid-anim 15s infinite ease-in;
+  pointer-events: none;
+  z-index: 10;
+  filter: blur(1px) drop-shadow(0 0 8px var(--primary-color));
+  animation: scan-line-anim 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-@keyframes asteroid-anim {
+@keyframes scan-line-anim {
   0% {
-    transform: translate(0, 0) rotate(45deg);
+    top: -5%;
     opacity: 0;
   }
-  1% {
-    opacity: 0.8;
+  5% {
+    opacity: 0.4;
   }
-  10% {
-    transform: translate(-120vw, 120vh) rotate(45deg);
-    opacity: 0;
+  20% {
+    top: 105%;
+    opacity: 0.4;
   }
-  100% {
-    transform: translate(-120vw, 120vh) rotate(45deg);
+  21%, 100% {
+    top: 105%;
     opacity: 0;
   }
 }
 
-@keyframes backgroundPulse {
+@keyframes bvwckgroundPulse {
   from { opacity: 0.4; }
   to { opacity: 1; }
 }
@@ -111,7 +117,6 @@ body.dark::after {
   backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border-subtle);
   background: rgba(255, 255, 255, 0.8);
-  overflow: hidden;
 }
 
 /* Glow Dinâmico no Header */
@@ -179,6 +184,7 @@ body.dark .header {
 /* Garantir que o conteúdo principal e o rodapé fiquem acima dos brilhos do fundo */
 .container, .footer {
   position: relative;
+  width: 100%;
   z-index: 1;
 }
 
@@ -189,6 +195,7 @@ body.dark .header {
   justify-content: space-between;
   align-items: center;
   padding: 15px 20px;
+  width: 100%;
 }
 
 .nav-list {
@@ -197,6 +204,16 @@ body.dark .header {
   list-style: none;
   margin: 0;
   padding: 0;
+}
+
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-white);
+  font-size: 1.8rem;
+  cursor: pointer;
+  z-index: 1001;
 }
 
 .nav-list a {
@@ -265,6 +282,33 @@ body:not(.dark) .footer {
   border-top: 1px solid var(--border-subtle);
   font-size: 0.9rem;
   color: var(--text-gray);
+}
+
+.contact-links {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.back-to-top {
+  margin-top: 30px;
+  background: transparent;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+  padding: 10px 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.back-to-top:hover {
+  background: var(--primary-color);
+  color: white;
 }
 
 .tech-stack-icons {
@@ -1031,13 +1075,119 @@ section {
 
 /* Responsividade */
 @media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Mudado para a direita para evitar conflito com scroll */
+    left: auto;
+    width: 70%;
+    height: 100vh;
+    background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    border-right: 1px solid var(--border-subtle);
+    transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav.open {
+    right: 0;
+    box-shadow: 10px 0 50px rgba(0, 0, 0, 0.5);
+  }
+
+  .nav-list {
+    flex-direction: column;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .header-container {
+    padding: 10px 15px;
+    gap: 10px;
+  }
+
+  .grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding: 20px 10px;
+    justify-content: flex-start;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .grid::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+
+  .card {
+    flex: 0 0 85%;
+    min-width: 280px;
+    scroll-snap-align: center;
+  }
+
   .hero-container {
     flex-direction: column-reverse;
     text-align: center;
     padding-top: 40px;
+    min-height: auto;
+    gap: 40px;
   }
+
+  .hero-text h1 {
+    font-size: 2.5rem;
+  }
+
+  .buttons {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+
+  .hero-img-wrapper {
+    width: 220px;
+    height: 220px;
+  }
+
+  .hero-img-wrapper img {
+    width: 190px;
+    height: 190px;
+  }
+
+  .ring-1 {
+    width: 210px;
+    height: 210px;
+  }
+
+  .ring-2 {
+    width: 240px;
+    height: 240px;
+  }
+
+  .contact-links {
+    flex-direction: column;
+    align-items: center;
+  }
+
   .projeto-detalhes-wrapper {
     flex-direction: column;
+    align-items: center;
+  }
+  .projeto-detalhes-img {
+    width: 100%;
+    min-width: unset;
   }
   .hero-text, .buttons {
     justify-content: center;
