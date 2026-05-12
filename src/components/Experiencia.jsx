@@ -17,7 +17,9 @@ const Experiencia = () => {
       </h2>
 
       <div className="experiencia-grid">
-        <div className="experiencia-item">
+        <div className="experiencia-item destaque">
+          <span className="badge-destaque">Atual</span>
+          
           <span className="exp-title" onMouseMove={handleMouseMove}>Assistente de Planejamento de TI | MIS & Power BI</span>
           <span className="exp-company"><FaBuilding className="exp-icon" /> VERMONT TI E CALL CENTER LTDA | Nov/2025 – Atual</span>
           
