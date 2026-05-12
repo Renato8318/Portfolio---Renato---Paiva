@@ -102,7 +102,7 @@ body.dark::after {
   }
 }
 
-@keyframes bvwckgroundPulse {
+@keyframes backgroundPulse {
   from { opacity: 0.4; }
   to { opacity: 1; }
 }
@@ -738,9 +738,11 @@ section:hover h2::after, .footer:hover h2::after, .projeto-detalhes-page h1:hove
 .tech-list li:nth-child(3):hover { border-color: #f7df1e; color: #f7df1e; } /* JavaScript */
 .tech-list li:nth-child(4):hover { border-color: #61dafb; color: #61dafb; } /* React */
 .tech-list li:nth-child(5):hover { border-color: #3776ab; color: #3776ab; } /* Python */
-.tech-list li:nth-child(6):hover { border-color: #10b981; color: #10b981; } /* Web Scraping */
+.tech-list li:nth-child(6):hover { border-color: #f2c811; color: #f2c811; } /* Power BI */
 .tech-list li:nth-child(7):hover { border-color: #4479a1; color: #4479a1; } /* SQL */
-.tech-list li:nth-child(8):hover { border-color: #f05032; color: #f05032; } /* Git */
+.tech-list li:nth-child(8):hover { border-color: #00a1e0; color: #00a1e0; } /* Salesforce */
+.tech-list li:nth-child(9):hover { border-color: #10b981; color: #10b981; } /* Web Scraping */
+.tech-list li:nth-child(10):hover { border-color: #f05032; color: #f05032; } /* Git */
 
 .tech-list li:hover .tech-icon {
   filter: drop-shadow(0 0 10px currentColor);
@@ -919,6 +921,19 @@ section:hover h2::after, .footer:hover h2::after, .projeto-detalhes-page h1:hove
 /* ESTILOS PARA A PÁGINA DE DETALHES */
 .projeto-detalhes-page {
   padding-top: 0px !important; /* Remove o espaço superior para o conteúdo subir */
+  /* Adiciona animação de entrada */
+  animation: fadeInPage 0.6s ease-out forwards;
+}
+
+@keyframes fadeInPage {
+  from {
+    opacity: 0;
+    transform: translateY(20px); /* Começa um pouco abaixo e sobe */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .impacto, .contexto {
@@ -982,17 +997,51 @@ section:hover h2::after, .footer:hover h2::after, .projeto-detalhes-page h1:hove
 
 /* EXPERIÊNCIA */
 .experiencia {
-  max-width: 800px;
+  max-width: 1100px;
   margin: 0 auto;
   text-align: left;
+}
+
+.experiencia-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
 }
 
 .experiencia-item {
   padding: 25px;
   border-left: 4px solid var(--primary-color);
-  margin-bottom: 30px;
   background: rgba(59, 130, 246, 0.05);
   border-radius: 0 12px 12px 0;
+  position: relative;
+  max-height: 450px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.exp-fade-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(transparent, var(--bg-dark));
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 20px;
+  z-index: 2;
+}
+
+body:not(.dark) .exp-fade-overlay {
+  background: linear-gradient(transparent, #f8fafc);
+}
+
+.btn-saiba-mais {
+  font-size: 0.8rem;
+  padding: 8px 20px;
 }
 
 .exp-title {

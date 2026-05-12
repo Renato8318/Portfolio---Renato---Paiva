@@ -1,5 +1,6 @@
 import React from "react";
-import { FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaPython, FaGitAlt, FaDatabase, FaCode } from 'react-icons/fa';
+import { FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaPython, FaGitAlt, FaDatabase, FaCode, FaChartBar } from 'react-icons/fa';
+import { SiSalesforce } from 'react-icons/si';
 
 const technologiesData = [
   { name: "HTML5", icon: <FaHtml5 /> },
@@ -7,8 +8,10 @@ const technologiesData = [
   { name: "JavaScript", icon: <FaJsSquare /> },
   { name: "React", icon: <FaReact /> },
   { name: "Python", icon: <FaPython /> },
-  { name: "Web Scraping", icon: <FaCode /> }, // Usando FaCode como um ícone genérico para Web Scraping
+  { name: "Power BI", icon: <FaChartBar /> },
   { name: "SQL", icon: <FaDatabase /> },
+  { name: "Salesforce", icon: <SiSalesforce /> },
+  { name: "Web Scraping", icon: <FaCode /> },
   { name: "Git", icon: <FaGitAlt /> },
 ];
 

@@ -9,13 +9,19 @@ import Tecnologias from "./components/Tecnologias";
 import Projetos from "./components/Projetos";
 import Experiencia from "./components/Experiencia";
 import ProjetoDetalhes from "./components/ProjetoDetalhes";
+import ExperienciaDetalhes from "./components/ExperienciaDetalhes";
 
 function AppContent() {
   const [greeting, setGreeting] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
-    const saved = localStorage.getItem("theme");
-    return saved ? JSON.parse(saved) : true;
+    try {
+      const saved = localStorage.getItem("theme");
+      // Garante que o valor seja booleano
+      return saved !== null ? JSON.parse(saved) : true;
+    } catch (e) {
+      return true;
+    }
   });
 
   const location = useLocation();
@@ -86,10 +92,10 @@ function AppContent() {
       <div className="greeting-marquee">
         <div className="marquee-content">
           <span>
-            {greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PYTHON AUTOMATION // DATA ANALYSIS // [ STATUS: OPEN TO WORK ] // {greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PYTHON AUTOMATION // DATA ANALYSIS // [ STATUS: OPEN TO WORK ] //
+            {greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PLANNING & MIS // POWER BI // PYTHON AUTOMATION // [ STATUS: OPEN TO WORK ] // {greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PLANNING & MIS // POWER BI // PYTHON AUTOMATION // [ STATUS: OPEN TO WORK ] //
           </span>
           <span>
-            {greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PYTHON AUTOMATION // DATA ANALYSIS // [ STATUS: OPEN TO WORK ] // {greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PYTHON AUTOMATION // DATA ANALYSIS // [ STATUS: OPEN TO WORK ] //
+            {greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PLANNING & MIS // POWER BI // PYTHON AUTOMATION // [ STATUS: OPEN TO WORK ] // {greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PLANNING & MIS // POWER BI // PYTHON AUTOMATION // [ STATUS: OPEN TO WORK ] //
           </span>
         </div>
       </div>
@@ -109,6 +115,11 @@ function AppContent() {
         {/* Rota da Página de Detalhes Dinâmica */}
         <Route path="/projeto/:slug" element={
           <ProjetoDetalhes />
+        } />
+
+        {/* Rota da Página de Detalhes da Experiência */}
+        <Route path="/experiencia/:slug" element={
+          <ExperienciaDetalhes />
         } />
       </Routes>
 

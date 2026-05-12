@@ -17,19 +17,12 @@ const Hero = () => {
           </h1>
 
           <p>
-            Desenvolvedor Front-end com experiência em automação, suporte técnico e análise de dados.
+            Desenvolvedor Front-end e Analista de Planejamento de TI especializado em transformar dados operacionais em decisões estratégicas através de Dashboards e Automações.
           </p>
 
           <div className="buttons">
-            <a 
-              href="#" 
-              className="btn-primary" 
-              onMouseMove={handleMouseMove}
-            >
-              Baixar CV
-            </a>
             <a href="https://www.linkedin.com/in/renato-paiva-developer/" target="_blank" rel="noopener noreferrer" 
-               className="btn-secondary" 
+               className="btn-primary" 
                onMouseMove={handleMouseMove}
             >
               <FaLinkedin className="linkedin-icon" /> LinkedIn

@@ -46,8 +46,8 @@ const Projetos = () => {
       </h2>
 
       <div className="grid">
-        {projetos.map((proj, index) => (
-          <ProjectCard key={index} {...proj} />
+        {projetos.map((proj) => (
+          <ProjectCard key={proj.slug} {...proj} />
         ))}
       </div>
     </section>

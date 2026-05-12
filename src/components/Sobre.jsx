@@ -15,10 +15,10 @@ const Sobre = () => {
         </h2>
         <div className="sobre-text">
           <p>
-            Sou um Desenvolvedor Front-end com um olhar analítico apurado, moldado por anos de experiência em suporte técnico e análise de dados. Minha trajetória na <strong>Jotatei - Informática</strong>, operando sistemas como <strong>SGD Express</strong> e <strong>Acione-me</strong>, me permitiu dominar a arte de transformar problemas complexos em soluções de alta disponibilidade.
+            Sou um Desenvolvedor Front-end com DNA analítico, atualmente focado no <strong>Planejamento de TI e Inteligência de Dados (MIS)</strong>. Minha trajetória é marcada pela transição entre o suporte técnico especializado e a criação de soluções automatizadas.
           </p>
           <p>
-            Especialista em unir a agilidade do <strong>React</strong> com a eficiência das automações em <strong>Python</strong>, utilizo ferramentas como <strong>Salesforce</strong> para monitorar KPIs e apoiar decisões estratégicas. Meu objetivo é construir interfaces que não sejam apenas bonitas, mas que resolvam desafios reais de negócio através de código limpo e dados inteligentes.
+            Hoje, uno a agilidade do <strong>React</strong> com a precisão do <strong>Power BI</strong> e <strong>SQL</strong> para construir dashboards que guiam decisões estratégicas e otimizam processos operacionais em tempo real. Sou especialista em 'traduzir' dados complexos em interfaces intuitivas e automações em <strong>Python</strong> que geram eficiência real para o negócio.
           </p>
         </div>
 
@@ -26,7 +26,8 @@ const Sobre = () => {
           <h4 data-aos="fade-right">Competências Comportamentais</h4>
           <ul className="soft-skills-list">
             {[
-              "Pensamento Analítico", "Foco no Cliente", "Resolução de Falhas Críticas",
+              "Pensamento Analítico", "Visão Estratégica", "Tomada de Decisão Baseada em Dados",
+              "Foco no Cliente", "Resolução de Falhas Críticas",
               "Otimização de Processos", "Comunicação Assertiva", "Adaptabilidade"
             ].map((skill, i) => (
               <li key={i} className="soft-skill-item" onMouseMove={handleMouseMove}>

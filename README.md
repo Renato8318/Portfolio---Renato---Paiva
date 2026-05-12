@@ -2,7 +2,7 @@
 
 Repositório do meu portfolio pessoal desenvolvido com **React.js**. O projeto apresenta minha trajetória como Desenvolvedor Front-end, minhas competências em automação com Python e análise de dados, além de detalhar os principais projetos que desenvolvi.
 
-## 🚀 Tecnologias e Ferramentas
+## 🚀 Tecnologias e BI
 
 ### Front-end
 - **React.js** (Hooks, Router)
@@ -10,6 +10,10 @@ Repositório do meu portfolio pessoal desenvolvido com **React.js**. O projeto a
 - **CSS3** (Variáveis, Flexbox, Grid, Animações)
 - **AOS** (Animate On Scroll)
 - **React Icons**
+
+### BI & Planejamento
+- **Power BI** (Dashboards Analíticos & KPIs)
+- **MIS** (Management Information System)
 
 ### Automação & Dados
 - **Python**
@@ -36,7 +40,7 @@ Repositório do meu portfolio pessoal desenvolvido com **React.js**. O projeto a
 
 ## 👤 Sobre Mim
 
-Sou um Desenvolvedor Front-end com olhar analítico, moldado por anos de experiência em suporte técnico e análise de dados. Especialista em unir a agilidade do React com a eficiência das automações em Python para resolver desafios reais de negócio através de código limpo.
+Sou um Desenvolvedor Front-end e Analista de Planejamento de TI, especializado em transformar dados em decisões estratégicas. Com uma trajetória que une a criação de interfaces modernas em React à precisão analítica do Power BI e SQL, foco em otimizar processos operacionais através de automações inteligentes em Python. Atualmente, atuo na intersecção entre tecnologia e planejamento, desenvolvendo soluções que não apenas resolvem problemas, mas antecipam demandas.
 
 ## 📬 Contato
 
