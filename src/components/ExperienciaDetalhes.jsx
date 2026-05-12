@@ -61,7 +61,7 @@ const ExperienciaDetalhes = () => {
         <p className="exp-company" style={{ fontSize: '1.2rem', marginBottom: '5px' }}>
           <FaBuilding className="exp-icon" /> {exp.company}
         </p>
-        <p style={{ color: 'var(--text-gray)', display: 'flex', align區域s: 'center', gap: '8px' }}>
+        <p style={{ color: 'var(--text-gray)', display: 'flex', alignItems: 'center', gap: '8px' }}>
           <FaCalendarAlt color="var(--primary-color)" /> {exp.period}
         </p>
       </div>

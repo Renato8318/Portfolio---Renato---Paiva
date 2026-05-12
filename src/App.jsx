@@ -17,8 +17,11 @@ function AppContent() {
   const [darkMode, setDarkMode] = useState(() => {
     try {
       const saved = localStorage.getItem("theme");
-      // Garante que o valor seja booleano
-      return saved !== null ? JSON.parse(saved) : true;
+      if (saved !== null) return JSON.parse(saved);
+      
+      // Auto Dark Mode: Ativa entre 18h e 06h
+      const hours = new Date().getHours();
+      return hours >= 18 || hours < 6;
     } catch (e) {
       return true;
     }
@@ -58,6 +61,14 @@ function AppContent() {
 
   return (
     <>
+      {/* Camada de Fundo Viva (Nós e Conexões) */}
+      <div className="bg-tech-layer">
+        <div className="data-node n1"></div>
+        <div className="data-node n2"></div>
+        <div className="data-node n3"></div>
+        <div className="data-node n4"></div>
+      </div>
+
       <header className="header" onMouseMove={handleMouseMove}>
         <div className="header-container">
           <button 

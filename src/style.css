@@ -6,14 +6,14 @@
 }
 
 :root {
-  --primary-color: #10b981; /* Verde Esmeralda vibrante */
-  --bg-dark: #09090b;       /* Preto Zinco profundo */
+  --primary-color: #6366f1; /* Indigo Moderno */
+  --bg-dark: #020617;       /* Slate 950 - Profundidade de dados */
   --bg-light: #ffffff;
-  --card-bg: #18181b;       /* Cinza Zinco para cards */
+  --card-bg: #0f172a;       /* Slate 900 para cards */
   --text-white: #ffffff;
   --text-gray: #a1a1aa;
-  overflow-x: hidden;
   --border-subtle: rgba(255, 255, 255, 0.1);
+  --glass-border: rgba(99, 102, 241, 0.2);
 }
 
 html {
@@ -35,21 +35,65 @@ body.dark {
   background: var(--bg-dark);
   background-color: var(--bg-dark);
   color: var(--text-white);
-  /* Efeito de Grid de Pontos Verdes */
-  background-image: radial-gradient(rgba(16, 185, 129, 0.15) 1px, transparent 1px);
-  background-size: 30px 30px;
+  /* Grid estilo Dashboard/MIS com profundidade */
+  background-image: 
+    linear-gradient(rgba(99, 102, 241, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.07) 1px, transparent 1px),
+    radial-gradient(circle at center, rgba(99, 102, 241, 0.03) 0%, transparent 80%);
+  background-size: 60px 60px, 60px 60px, 100% 100%;
+  background-attachment: fixed;
+  animation: gridMove 40s linear infinite;
 }
 
 body:not(.dark) {
   background: #f8fafc; /* Fundo Slate bem claro e limpo */
   color: #0f172a;      /* Texto Slate 900 para leitura perfeita */
+  color: #1e293b;
   --card-bg: #ffffff;
   --text-white: #0f172a; /* Agora os títulos h2 aparecem em preto azulado */
   --text-gray: #334155;
   --border-subtle: rgba(16, 185, 129, 0.15);
-  /* Grid tecnológico sutil em verde no modo claro */
-  background-image: radial-gradient(rgba(16, 185, 129, 0.1) 1px, transparent 1px);
-  background-size: 30px 30px;
+  background-image: radial-gradient(rgba(99, 102, 241, 0.08) 1px, transparent 1px);
+}
+
+/* CAMADA DE NÓS DE DADOS FLUTUANTES */
+.bg-tech-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.data-node {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--primary-color);
+  border-radius: 50%;
+  filter: blur(1px) drop-shadow(0 0 8px var(--primary-color));
+  opacity: 0.3;
+}
+
+.n1 { top: 20%; left: 10%; animation: floatNode 8s infinite alternate; }
+.n2 { top: 60%; left: 85%; animation: floatNode 12s infinite alternate-reverse; }
+.n3 { top: 80%; left: 15%; animation: floatNode 10s infinite alternate; }
+.n4 { top: 15%; left: 75%; animation: floatNode 15s infinite alternate-reverse; }
+
+@keyframes floatNode {
+  0% { 
+    transform: translate(0, 0) scale(1); 
+    opacity: 0.2; 
+  }
+  50% { 
+    transform: translate(100px, 50px) scale(1.5); 
+    opacity: 0.5; 
+    box-shadow: 0 0 20px var(--primary-color);
+  }
+  100% { 
+    transform: translate(-50px, 100px) scale(0.8); 
+    opacity: 0.2; 
+  }
 }
 
 /* Adiciona brilhos (glows) tecnológicos ao fundo no modo Dark */
@@ -61,11 +105,22 @@ body.dark::before {
   width: 100%;
   height: 100%;
   background:
-    radial-gradient(circle at 20% 30%, rgba(16, 185, 129, 0.18) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(16, 185, 129, 0.18) 0%, transparent 50%);
+    radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.2) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.15) 0%, transparent 40%);
   z-index: 0;
   pointer-events: none;
-  animation: backgroundPulse 10s infinite alternate ease-in-out;
+  animation: meshFlow 20s infinite alternate ease-in-out;
+}
+
+@keyframes meshFlow {
+  0% { transform: scale(1) translate(0, 0); }
+  50% { transform: scale(1.2) translate(5%, 5%); filter: hue-rotate(15deg); }
+  100% { transform: scale(1) translate(-5%, -5%); }
+}
+
+@keyframes gridMove {
+  from { background-position: 0 0; }
+  to { background-position: 50px 50px; }
 }
 
 /* Efeito de Varredura de Radar (Scanline Global) no Modo Dark */
@@ -146,20 +201,21 @@ body.dark .header {
 /* ESTILO DO LETREIRO (MARQUEE) */
 .greeting-marquee {
   margin-top: 70px; /* Logo abaixo do header fixo */
-  background: rgba(16, 185, 129, 0.05); /* Fundo sutil para não pesar visualmente */
+  background: rgba(99, 102, 241, 0.05);
   color: var(--primary-color);
   padding: 12px 0;
-  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace; /* Toque técnico */
+  font-weight: 500;
   text-transform: uppercase;
   font-size: 0.75rem;
   overflow: hidden;
   position: relative;
   display: flex;
   z-index: 999;
-  border-top: 1px solid rgba(16, 185, 129, 0.2);
-  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+  border-top: 1px solid rgba(99, 102, 241, 0.2);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.2);
   letter-spacing: 4px; /* Resolve o problema das letras muito próximas */
-  text-shadow: 0 0 10px rgba(16, 185, 129, 0.4); /* Efeito neon sutil */
+  text-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
 }
 
 .marquee-content {
@@ -383,7 +439,7 @@ body:not(.dark) .footer {
   content: "";
   position: absolute;
   inset: -20px -50px; /* Aumentado a área lateral do brilho */
-  background: radial-gradient(circle at center, rgba(16, 185, 129, 0.35), transparent 75%);
+  background: radial-gradient(circle at center, rgba(99, 102, 241, 0.3), transparent 75%);
   z-index: -1;
   animation: pulseNameGlow 3s infinite ease-in-out;
   pointer-events: none;
@@ -606,6 +662,7 @@ section h2, .footer h2, .projeto-detalhes-page h1 {
   color: var(--text-white);
   z-index: 1;
   cursor: default;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 section h2::before, .footer h2::before, .projeto-detalhes-page h1::before {
@@ -613,9 +670,9 @@ section h2::before, .footer h2::before, .projeto-detalhes-page h1::before {
   position: absolute;
   inset: -20px;
   background: radial-gradient(
-    circle 100px at var(--x, 50%) var(--y, 50%),
-    rgba(16, 185, 129, 0.35),
-    transparent 70%
+    circle 150px at var(--x, 50%) var(--y, 50%),
+    rgba(99, 102, 241, 0.4),
+    transparent 80%
   );
   z-index: -1;
   pointer-events: none;
@@ -625,6 +682,11 @@ section h2::before, .footer h2::before, .projeto-detalhes-page h1::before {
 
 section h2:hover::before, .footer h2:hover::before, .projeto-detalhes-page h1:hover::before {
   opacity: 1;
+}
+
+section h2:hover, .footer h2:hover, .projeto-detalhes-page h1:hover {
+  text-shadow: 0 0 20px rgba(99, 102, 241, 0.8), 0 0 40px rgba(6, 182, 212, 0.4);
+  letter-spacing: 5px;
 }
 
 section h2::after, .footer h2::after, .projeto-detalhes-page h1::after {
@@ -640,7 +702,7 @@ section h2::after, .footer h2::after, .projeto-detalhes-page h1::after {
   transition: width 0.3s ease;
 }
 
-section:hover h2::after, .footer:hover h2::after, .projeto-detalhes-page h1:hover::after {
+section h2:hover::after, .footer h2:hover::after, .projeto-detalhes-page h1:hover::after, section:hover h2::after, .footer:hover h2::after {
   width: 120px;
 }
 
@@ -697,6 +759,38 @@ section:hover h2::after, .footer:hover h2::after, .projeto-detalhes-page h1:hove
 }
 
 /* TECNOLOGIAS - Estilização dos Tópicos */
+.tecnologias {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.tech-graph-bg {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 250px;
+  transform: translateY(-50%);
+  z-index: -1;
+  opacity: 0.15;
+  pointer-events: none;
+  filter: blur(1px);
+}
+
+.tech-graph-bg svg {
+  width: 100%;
+  height: 100%;
+}
+
+.tech-graph-bg path {
+  stroke: var(--primary-color);
+  stroke-width: 2;
+  stroke-dasharray: 1500;
+  stroke-dashoffset: 1500;
+  animation: lineDraw 8s ease-in-out infinite alternate;
+}
+
 .tech-list {
   display: flex;
   flex-wrap: wrap;
@@ -751,6 +845,11 @@ section:hover h2::after, .footer:hover h2::after, .projeto-detalhes-page h1:hove
 .tech-list li:active {
   transform: translateY(-2px) scale(0.95); /* Efeito de "apertar" o botão */
   box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2);
+}
+
+@keyframes lineDraw {
+  from { stroke-dashoffset: 1500; }
+  to { stroke-dashoffset: 0; }
 }
 
 .tech-icon {
@@ -847,7 +946,7 @@ section:hover h2::after, .footer:hover h2::after, .projeto-detalhes-page h1:hove
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 1px;
-  animation: pulseBadge 2s infinite ease-in-out; /* Aplica a animação */
+  animation: pulseBadge 2s infinite ease-in-out; /* Pulsação original */
   box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4);
   z-index: 10;
 }
@@ -1042,7 +1141,6 @@ section:hover h2::after, .footer:hover h2::after, .projeto-detalhes-page h1:hove
 .experiencia-item.destaque {
   border: 2px solid var(--primary-color);
   box-shadow: 0 0 30px rgba(16, 185, 129, 0.2);
-  background: rgba(16, 185, 129, 0.08);
 }
 
 .experiencia-item.destaque .badge-destaque {
@@ -1272,4 +1370,3 @@ section {
     justify-content: center;
     text-align: center;
   }
-}

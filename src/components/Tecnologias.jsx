@@ -24,6 +24,13 @@ const Tecnologias = () => {
 
   return (
     <section id="tecnologias" className="tecnologias" data-aos="fade-up">
+      {/* Gráfico de linha decorativo no fundo */}
+      <div className="tech-graph-bg">
+        <svg viewBox="0 0 1000 200" preserveAspectRatio="none">
+          <path d="M0,150 Q150,80 300,150 T600,50 T900,120 L1000,80" fill="none" />
+        </svg>
+      </div>
+
       <h2 onMouseMove={handleMouseMove}>
         Tecnologias
       </h2>
