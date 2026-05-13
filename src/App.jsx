@@ -1,19 +1,22 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation, Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { FaWhatsapp, FaLinkedin, FaReact, FaHtml5, FaCss3Alt, FaJsSquare, FaBars, FaTimes, FaArrowUp } from "react-icons/fa";
+import { FaWhatsapp, FaLinkedin, FaReact, FaHtml5, FaCss3Alt, FaJsSquare, FaBars, FaTimes, FaArrowUp, FaEye } from "react-icons/fa";
 import Hero from "./components/Hero";
 import Sobre from "./components/Sobre";
 import Tecnologias from "./components/Tecnologias";
 import Projetos from "./components/Projetos";
+import Certificacoes from "./components/Certificacoes"; // Import new component
 import Experiencia from "./components/Experiencia";
 import ProjetoDetalhes from "./components/ProjetoDetalhes";
 import ExperienciaDetalhes from "./components/ExperienciaDetalhes";
+import CertificacaoDetalhes from "./components/CertificacaoDetalhes"; // Certifique-se que esta linha está presente
 
 function AppContent() {
   const [greeting, setGreeting] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [totalViews, setTotalViews] = useState(0);
   const [darkMode, setDarkMode] = useState(() => {
     try {
       const saved = localStorage.getItem("theme");
@@ -44,6 +47,69 @@ function AppContent() {
     else setGreeting("Boa noite");
   }, []); // Inicializa apenas uma vez
 
+  // Lógica do Contador de Visualizações Globais
+  useEffect(() => {
+    const updateViews = async () => {
+      // NOTA: Para funcionar, você deve substituir essas URLs pelos seus dados do Supabase
+      // Se você ainda não configurou, ele mostrará um valor fictício ou 0.
+      const SUPABASE_URL = "https://byxorkjuhhxudoahnocg.supabase.co"; 
+      const SUPABASE_KEY = "sb_publishable_-DV6uNMNKyqKpjpsi1SnDg_F14TUzJn";
+
+      try {
+        // 1. Busca o valor atual do banco de dados (GET)
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/stats?id=eq.total_views`, {
+          method: "GET",
+          headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+        });
+        
+        if (!response.ok) {
+          console.error("Erro ao buscar visualizações do Supabase:", response.status, response.statusText);
+          setTotalViews(0); // Garante que o contador não fique vazio em caso de erro na busca
+          return;
+        }
+
+        const data = await response.json();
+        
+        // Verifica se o registro 'total_views' existe e é válido
+        if (!data || data.length === 0 || data[0].id !== 'total_views' || typeof data[0].count === 'undefined') {
+          console.warn("Registro 'total_views' não encontrado ou inválido no Supabase. Certifique-se de ter executado o SQL de inicialização.");
+          setTotalViews(0); // Exibe 0 se o registro não existir ou for inválido
+          return;
+        }
+
+        let currentCount = parseInt(data[0].count); // Converte para número
+        if (isNaN(currentCount)) currentCount = 0; // Garante que é um número válido
+
+        // 2. Incrementa o contador no banco de dados (PATCH) apenas se for um novo acesso na sessão
+        if (!sessionStorage.getItem("view_counted")) {
+          currentCount += 1;
+          const updateResponse = await fetch(`${SUPABASE_URL}/rest/v1/stats?id=eq.total_views`, {
+            method: "PATCH",
+            headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}`, "Content-Type": "application/json" },
+            body: JSON.stringify({ count: currentCount })
+          });
+          if (updateResponse.ok) {
+            sessionStorage.setItem("view_counted", "true"); // Marca como contado na sessão
+            console.log("Visualização incrementada no Supabase. Novo total:", currentCount);
+          } else {
+            console.error("Falha ao incrementar visualizações no Supabase:", updateResponse.status, updateResponse.statusText);
+            currentCount -= 1; // Reverte o incremento local se a atualização falhar
+          }
+        }
+        
+        // 3. Atualiza o estado na tela com o valor final
+        setTotalViews(currentCount);
+        console.log("Contador de visualizações atualizado na tela:", currentCount);
+
+      } catch (e) { 
+        console.error("Erro geral na operação de visualizações:", e); 
+        setTotalViews(0); // Garante que 0 seja exibido em caso de erro de rede/parsing
+      }
+    };
+
+    updateViews();
+  }, []);
+
   useEffect(() => {
     if (darkMode) {
       document.body.classList.add("dark");
@@ -71,6 +137,10 @@ function AppContent() {
 
       <header className="header" onMouseMove={handleMouseMove}>
         <div className="header-container">
+          <Link to="/" className="header-logo">
+            RENATO<span>.PAIVA</span>
+          </Link>
+
           <button 
             className="menu-toggle" 
             onClick={() => setMenuOpen(!menuOpen)}
@@ -85,6 +155,7 @@ function AppContent() {
               <li><a href={getNavLink("sobre")}>Sobre</a></li>
               <li><a href={getNavLink("tecnologias")}>Tecnologias</a></li>
               <li><a href={getNavLink("projetos")}>Projetos</a></li>
+              <li><a href={getNavLink("certificacoes")}>Certificações</a></li> {/* Add new nav link */}
               <li><a href={getNavLink("experiencia")}>Experiência</a></li>
               <li><a href={getNavLink("contato")}>Contato</a></li>
             </ul>
@@ -119,6 +190,7 @@ function AppContent() {
             <Sobre />
             <Tecnologias />
             <Projetos />
+            <Certificacoes /> {/* Add new component */}
             <Experiencia />
           </main>
         } />
@@ -131,6 +203,11 @@ function AppContent() {
         {/* Rota da Página de Detalhes da Experiência */}
         <Route path="/experiencia/:slug" element={
           <ExperienciaDetalhes />
+        } />
+
+        {/* Rota da Página de Detalhes da Certificação */}
+        <Route path="/certificacao/:slug" element={
+          <CertificacaoDetalhes />
         } />
       </Routes>
 
@@ -149,7 +226,10 @@ function AppContent() {
             </a>
           </div>
           <div className="footer-copyright">
-            <p>&copy; {new Date().getFullYear()} Renato Paiva. Todos os direitos reservados.</p>
+            <p>
+              &copy; {new Date().getFullYear()} Renato Paiva. Todos os direitos reservados.
+              <span className="view-counter"><FaEye /> {totalViews} views</span>
+            </p>
             <div className="tech-stack-icons">
               <FaReact title="React" />
               <FaHtml5 title="HTML5" />

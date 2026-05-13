@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { FaArrowLeft, FaBuilding, FaCalendarAlt, FaChartLine, FaDatabase, FaUsers, FaClock, FaChartBar, FaHeadset, FaSearch, FaPython } from "react-icons/fa";
+import { FaArrowLeft, FaBuilding, FaCalendarAlt, FaChartLine, FaDatabase, FaUsers, FaClock, FaChartBar, FaHeadset, FaSearch, FaPython, FaCode } from "react-icons/fa";
 import { SiSalesforce, SiSelenium, SiPandas } from "react-icons/si";
 
 const expData = {
@@ -16,7 +16,12 @@ const expData = {
       { icon: <FaDatabase />, text: "Criação de queries SQL para extração e tratamento de grandes volumes de dados." },
       { icon: <FaUsers />, text: "Apoio consultivo a lideranças para otimização de produtividade e redução de custos operacionais." }
     ],
-    techTags: ["Power BI", "SQL", "MIS", "Planejamento Estratégico"]
+    techTags: [
+      { name: "Power BI", icon: <FaChartBar />, color: "var(--tech-pbi)" },
+      { name: "SQL", icon: <FaDatabase />, color: "var(--tech-sql)" },
+      { name: "MIS", icon: <FaChartLine />, color: "var(--primary-color)" },
+      { name: "Planejamento Estratégico", icon: <FaUsers />, color: "#10B981" }
+    ]
   },
   "analista-suporte-automacoes": {
     title: "Analista de Suporte & Desenvolvedor de Automações",
@@ -29,7 +34,13 @@ const expData = {
       { icon: <FaPython />, text: "Desenvolvimento de scripts Python para automação de tarefas repetitivas (RPA)." },
       { icon: <FaSearch />, text: "Análise de causa raiz para falhas críticas de sistema." }
     ],
-    techTags: ["Python", "Selenium", "Salesforce", "SQL", "RPA"]
+    techTags: [
+      { name: "Python", icon: <FaPython />, color: "var(--tech-python)" },
+      { name: "Selenium", icon: <SiSelenium />, color: "var(--tech-selenium)" },
+      { name: "Salesforce", icon: <SiSalesforce />, color: "var(--tech-salesforce)" },
+      { name: "SQL", icon: <FaDatabase />, color: "var(--tech-sql)" },
+      { name: "RPA", icon: <FaCode />, color: "var(--tech-rpa)" }
+    ]
   }
 };
 
@@ -88,8 +99,13 @@ const ExperienciaDetalhes = () => {
           <div className="card" style={{ padding: '25px', border: '1px solid var(--primary-color)' }}>
             <h4 style={{ color: 'var(--primary-color)', marginBottom: '15px' }}>Stack Utilizada</h4>
             <div className="exp-tech-tags">
-              {exp.techTags.map((tag, i) => (
-                <span key={i} className="tech-tag-sm" style={{ padding: '8px 12px', fontSize: '0.8rem' }}>{tag}</span>
+              {exp.techTags.map((tech, i) => (
+                <span key={i} className="tech-tag-sm">
+                  <span style={{ color: tech.color, display: 'flex', alignItems: 'center' }}>
+                    {tech.icon}
+                  </span> 
+                  {tech.name}
+                </span>
               ))}
             </div>
           </div>

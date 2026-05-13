@@ -5,7 +5,7 @@ import { SiVercel } from "react-icons/si";
 
 const detalhesData = {
   veritime: {
-    title: "Veritime",
+    title: "🕒 Veritime",
     tagline: "Veritime — O tempo no seu controle",
     descricao: "Sistema de acompanhamento de ponto eletrônico que permite ao usuário visualizar em tempo real sua jornada de trabalho, escala e controle de pausas.",
     problema: "Falta de visibilidade e controle sobre registros de ponto e pausas.",
@@ -21,7 +21,7 @@ const detalhesData = {
     linkGit: "https://github.com/Renato8318/ProjetoControlePonto"
   },
   sessaoplay: {
-    title: "SessãoPlay",
+    title: "🎬 SessãoPlay",
     tagline: "SessãoPlay — O entretenimento na palma da sua mão",
     descricao: "Aplicação de streaming robusta que utiliza integração em tempo real com APIs externas para oferecer um catálogo completo de filmes e séries com navegação fluida.",
     problema: "Usuários enfrentavam dificuldades para encontrar informações técnicas e trailers de lançamentos em uma interface que fosse rápida e amigável.",
@@ -37,7 +37,7 @@ const detalhesData = {
     linkGit: "https://github.com/Renato8318/Netflix-Clone"
   },
   amicao: {
-    title: "Amicão",
+    title: "🐶 Amicão",
     tagline: "Amicão — Encontre seu melhor amigo hoje",
     descricao: "Plataforma social dedicada à facilitação do processo de adoção de animais, conectando tutores e pets através de uma vitrine digital intuitiva.",
     problema: "A falta de organização visual e a dispersão de informações em sites de abrigos tornavam o processo de adoção confuso e desestimulante para novos tutores.",

@@ -1,0 +1,190 @@
+import React, { useEffect, useState } from "react";
+import { useParams, Link } from "react-router-dom";
+import { FaArrowLeft, FaBuilding, FaCalendarAlt, FaAward, FaExternalLinkAlt, FaCheckCircle } from "react-icons/fa";
+
+const certData = {
+  "analise-desenvolvimento-sistemas": {
+    title: "🎓 Tecnólogo em Análise e Desenvolvimento de Sistemas",
+    issuer: "Universidade Cruzeiro do Sul",
+    date: "2022 - 2024",
+    description: "Capacitação em desenvolvimento de software, banco de dados, análise de requisitos, arquitetura de sistemas e metodologias ágeis, com foco em tecnologia, inovação e resolução de problemas.",
+    img: "/img/diploma-ads.jpg",
+    competencias: [
+      "Desenvolvimento de Software", "Análise de Sistemas", 
+      "Banco de Dados (Oracle / SQL Server)", "Java e XML", 
+      "UML / RUP", "Metodologias Ágeis (Scrum)", 
+      "Segurança da Informação", "Arquitetura de Sistemas", 
+      "Inteligência Artificial e Machine Learning"
+    ]
+  },
+  "redes-computadores-alura": {
+    title: "🌐 Redes de Computadores",
+    issuer: "Alura",
+    date: "18 de Junho de 2025",
+    description: "🚀 Finalização de 4 cursos da Trilha Alura focados em infraestrutura, conectividade e segurança, com carga horária total de 37 horas.",
+    img: "/img/certificado-alura-redes.jpg",
+    competencias: [
+      "Redes: dos conceitos iniciais à criação de uma intranet", 
+      "Redes: construindo um projeto com VLANs", 
+      "Redes: implementando roteamento, DNS e IPv6", 
+      "Redes Wi-Fi: criando uma rede sem fio de modo seguro"
+    ]
+  },
+  "ui-design-devs-alura": {
+    title: "🎨 Formação UI Design para Devs",
+    issuer: "Alura",
+    date: "Junho de 2025",
+    description: "✨ Formação focada em fundamentos de design, heurísticas e animações para desenvolvedores criarem interfaces mais atraentes e funcionais.",
+    img: "/img/certificado-alura-ui.jpg",
+    competencias: [
+      "UI para Devs: interfaces atraentes com fundamentos do design", 
+      "UI para Devs: aprimorando projetos web com heurísticas", 
+      "UI para devs: construindo interfaces animadas"
+    ]
+  },
+  "desenvolvimento-frontend-alura": {
+    title: "💻 Formação Desenvolvimento Front-end",
+    issuer: "Alura",
+    date: "Junho de 2025",
+    description: "⚡ Cursos focados na criação de aplicações web dinâmicas, cobrindo desde a manipulação do DOM e Promises até a implementação de CRUD e domínio do ambiente Node.js.",
+    img: "/img/certificado-alura-frontend.jpg",
+    competencias: [
+      "JavaScript: construindo páginas dinâmicas", 
+      "JavaScript: entendendo promises e async/await", 
+      "JavaScript: métodos de array", 
+      "JavaScript: manipulando elementos no DOM", 
+      "JavaScript: explorando localStorage", 
+      "JavaScript: implementando CRUD com requisições HTTP", 
+      "JavaScript: evoluindo a sua aplicação com ES6+", 
+      "Node.js e terminal"
+    ]
+  },
+  "python-oo-alura": {
+    title: "🐍 Python: aplicando a Orientação a Objetos",
+    issuer: "Alura",
+    date: "Junho de 2025",
+    description: "⚙️ Exploração aprofundada da Programação Orientada a Objetos em Python, focando na estruturação de classes, utilização de construtores, implementação de decorators como @property e organização de código através de importação e composição.",
+    img: "/img/certificado-alura-python-oo.jpg",
+    competencias: [
+      "Classes", 
+      "Construtor e instanciando objetos", 
+      "Property e métodos de classe", 
+      "Importando classe e composição", 
+      "Consolidando os conhecimentos de POO"
+    ]
+  }
+};
+
+const CertificacaoDetalhes = () => {
+  const { slug } = useParams();
+  const cert = certData[slug];
+  const [isZoomed, setIsZoomed] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
+
+  // Efeito para fechar o zoom ao pressionar a tecla ESC
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") setIsZoomed(false);
+    };
+
+    if (isZoomed) {
+      window.addEventListener("keydown", handleEsc);
+    }
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, [isZoomed]);
+
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty("--y", `${e.clientY - rect.top}px`);
+  };
+
+  if (!cert) return <div className="container"><h2>Certificação não encontrada</h2></div>;
+
+  return (
+    <section className="container projeto-detalhes-page" style={{ textAlign: 'left' }}>
+      <Link to="/" className="btn-secondary back-btn">
+        <FaArrowLeft /> Voltar para a Home
+      </Link>
+      
+      <h1 onMouseMove={handleMouseMove}>{cert.title}</h1>
+      
+      <div className="exp-info-header" style={{ marginBottom: '30px' }}>
+        <p className="exp-company" style={{ fontSize: '1.2rem', marginBottom: '5px' }}>
+          <FaBuilding className="exp-icon" /> {cert.issuer}
+        </p>
+        <p style={{ color: 'var(--text-gray)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <FaCalendarAlt color="var(--primary-color)" /> {cert.date}
+        </p>
+      </div>
+
+      <div className="projeto-detalhes-wrapper">
+        <div className="projeto-detalhes-content" style={{ flex: 1 }}>
+          <h3>Descrição da Formação</h3>
+          <p style={{ fontSize: '1.05rem', marginBottom: '30px', lineHeight: '1.8' }}>{cert.description}</p>
+
+          <h3 style={{ marginBottom: '20px' }}>Competências Adquiridas</h3>
+          <div className="exp-tech-tags" style={{ marginBottom: '40px' }}>
+            {cert.competencias.map((comp, i) => (
+              <span key={i} className="tech-tag-sm">
+                <FaCheckCircle style={{ color: 'var(--primary-color)' }} /> {comp}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="projeto-detalhes-img" style={{ flex: 0.4 }}>
+          <div 
+            className="card-img-wrapper" 
+            style={{ marginBottom: '20px', cursor: 'zoom-in' }} 
+            onClick={() => setIsZoomed(true)}
+            title="Clique para ampliar"
+          >
+            <div className="hud-overlay" style={{ opacity: 1 }}>
+              <div className="scan-line"></div>
+              <div className="corner tl"></div><div className="corner tr"></div>
+              <div className="corner bl"></div><div className="corner br"></div>
+            </div>
+            <img src={cert.img} alt={cert.title} style={{ width: '100%', borderRadius: '12px' }} />
+          </div>
+
+          <div style={{ marginTop: '30px' }}>
+            <a 
+              href={`https://wa.me/5511959117042?text=${encodeURIComponent(`Olá Renato, vi os detalhes da sua certificação em ${cert.title} e gostaria de conversar.`)}`} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-primary" 
+              style={{ width: '100%', justifyContent: 'center' }}
+              onMouseMove={handleMouseMove}
+            >
+              Conversar sobre isso
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Modal de Zoom (Lightbox) */}
+      {isZoomed && (
+        <div className="lightbox-overlay" onClick={() => setIsZoomed(false)}>
+          <button 
+            className="close-lightbox" 
+            onClick={() => setIsZoomed(false)}
+            aria-label="Fechar"
+          >
+            &times;
+          </button>
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <img src={cert.img} alt={cert.title} />
+          </div>
+        </div>
+      )}
+    </section>
+  );
+};
+
+export default CertificacaoDetalhes;

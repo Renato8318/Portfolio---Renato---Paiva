@@ -1,9 +1,11 @@
 import React from "react";
 import ProjectCard from "./ProjectCard";
+import { FaClock, FaPlay, FaPaw } from "react-icons/fa";
 
 const projetos = [
   {
     title: "Veritime",
+    icon: <FaClock />,
     slug: "veritime",
     description: "Plataforma de gestão de ponto integrada.",
     tech: ["JavaScript", "Node.js", "PostgreSQL"],
@@ -14,6 +16,7 @@ const projetos = [
   },
   {
     title: "SessãoPlay",
+    icon: <FaPlay />,
     slug: "sessaoplay",
     description: "Streaming de filmes com API.",
     tech: ["JavaScript", "CSS", "TMDB API"],
@@ -23,6 +26,7 @@ const projetos = [
   },
   {
     title: "Amicão",
+    icon: <FaPaw />,
     slug: "amicao",
     description: "Adoção de cães online.",
     tech: ["HTML", "CSS", "JavaScript"],

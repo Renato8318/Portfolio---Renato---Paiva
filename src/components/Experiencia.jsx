@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaPython, FaHeadset, FaBuilding, FaSearch, FaChartLine, FaDatabase, FaUsers, FaClock, FaChartBar } from "react-icons/fa";
+import { FaPython, FaHeadset, FaBuilding, FaSearch, FaChartLine, FaDatabase, FaUsers, FaClock, FaChartBar, FaPlus } from "react-icons/fa";
 import { SiSalesforce, SiSelenium, SiPandas } from "react-icons/si";
 
 const Experiencia = () => {
@@ -55,8 +55,8 @@ const Experiencia = () => {
             </li>
           </ul>
           <div className="exp-fade-overlay">
-            <Link to="/experiencia/assistente-planejamento-ti" className="btn-primary btn-saiba-mais" onMouseMove={handleMouseMove}>
-              Saiba mais
+            <Link to="/experiencia/assistente-planejamento-ti" className="btn-details" onMouseMove={handleMouseMove}>
+              <FaPlus style={{ fontSize: '0.7rem' }} /> Saber mais
             </Link>
           </div>
         </div>
@@ -93,8 +93,8 @@ const Experiencia = () => {
             </li>
           </ul>
           <div className="exp-fade-overlay">
-            <Link to="/experiencia/analista-suporte-automacoes" className="btn-primary btn-saiba-mais" onMouseMove={handleMouseMove}>
-              Saiba mais
+            <Link to="/experiencia/analista-suporte-automacoes" className="btn-details" onMouseMove={handleMouseMove}>
+              <FaPlus style={{ fontSize: '0.7rem' }} /> Saber mais
             </Link>
           </div>
         </div>
