@@ -99,6 +99,19 @@ const ProjectCard = ({
         <img src={img} alt={title} className="card-img" />
       </div>
 
+      {/* Reações posicionadas logo abaixo da imagem */}
+      <div className="reactions-wrapper" style={{ margin: '10px auto', padding: '5px 15px', transform: 'scale(0.9)' }}>
+        <button className={`reaction-btn amei ${userSelection === 'amei' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'amei')}>
+          <FaHeart /> <span>{reactions.amei}</span>
+        </button>
+        <button className={`reaction-btn curti ${userSelection === 'curti' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'curti')}>
+          <FaThumbsUp /> <span>{reactions.curti}</span>
+        </button>
+        <button className={`reaction-btn palmas ${userSelection === 'palmas' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'palmas')}>
+          <span className="emoji">👏</span> <span>{reactions.palmas}</span>
+        </button>
+      </div>
+
       <h3 style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
         <span style={{ color: 'var(--primary-color)', fontSize: '1.1rem' }}>{icon}</span>
         {title}
@@ -109,19 +122,6 @@ const ProjectCard = ({
         {tech.map((t, i) => (
           <span key={i} className="tech-tag">{t}</span>
         ))}
-      </div>
-
-      {/* Reações agora aparecem embaixo do texto antes dos links */}
-      <div className="reactions-wrapper" style={{ margin: '15px auto', padding: '5px 15px', transform: 'scale(0.9)' }}>
-        <button className={`reaction-btn amei ${userSelection === 'amei' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'amei')}>
-          <FaHeart /> <span>{reactions.amei}</span>
-        </button>
-        <button className={`reaction-btn curti ${userSelection === 'curti' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'curti')}>
-          <FaThumbsUp /> <span>{reactions.curti}</span>
-        </button>
-        <button className={`reaction-btn palmas ${userSelection === 'palmas' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'palmas')}>
-          <span className="emoji">👏</span> <span>{reactions.palmas}</span>
-        </button>
       </div>
 
       <div className="links">

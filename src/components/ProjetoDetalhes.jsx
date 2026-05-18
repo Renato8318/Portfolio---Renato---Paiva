@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { FaGithub, FaRocket, FaArrowLeft, FaWhatsapp, FaHeart, FaThumbsUp } from "react-icons/fa";
+import { FaGithub, FaRocket, FaArrowLeft, FaWhatsapp, FaHeart, FaThumbsUp, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { SiVercel } from "react-icons/si";
 
 const detalhesData = {
@@ -18,7 +18,8 @@ const detalhesData = {
     imagem: "/img/veritime.png",
     tech: ["JavaScript", "Node.js", "PostgreSQL"],
     linkDemo: "https://projeto-controle-ponto.vercel.app/",
-    linkGit: "https://github.com/Renato8318/ProjetoControlePonto"
+    linkGit: "https://github.com/Renato8318/ProjetoControlePonto",
+    screenshots: ["/img/veritime-ss1.png", "/img/veritime-ss2.png", "/img/veritime-ss3.png"]
   },
   sessaoplay: {
     title: "🎬 SessãoPlay",
@@ -34,7 +35,8 @@ const detalhesData = {
     imagem: "/img/sessaoplay.png",
     tech: ["JavaScript", "CSS", "TMDB API"],
     linkDemo: "https://meu-clone-nu-nine-32.vercel.app/",
-    linkGit: "https://github.com/Renato8318/Netflix-Clone"
+    linkGit: "https://github.com/Renato8318/Netflix-Clone",
+    screenshots: ["/img/sessaoplay-ss1.png", "/img/sessaoplay-ss2.png", "/img/sessaoplay-ss3.png"]
   },
   amicao: {
     title: "🐶 Amicão",
@@ -50,13 +52,78 @@ const detalhesData = {
     imagem: "/img/amicao.png",
     tech: ["HTML", "CSS", "JavaScript"],
     linkDemo: "https://adoteum-pet.vercel.app/",
-    linkGit: "https://github.com/Renato8318/AdoteumPet"
+    linkGit: "https://github.com/Renato8318/AdoteumPet",
+    screenshots: ["/img/amicao-ss1.png", "/img/amicao-ss2.png", "/img/amicao-ss3.png"]
   }
 };
 
 const ProjetoDetalhes = () => {
   const { slug } = useParams();
   const projeto = detalhesData[slug];
+
+  // Estado para gerenciar o Lightbox (Zoom das imagens)
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [scale, setScale] = useState(1);
+  const [touchStartDist, setTouchStartDist] = useState(0);
+  const lightboxContentRef = useRef(null);
+
+  // Efeito para fechar o zoom ao pressionar a tecla ESC
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === "Escape") setSelectedImage(null);
+    };
+
+    if (selectedImage) {
+      window.addEventListener("keydown", handleEsc);
+      document.body.style.overflow = "hidden"; // Bloqueia o scroll ao abrir
+    }
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+      document.body.style.overflow = "auto"; // Libera o scroll ao fechar
+    };
+  }, [selectedImage]);
+
+  // Lógica de Zoom via Scroll e Pinça
+  const handleWheel = (e) => {
+    e.preventDefault();
+    const delta = e.deltaY * -0.005;
+    setScale(s => Math.min(Math.max(s + delta, 1), 4));
+  };
+
+  const handleTouchStart = (e) => {
+    if (e.touches.length === 2) {
+      setTouchStartDist(Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      ));
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches.length === 2 && touchStartDist > 0) {
+      const currentDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      const delta = currentDist / touchStartDist;
+      setScale(s => Math.min(Math.max(s * delta, 1), 4));
+      setTouchStartDist(currentDist);
+    }
+  };
+
+  useEffect(() => {
+    const element = lightboxContentRef.current;
+    if (element) {
+      element.addEventListener('wheel', handleWheel, { passive: false });
+      return () => element.removeEventListener('wheel', handleWheel);
+    }
+  }, [selectedImage]);
+
+  const closeLightbox = () => {
+    setSelectedImage(null);
+    setScale(1);
+    setTouchStartDist(0);
+  };
 
   // Estado para gerenciar reações locais
   const [reactions, setReactions] = useState({ amei: 0, curti: 0, palmas: 0 });
@@ -114,6 +181,42 @@ const ProjetoDetalhes = () => {
     localStorage.setItem(`reactions-${slug}`, JSON.stringify(newReactions));
   };
 
+  // Lógica do Carrossel de Screenshots
+  const scrollRef = useRef(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
+
+  const checkScroll = () => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 5);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 5);
+    }
+  };
+
+  useEffect(() => {
+    const grid = scrollRef.current;
+    if (grid) {
+      checkScroll();
+      grid.addEventListener("scroll", checkScroll);
+      window.addEventListener("resize", checkScroll);
+      return () => {
+        grid.removeEventListener("scroll", checkScroll);
+        window.removeEventListener("resize", checkScroll);
+      };
+    }
+  }, [projeto]);
+
+  const scroll = (direction) => {
+    if (scrollRef.current) {
+      const scrollAmount = 350;
+      scrollRef.current.scrollBy({
+        left: direction === "left" ? -scrollAmount : scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   // Garante que a página comece no topo ao carregar os detalhes do projeto
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -128,7 +231,8 @@ const ProjetoDetalhes = () => {
   if (!projeto) return <div className="container"><h2>Projeto não encontrado</h2></div>;
 
   return (
-    <section className="container projeto-detalhes-page">
+    <>
+      <section className="container projeto-detalhes-page">
       <Link to="/" className="btn-secondary back-btn">
         <FaArrowLeft /> Voltar para a Home
       </Link>
@@ -144,13 +248,55 @@ const ProjetoDetalhes = () => {
       </div>
       
       <div className="projeto-detalhes-wrapper">
-        <div className="projeto-detalhes-img card-img-wrapper">
-          <div className="hud-overlay" style={{ opacity: 1 }}>
-            <div className="scan-line"></div>
-            <div className="corner tl"></div><div className="corner tr"></div>
-            <div className="corner bl"></div><div className="corner br"></div>
+        <div className="projeto-detalhes-img">
+          <div 
+            className="card-img-wrapper" 
+            style={{ cursor: 'zoom-in' }} 
+            onClick={() => setSelectedImage(projeto.imagem)}
+            title="Clique para ampliar"
+          >
+            <div className="hud-overlay" style={{ opacity: 1 }}>
+              <div className="scan-line"></div>
+              <div className="corner tl"></div><div className="corner tr"></div>
+              <div className="corner bl"></div><div className="corner br"></div>
+            </div>
+            <img src={projeto.imagem} alt={projeto.title} className="card-img" />
           </div>
-          <img src={projeto.imagem} alt={projeto.title} className="card-img" />
+
+          {/* Seção de Reações logo abaixo da imagem na coluna da esquerda */}
+          <div className="reactions-section" style={{ marginTop: '20px', textAlign: 'center' }}>
+            <div className="reactions-wrapper" style={{ margin: '0 auto' }}>
+              <button className={`reaction-btn amei ${userSelection === 'amei' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'amei')}>
+                <FaHeart /> <span>{reactions.amei}</span>
+              </button>
+              <button className={`reaction-btn curti ${userSelection === 'curti' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'curti')}>
+                <FaThumbsUp /> <span>{reactions.curti}</span>
+              </button>
+              <button className={`reaction-btn palmas ${userSelection === 'palmas' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'palmas')}>
+                <span className="emoji">👏</span> <span>{reactions.palmas}</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Botões de Ação reposicionados logo abaixo das reações */}
+          <div className="buttons" style={{ marginTop: '30px', flexDirection: 'column', gap: '12px' }}>
+            <a href={projeto.linkDemo} target="_blank" rel="noreferrer" className="btn-primary" onMouseMove={handleMouseMove} style={{ width: '100%', justifyContent: 'center' }}>
+              <SiVercel /> Ver Projeto
+            </a>
+            <a href={projeto.linkGit} target="_blank" rel="noreferrer" className="btn-secondary" onMouseMove={handleMouseMove} style={{ width: '100%', justifyContent: 'center' }}>
+              <FaGithub /> Repositório
+            </a>
+            <a 
+              href={`https://wa.me/5511959117042?text=${encodeURIComponent(`Olá Renato, vi seu projeto ${projeto.title} no portfólio e gostei muito. Gostaria de conversar sobre uma oportunidade.`)}`} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="btn-secondary" 
+              onMouseMove={handleMouseMove}
+              style={{ border: '1px solid #25D366', color: '#25D366', width: '100%', justifyContent: 'center' }}
+            >
+              <FaWhatsapp /> Contato
+            </a>
+          </div>
         </div>
 
         <div className="projeto-detalhes-content">
@@ -178,44 +324,64 @@ const ProjetoDetalhes = () => {
           {/* Fallback para projetos com formato antigo */}
           {!projeto.problema && projeto.objetivo && (<div><h3>Objetivo</h3><p>{projeto.objetivo}</p></div>)}
           {!projeto.desafio && projeto.desafios && (<div><h3>Desafios Enfrentados</h3><p>{projeto.desafios}</p></div>)}
-
-          <div className="buttons" style={{ marginTop: '40px' }}>
-            <a href={projeto.linkDemo} target="_blank" rel="noreferrer" className="btn-primary" onMouseMove={handleMouseMove}>
-              <SiVercel /> Ver Projeto
-            </a>
-            <a href={projeto.linkGit} target="_blank" rel="noreferrer" className="btn-secondary" onMouseMove={handleMouseMove}>
-              <FaGithub /> Repositório
-            </a>
-            <a 
-              href={`https://wa.me/5511959117042?text=${encodeURIComponent(`Olá Renato, vi seu projeto ${projeto.title} no portfólio e gostei muito. Gostaria de conversar sobre uma oportunidade.`)}`} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="btn-secondary" 
-              onMouseMove={handleMouseMove}
-              style={{ border: '1px solid #25D366', color: '#25D366' }}
-            >
-              <FaWhatsapp /> Contato
-            </a>
-          </div>
-
-          {/* Seção de Reações agora no final da página */}
-          <div className="reactions-section" style={{ marginTop: '40px', paddingTop: '20px', borderTop: '1px solid var(--border-subtle)' }}>
-            <p style={{ fontSize: '0.8rem', color: 'var(--text-gray)', marginBottom: '10px', fontWeight: 'bold' }}>GOSTOU DO CONTEÚDO?</p>
-            <div className="reactions-wrapper">
-              <button className={`reaction-btn amei ${userSelection === 'amei' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'amei')}>
-                <FaHeart /> <span>{reactions.amei}</span>
-              </button>
-              <button className={`reaction-btn curti ${userSelection === 'curti' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'curti')}>
-                <FaThumbsUp /> <span>{reactions.curti}</span>
-              </button>
-              <button className={`reaction-btn palmas ${userSelection === 'palmas' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'palmas')}>
-                <span className="emoji">👏</span> <span>{reactions.palmas}</span>
-              </button>
-            </div>
-          </div>
         </div>
       </div>
+
+      {/* Galeria de Screenshots */}
+      {projeto.screenshots && (
+        <div className="projeto-galeria-section" style={{ marginTop: '60px' }}>
+          <h3 style={{ marginBottom: '20px', textAlign: 'left' }}>Galeria do Projeto</h3>
+          <div className="certificacoes-wrapper">
+            <button className={`nav-arrow left ${!canScrollLeft ? 'hidden' : ''}`} onClick={() => scroll("left")} aria-label="Anterior">
+              <FaChevronLeft />
+            </button>
+            <div className="certificacoes-grid" ref={scrollRef}>
+              {projeto.screenshots.map((img, idx) => (
+                <div 
+                  key={idx} 
+                  className="screenshot-item" 
+                  style={{ cursor: 'zoom-in' }}
+                  onClick={() => setSelectedImage(img)}
+                >
+                  <img src={img} alt={`Screenshot ${idx + 1}`} className="card-img" />
+                </div>
+              ))}
+            </div>
+            <button className={`nav-arrow right ${!canScrollRight ? 'hidden' : ''}`} onClick={() => scroll("right")} aria-label="Próximo">
+              <FaChevronRight />
+            </button>
+          </div>
+        </div>
+      )}
     </section>
+
+      {/* Modal de Zoom fora da section para garantir centralização absoluta na tela */}
+      {selectedImage && (
+        <div className="lightbox-overlay" onClick={closeLightbox}>
+          <button 
+            className="close-lightbox" 
+            onClick={closeLightbox}
+            aria-label="Fechar"
+          >
+            &times;
+          </button>
+          <div 
+            className="lightbox-content" 
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={() => setTouchStartDist(0)}
+            ref={lightboxContentRef}
+          >
+            <img 
+              src={selectedImage} 
+              alt="Visualização ampliada" 
+              style={{ transform: `scale(${scale})`, transition: touchStartDist > 0 ? 'none' : 'transform 0.1s ease-out' }} 
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

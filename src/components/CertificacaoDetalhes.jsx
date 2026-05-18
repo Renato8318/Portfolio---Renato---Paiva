@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FaArrowLeft, FaBuilding, FaCalendarAlt, FaAward, FaExternalLinkAlt, FaCheckCircle } from "react-icons/fa";
 
@@ -79,6 +79,9 @@ const CertificacaoDetalhes = () => {
   const { slug } = useParams();
   const cert = certData[slug];
   const [isZoomed, setIsZoomed] = useState(false);
+  const [scale, setScale] = useState(1);
+  const [touchStartDist, setTouchStartDist] = useState(0);
+  const lightboxContentRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -92,11 +95,55 @@ const CertificacaoDetalhes = () => {
 
     if (isZoomed) {
       window.addEventListener("keydown", handleEsc);
+      document.body.style.overflow = "hidden";
     }
     return () => {
       window.removeEventListener("keydown", handleEsc);
+      document.body.style.overflow = "auto";
     };
   }, [isZoomed]);
+
+  // Lógica de Zoom via Scroll e Pinça
+  const handleWheel = (e) => {
+    e.preventDefault();
+    const delta = e.deltaY * -0.005;
+    setScale(s => Math.min(Math.max(s + delta, 1), 4));
+  };
+
+  const handleTouchStart = (e) => {
+    if (e.touches.length === 2) {
+      setTouchStartDist(Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      ));
+    }
+  };
+
+  const handleTouchMove = (e) => {
+    if (e.touches.length === 2 && touchStartDist > 0) {
+      const currentDist = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      const delta = currentDist / touchStartDist;
+      setScale(s => Math.min(Math.max(s * delta, 1), 4));
+      setTouchStartDist(currentDist);
+    }
+  };
+
+  useEffect(() => {
+    const element = lightboxContentRef.current;
+    if (element) {
+      element.addEventListener('wheel', handleWheel, { passive: false });
+      return () => element.removeEventListener('wheel', handleWheel);
+    }
+  }, [isZoomed]);
+
+  const closeLightbox = () => {
+    setIsZoomed(false);
+    setScale(1);
+    setTouchStartDist(0);
+  };
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -107,7 +154,8 @@ const CertificacaoDetalhes = () => {
   if (!cert) return <div className="container"><h2>Certificação não encontrada</h2></div>;
 
   return (
-    <section className="container projeto-detalhes-page" style={{ textAlign: 'left' }}>
+    <>
+      <section className="container projeto-detalhes-page" style={{ textAlign: 'left' }}>
       <Link to="/" className="btn-secondary back-btn">
         <FaArrowLeft /> Voltar para a Home
       </Link>
@@ -167,23 +215,35 @@ const CertificacaoDetalhes = () => {
           </div>
         </div>
       </div>
+    </section>
 
-      {/* Modal de Zoom (Lightbox) */}
+      {/* Modal de Zoom fora da section para evitar problemas de posicionamento */}
       {isZoomed && (
-        <div className="lightbox-overlay" onClick={() => setIsZoomed(false)}>
+        <div className="lightbox-overlay" onClick={closeLightbox}>
           <button 
             className="close-lightbox" 
-            onClick={() => setIsZoomed(false)}
+            onClick={closeLightbox}
             aria-label="Fechar"
           >
             &times;
           </button>
-          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
-            <img src={cert.img} alt={cert.title} />
+          <div 
+            className="lightbox-content" 
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={() => setTouchStartDist(0)}
+            ref={lightboxContentRef}
+          >
+            <img 
+              src={cert.img} 
+              alt={cert.title} 
+              style={{ transform: `scale(${scale})`, transition: touchStartDist > 0 ? 'none' : 'transform 0.1s ease-out' }} 
+            />
           </div>
         </div>
       )}
-    </section>
+    </>
   );
 };
 
