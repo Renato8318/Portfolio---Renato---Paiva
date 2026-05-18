@@ -1165,106 +1165,98 @@ body:not(.dark) .tech-list li {
   animation: scanMove 3s linear infinite;
 }
 
-@keyframes scanMove {
-  0% { top: 0%; }
-  100% { top: 100%; }
-}
-
-.badge-destaque {
-  position: absolute;
-  top: 10px;
-  left: 15px;
-  background: var(--primary-color);
-  color: white;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  animation: pulseBadge 2s infinite ease-in-out;
-  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4);
-  z-index: 10;
-}
-
-/* DESIGN AVANÇADO DO BOTÃO DE CURTIR */
-.like-btn {
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  background: rgba(15, 23, 42, 0.4);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  border: 1px solid var(--glass-border);
-  color: var(--text-gray);
-  padding: 6px 14px;
-  border-radius: 20px;
+/* SISTEMA DE REAÇÕES SOCIAL MEDIA */
+.reactions-wrapper {
   display: flex;
+  gap: 12px;
+  margin: 25px 0;
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.3);
+  backdrop-filter: blur(8px);
+  border-radius: 50px;
+  width: max-content;
+  border: 1px solid var(--glass-border);
   align-items: center;
-  gap: 6px;
+}
+
+.reaction-btn {
+  background: none;
+  border: none;
+  color: var(--text-gray);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
   cursor: pointer;
-  z-index: 20;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  font-size: 0.8rem;
-  font-weight: 800;
+  transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   font-family: 'JetBrains Mono', monospace;
-  outline: none;
+  font-size: 0.75rem;
+  padding: 5px 10px;
+  border-radius: 15px;
+  min-width: 50px;
+  justify-content: center;
 }
 
-.like-btn:hover {
-  transform: scale(1.1) translateY(-2px);
-  border-color: var(--primary-color);
-  color: var(--primary-color);
-  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+.reaction-btn svg, 
+.reaction-btn .emoji {
+  font-size: 1.4rem;
+  line-height: 1;
+  transition: 0.3s;
 }
 
-.like-btn.active {
-  color: #f43f5e; /* Rose 500 */
-  border-color: rgba(244, 63, 94, 0.4);
-  background: rgba(244, 63, 94, 0.1);
-  text-shadow: 0 0 10px rgba(244, 63, 94, 0.5);
-  box-shadow: 0 0 20px rgba(244, 63, 94, 0.2);
+.reaction-btn:hover {
+  transform: translateY(-5px) scale(1.1);
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.like-btn.active svg {
-  fill: currentColor;
-  filter: drop-shadow(0 0 5px #f43f5e);
+/* Cores Permanentes (Igual ao Emoji) */
+.reaction-btn.amei svg { color: #f43f5e; fill: #f43f5e; }
+.reaction-btn.curti svg { color: #3b82f6; fill: #3b82f6; }
+
+/* Efeito de Brilho apenas quando Ativo */
+.reaction-btn.active.amei svg { filter: drop-shadow(0 0 10px #f43f5e); }
+.reaction-btn.active.curti svg { filter: drop-shadow(0 0 10px #3b82f6); }
+.reaction-btn.active.palmas .emoji { filter: drop-shadow(0 0 10px #ff9800); }
+
+/* ESTILO DAS PARTÍCULAS DE CONFETE */
+.confetti-particle {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--bg);
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 10000;
+  animation: confetti-burst 0.8s ease-out forwards;
 }
 
-/* Animação de Batida de Coração */
-.animate-pop svg {
-  animation: heartBeat 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+@keyframes confetti-burst {
+  0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) rotate(360deg); opacity: 0; }
 }
 
-@keyframes heartBeat {
+/* Ajuste de Texto do Contador quando ativo */
+.reaction-btn.active span:not(.emoji) {
+  color: var(--text-white);
+  font-weight: 800;
+}
+
+/* Correção de Alinhamento Centralizado */
+.reactions-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+@keyframes reactionPop {
   0% { transform: scale(1); }
-  50% { transform: scale(1.5); }
+  50% { transform: scale(1.4); }
   100% { transform: scale(1); }
 }
 
-/* Efeito de brilho pulsante quando ativo */
-.like-btn.active::after {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 20px;
-  background: radial-gradient(circle, rgba(244, 63, 94, 0.4) 0%, transparent 70%);
-  z-index: -1;
-  animation: pulseLike 2s infinite;
-}
-
-@keyframes pulseLike {
-  0% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.6; transform: scale(1.05); }
-  100% { opacity: 0.3; transform: scale(1); }
-}
-
-.like-btn svg {
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-.like-btn:active svg {
-  transform: scale(1.5);
+.reaction-btn.active svg, .reaction-btn.active span {
+  animation: reactionPop 0.4s ease;
 }
 
 .card-img {
@@ -1344,6 +1336,18 @@ body:not(.dark) .tech-list li {
   animation: fadeInPage 0.6s ease-out forwards;
 }
 
+.projeto-detalhes-page .reactions-wrapper {
+  margin-left: 0;
+}
+
+.projeto-detalhes-page .buttons {
+  justify-content: flex-start;
+}
+
+.projeto-detalhes-page .card-techs {
+  justify-content: flex-start;
+}
+
 /* Animação de pulsação para o badge "Atual" */
 @keyframes pulseBadge {
   0% {
@@ -1400,8 +1404,10 @@ body:not(.dark) .tech-list li {
   opacity: 0.9;
 }
 
-.projeto-detalhes-page .card-img-wrapper {
-  height: auto; /* Remove a altura fixa de 160px para mostrar a imagem completa */
+.projeto-detalhes-img .card-img {
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
 }
 
 .projeto-detalhes-wrapper {
@@ -2040,6 +2046,18 @@ body:not(.dark) .btn-credential:hover {
   .projeto-detalhes-img {
     width: 100%;
     min-width: unset;
+  }
+  
+  .projeto-detalhes-page {
+    text-align: center;
+  }
+
+  .projeto-detalhes-page .card-techs,
+  .projeto-detalhes-page .buttons,
+  .projeto-detalhes-page .reactions-wrapper {
+    justify-content: center;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
   .hero-text, .buttons {
     justify-content: center;

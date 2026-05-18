@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { FaGithub, FaRocket, FaArrowLeft, FaWhatsapp } from "react-icons/fa";
+import { FaGithub, FaRocket, FaArrowLeft, FaWhatsapp, FaHeart, FaThumbsUp } from "react-icons/fa";
 import { SiVercel } from "react-icons/si";
 
 const detalhesData = {
@@ -58,6 +58,62 @@ const ProjetoDetalhes = () => {
   const { slug } = useParams();
   const projeto = detalhesData[slug];
 
+  // Estado para gerenciar reações locais
+  const [reactions, setReactions] = useState({ amei: 0, curti: 0, palmas: 0 });
+  const [userSelection, setUserSelection] = useState(null);
+
+  useEffect(() => {
+    const savedReactions = localStorage.getItem(`reactions-${slug}`);
+    const savedSelection = localStorage.getItem(`selection-${slug}`);
+    
+    if (savedReactions) {
+      setReactions(JSON.parse(savedReactions));
+    } else {
+      const initial = { amei: 12, curti: 45, palmas: 8 };
+      setReactions(initial);
+      localStorage.setItem(`reactions-${slug}`, JSON.stringify(initial));
+    }
+    if (savedSelection) setUserSelection(savedSelection);
+  }, [slug]);
+
+  const fireConfetti = (e, color) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    
+    for (let i = 0; i < 15; i++) {
+      const p = document.createElement('div');
+      p.className = 'confetti-particle';
+      p.style.setProperty('--bg', color);
+      p.style.left = `${x}px`;
+      p.style.top = `${y}px`;
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = 50 + Math.random() * 70;
+      p.style.setProperty('--dx', `${Math.cos(angle) * velocity}px`);
+      p.style.setProperty('--dy', `${Math.sin(angle) * velocity}px`);
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 800);
+    }
+  };
+
+  const handleReaction = (e, type) => {
+    const colors = { amei: '#f43f5e', curti: '#3b82f6', palmas: '#ff9800' };
+    const newReactions = { ...reactions };
+    if (userSelection === type) {
+      newReactions[type] -= 1;
+      setUserSelection(null);
+      localStorage.removeItem(`selection-${slug}`);
+    } else {
+      if (userSelection) newReactions[userSelection] -= 1;
+      newReactions[type] += 1;
+      setUserSelection(type);
+      localStorage.setItem(`selection-${slug}`, type);
+      fireConfetti(e, colors[type]);
+    }
+    setReactions(newReactions);
+    localStorage.setItem(`reactions-${slug}`, JSON.stringify(newReactions));
+  };
+
   // Garante que a página comece no topo ao carregar os detalhes do projeto
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -72,7 +128,7 @@ const ProjetoDetalhes = () => {
   if (!projeto) return <div className="container"><h2>Projeto não encontrado</h2></div>;
 
   return (
-    <section className="container projeto-detalhes-page" style={{ textAlign: 'left' }}>
+    <section className="container projeto-detalhes-page">
       <Link to="/" className="btn-secondary back-btn">
         <FaArrowLeft /> Voltar para a Home
       </Link>
@@ -81,7 +137,7 @@ const ProjetoDetalhes = () => {
 
       {projeto.tagline && <p className="tagline">{projeto.tagline}</p>}
 
-      <div className="card-techs" style={{ justifyContent: 'flex-start', marginBottom: '15px' }}>
+      <div className="card-techs" style={{ marginBottom: '15px' }}>
         {projeto.tech?.map((t, i) => (
           <span key={i} className="tech-tag">{t}</span>
         ))}
@@ -94,7 +150,7 @@ const ProjetoDetalhes = () => {
             <div className="corner tl"></div><div className="corner tr"></div>
             <div className="corner bl"></div><div className="corner br"></div>
           </div>
-          <img src={projeto.imagem} alt={projeto.title} />
+          <img src={projeto.imagem} alt={projeto.title} className="card-img" />
         </div>
 
         <div className="projeto-detalhes-content">
@@ -140,6 +196,22 @@ const ProjetoDetalhes = () => {
             >
               <FaWhatsapp /> Contato
             </a>
+          </div>
+
+          {/* Seção de Reações agora no final da página */}
+          <div className="reactions-section" style={{ marginTop: '40px', paddingTop: '20px', borderTop: '1px solid var(--border-subtle)' }}>
+            <p style={{ fontSize: '0.8rem', color: 'var(--text-gray)', marginBottom: '10px', fontWeight: 'bold' }}>GOSTOU DO CONTEÚDO?</p>
+            <div className="reactions-wrapper">
+              <button className={`reaction-btn amei ${userSelection === 'amei' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'amei')}>
+                <FaHeart /> <span>{reactions.amei}</span>
+              </button>
+              <button className={`reaction-btn curti ${userSelection === 'curti' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'curti')}>
+                <FaThumbsUp /> <span>{reactions.curti}</span>
+              </button>
+              <button className={`reaction-btn palmas ${userSelection === 'palmas' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'palmas')}>
+                <span className="emoji">👏</span> <span>{reactions.palmas}</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

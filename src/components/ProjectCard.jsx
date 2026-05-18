@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { FaGithub, FaPlus, FaHeart } from "react-icons/fa";
+import { FaGithub, FaPlus, FaHeart, FaThumbsUp } from "react-icons/fa";
 import { SiVercel } from "react-icons/si";
 
 const ProjectCard = ({
@@ -21,32 +21,63 @@ const ProjectCard = ({
   };
 
   // Lógica de Curtidas (Persistência Local)
-  const [likes, setLikes] = useState(0);
-  const [hasLiked, setHasLiked] = useState(false);
+  const [reactions, setReactions] = useState({ amei: 0, curti: 0, palmas: 0 });
+  const [userSelection, setUserSelection] = useState(null);
 
   useEffect(() => {
-    const savedLikes = localStorage.getItem(`likes-${slug}`);
-    const userLiked = localStorage.getItem(`user-liked-${slug}`);
+    const savedReactions = localStorage.getItem(`reactions-${slug}`);
+    const savedSelection = localStorage.getItem(`selection-${slug}`);
     
-    if (savedLikes) {
-      setLikes(parseInt(savedLikes));
+    if (savedReactions) {
+      setReactions(JSON.parse(savedReactions));
     } else {
-      const initial = Math.floor(Math.random() * 5) + 2; // Simula algumas curtidas iniciais
-      setLikes(initial);
-      localStorage.setItem(`likes-${slug}`, initial.toString());
+      const initial = { 
+        amei: Math.floor(Math.random() * 10) + 2, 
+        curti: Math.floor(Math.random() * 20) + 5,
+        palmas: Math.floor(Math.random() * 5)
+      };
+      setReactions(initial);
+      localStorage.setItem(`reactions-${slug}`, JSON.stringify(initial));
     }
-    setHasLiked(userLiked === "true");
+    if (savedSelection) setUserSelection(savedSelection);
   }, [slug]);
 
-  const handleLike = () => {
-    if (!hasLiked) {
-      // Trigger de animação simples (opcional: pode-se usar uma lib como canvas-confetti ou apenas CSS)
+  const fireConfetti = (e, color) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    
+    for (let i = 0; i < 12; i++) {
+      const p = document.createElement('div');
+      p.className = 'confetti-particle';
+      p.style.setProperty('--bg', color);
+      p.style.left = `${x}px`;
+      p.style.top = `${y}px`;
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = 40 + Math.random() * 60;
+      p.style.setProperty('--dx', `${Math.cos(angle) * velocity}px`);
+      p.style.setProperty('--dy', `${Math.sin(angle) * velocity}px`);
+      document.body.appendChild(p);
+      setTimeout(() => p.remove(), 800);
     }
-    const newCount = hasLiked ? likes - 1 : likes + 1;
-    setLikes(newCount);
-    setHasLiked(!hasLiked);
-    localStorage.setItem(`likes-${slug}`, newCount.toString());
-    localStorage.setItem(`user-liked-${slug}`, (!hasLiked).toString());
+  };
+
+  const handleReaction = (e, type) => {
+    const colors = { amei: '#f43f5e', curti: '#3b82f6', palmas: '#ff9800' };
+    const newReactions = { ...reactions };
+    if (userSelection === type) {
+      newReactions[type] -= 1;
+      setUserSelection(null);
+      localStorage.removeItem(`selection-${slug}`);
+    } else {
+      if (userSelection) newReactions[userSelection] -= 1;
+      newReactions[type] += 1;
+      setUserSelection(type);
+      localStorage.setItem(`selection-${slug}`, type);
+      fireConfetti(e, colors[type]);
+    }
+    setReactions(newReactions);
+    localStorage.setItem(`reactions-${slug}`, JSON.stringify(newReactions));
   };
 
   return (
@@ -56,15 +87,6 @@ const ProjectCard = ({
       onMouseMove={handleMouseMove}
     >
       {destaque && <span className="badge-destaque">Destaque</span>}
-      
-      <button 
-        className={`like-btn ${hasLiked ? "active animate-pop" : ""}`} 
-        onClick={handleLike}
-        title={hasLiked ? "Remover curtida" : "Curtir projeto"}
-      >
-        <FaHeart />
-        <span>{likes}</span>
-      </button>
       
       <div className="card-img-wrapper">
         <div className="hud-overlay">
@@ -87,6 +109,19 @@ const ProjectCard = ({
         {tech.map((t, i) => (
           <span key={i} className="tech-tag">{t}</span>
         ))}
+      </div>
+
+      {/* Reações agora aparecem embaixo do texto antes dos links */}
+      <div className="reactions-wrapper" style={{ margin: '15px auto', padding: '5px 15px', transform: 'scale(0.9)' }}>
+        <button className={`reaction-btn amei ${userSelection === 'amei' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'amei')}>
+          <FaHeart /> <span>{reactions.amei}</span>
+        </button>
+        <button className={`reaction-btn curti ${userSelection === 'curti' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'curti')}>
+          <FaThumbsUp /> <span>{reactions.curti}</span>
+        </button>
+        <button className={`reaction-btn palmas ${userSelection === 'palmas' ? 'active' : ''}`} onClick={(e) => handleReaction(e, 'palmas')}>
+          <span className="emoji">👏</span> <span>{reactions.palmas}</span>
+        </button>
       </div>
 
       <div className="links">
