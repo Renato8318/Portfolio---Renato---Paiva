@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { FaLinkedin } from "react-icons/fa";
 
 const Hero = () => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  // Efeito para girar a foto automaticamente a cada 5 segundos
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsFlipped((prev) => !prev);
+    }, 5000); // 5000ms = 5 segundos
+
+    return () => clearInterval(interval); // Limpa o timer ao sair da página
+  }, []);
+
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
     e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
@@ -34,7 +45,18 @@ const Hero = () => {
           <div className="hero-img-wrapper" onMouseMove={handleMouseMove}>
             <div className="ring ring-1"></div>
             <div className="ring ring-2"></div>
-            <img src="/img/foto-perfil.jpg" alt="Renato Paiva" />
+            <div 
+              className={`hero-img-card ${isFlipped ? "flipped" : ""}`}
+              onClick={() => setIsFlipped(!isFlipped)}
+              title="Clique para girar"
+            >
+              <div className="hero-img-face front">
+                <img src="/img/foto-perfil.jpg" alt="Renato Paiva" />
+              </div>
+              <div className="hero-img-face back">
+                <img src="/img/foto-avatar.jpg" alt="Renato Avatar" />
+              </div>
+            </div>
           </div>
         </div>
       </div>

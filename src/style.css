@@ -642,8 +642,8 @@ body:not(.dark) .highlight::before {
 
 .hero-img-wrapper {
   position: relative;
-  width: 280px;
-  height: 280px;
+  width: 360px;
+  height: 360px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -655,23 +655,12 @@ body:not(.dark) .highlight::before {
   content: "";
   position: absolute;
   inset: 5px; /* Começa levemente expandido para o efeito de "snap" */
-  background: 
-    /* Brilho seguindo o mouse */
-    radial-gradient(circle 100px at var(--x, 50%) var(--y, 50%), rgba(99, 102, 241, 0.3), transparent 70%) no-repeat,
-    /* Cantos de Foco (Top-Left, Top-Right, Bottom-Left, Bottom-Right) */
-    linear-gradient(to right, var(--primary-color) 2px, transparent 2px) 0 0 / 20px 20px no-repeat,
-    linear-gradient(to bottom, var(--primary-color) 2px, transparent 2px) 0 0 / 20px 20px no-repeat,
-    linear-gradient(to left, var(--primary-color) 2px, transparent 2px) 100% 0 / 20px 20px no-repeat,
-    linear-gradient(to bottom, var(--primary-color) 2px, transparent 2px) 100% 0 / 20px 20px no-repeat,
-    linear-gradient(to right, var(--primary-color) 2px, transparent 2px) 0 100% / 20px 20px no-repeat,
-    linear-gradient(to top, var(--primary-color) 2px, transparent 2px) 0 100% / 20px 20px no-repeat,
-    linear-gradient(to left, var(--primary-color) 2px, transparent 2px) 100% 100% / 20px 20px no-repeat,
-    linear-gradient(to top, var(--primary-color) 2px, transparent 2px) 100% 100% / 20px 20px no-repeat;
+  background: radial-gradient(circle 150px at var(--x, 50%) var(--y, 50%), rgba(99, 102, 241, 0.3), transparent 70%) no-repeat;
   z-index: 4;
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.4s ease, inset 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border-radius: 20px;
+  border-radius: 50%;
 }
 
 /* Barra de Scan (Scanner Biométrico) */
@@ -706,23 +695,57 @@ body:not(.dark) .highlight::before {
   inset: 15px; /* O foco "fecha" e se ajusta à moldura da foto no hover */
 }
 
-.hero-img-wrapper img {
-  width: 250px;
-  height: 250px;
-  object-fit: contain; /* Garante que a foto inteira apareça no quadro */
-  object-position: top; /* Prioriza a parte superior da imagem (cabelo) */
-  border-radius: 20px; /* Bordas arredondadas suaves para não cortar o topo */
-  border: 1px solid rgba(99, 102, 241, 0.5);
-  background: rgba(15, 23, 42, 0.2);
-  backdrop-filter: blur(5px);
+.hero-img-card {
+  width: 320px;
+  height: 320px;
   position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 2;
-  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+  cursor: pointer;
 }
 
-/* Efeito de zoom e sombra no hover */
-.hero-img-wrapper:hover img {
-  transform: rotateY(10deg) rotateX(5deg) scale(1.05);
+/* Removemos o giro automático no hover para usar a classe do React */
+.hero-img-card.flipped {
+  transform: rotateY(180deg);
+}
+
+.hero-img-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 50%;
+  border: 1.5px solid var(--primary-color) !important; /* Força a borda neon indigo */
+  box-shadow: 0 0 15px rgba(99, 102, 241, 0.6); /* Glow neon consistente */
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--card-bg); /* Garante que não haja fundo transparente estranho */
+}
+
+.hero-img-face.back {
+  transform: rotateY(180deg);
+}
+
+.hero-img-face img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Preenche o círculo completamente */
+  border-radius: 50%;
+}
+
+.hero-img-face.front img {
+  width: 92%;
+  height: 92%;
+  object-position: center 20%; /* Sobe a imagem para mostrar o terno e centralizar o rosto */
+  transform: scale(1.1); /* Um leve zoom para eliminar o excesso de fundo no topo */
+}
+
+/* Brilho adicional no verso */
+.hero-img-wrapper:hover .hero-img-card {
   box-shadow: 
     -10px 10px 20px rgba(0, 0, 0, 0.5),
     0 0 20px rgba(99, 102, 241, 0.4);
@@ -737,16 +760,16 @@ body:not(.dark) .highlight::before {
 }
 
 .ring-1 {
-  width: 285px;
-  height: 285px;
+  width: 350px;
+  height: 350px;
   border: 2px dashed rgba(99, 102, 241, 0.4);
   opacity: 0.5;
   animation: rotateClockwise 10s linear infinite;
 }
 
 .ring-2 {
-  width: 310px;
-  height: 310px;
+  width: 390px;
+  height: 390px;
   border: 1px solid rgba(99, 102, 241, 0.2);
   border-top: 3px solid var(--primary-color);
   animation: rotateCounterClockwise 7s linear infinite;
@@ -754,7 +777,6 @@ body:not(.dark) .highlight::before {
 
 /* Unificação da Aura de Brilho no wrapper para evitar conflito com o Scanner */
 .hero-img-wrapper {
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
   border-radius: 50%;
 }
 
@@ -1404,6 +1426,10 @@ body:not(.dark) .tech-list li {
   opacity: 0.9;
 }
 
+.projeto-detalhes-img.card-img-wrapper {
+  height: auto !important; /* Remove a limitação de 160px na página de detalhes */
+}
+
 .projeto-detalhes-img .card-img {
   height: auto !important;
   max-height: none !important;
@@ -2015,23 +2041,23 @@ body:not(.dark) .btn-credential:hover {
   }
 
   .hero-img-wrapper {
-    width: 220px;
-    height: 220px;
+    width: 280px;
+    height: 280px;
   }
 
-  .hero-img-wrapper img {
-    width: 190px;
-    height: 190px;
+  .hero-img-card {
+    width: 250px;
+    height: 250px;
   }
 
   .ring-1 {
-    width: 210px;
-    height: 210px;
+    width: 270px;
+    height: 270px;
   }
 
   .ring-2 {
-    width: 240px;
-    height: 240px;
+    width: 300px;
+    height: 300px;
   }
 
   .contact-links {
