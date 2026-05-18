@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaLinkedin } from "react-icons/fa";
+import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 const Hero = () => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -37,6 +37,12 @@ const Hero = () => {
                onMouseMove={handleMouseMove}
             >
               <FaLinkedin className="contact-icon" /> LinkedIn
+            </a>
+            <a href="https://github.com/Renato8318" target="_blank" rel="noopener noreferrer" 
+               className="contact-item github-btn" 
+               onMouseMove={handleMouseMove}
+            >
+              <FaGithub className="contact-icon" /> GitHub
             </a>
           </div>
         </div>

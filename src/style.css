@@ -628,6 +628,26 @@ body:not(.dark) .highlight::before {
   filter: drop-shadow(0 0 10px rgba(0, 119, 181, 0.4));
 }
 
+.github-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  color: #0077B5; 
+  font-size: 1.5rem;
+  font-weight: 700;
+  transition: 0.3s;
+  padding: 10px 20px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.github-btn:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+}
+
 .linkedin-icon {
   color: #0077B5; /* Azul oficial do LinkedIn */
   font-size: 1.3rem;

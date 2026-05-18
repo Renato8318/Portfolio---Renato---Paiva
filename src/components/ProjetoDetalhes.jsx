@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { FaGithub, FaRocket, FaArrowLeft, FaWhatsapp, FaHeart, FaThumbsUp, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaRocket, FaArrowLeft, FaWhatsapp, FaHeart, FaThumbsUp, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { SiVercel } from "react-icons/si";
 
 const detalhesData = {
@@ -280,11 +280,31 @@ const ProjetoDetalhes = () => {
 
           {/* Botões de Ação reposicionados logo abaixo das reações */}
           <div className="buttons" style={{ marginTop: '30px', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ display: 'flex', gap: '12px', width: '100%' }}>
+              <a 
+                href="https://www.linkedin.com/in/seu-perfil" 
+                target="_blank" 
+                rel="noreferrer" 
+                className="linkedin-btn" 
+                onMouseMove={handleMouseMove} 
+                style={{ flex: 1, justifyContent: 'center', padding: '10px', fontSize: '0.9rem' }}
+              >
+                <FaLinkedin className="linkedin-icon" /> LinkedIn
+              </a>
+              <a 
+                href={projeto.linkGit} 
+                target="_blank" 
+                rel="noreferrer" 
+                className="btn-secondary" 
+                onMouseMove={handleMouseMove} 
+                style={{ flex: 1, justifyContent: 'center' }}
+              >
+                <FaGithub /> GitHub
+              </a>
+            </div>
+
             <a href={projeto.linkDemo} target="_blank" rel="noreferrer" className="btn-primary" onMouseMove={handleMouseMove} style={{ width: '100%', justifyContent: 'center' }}>
               <SiVercel /> Ver Projeto
-            </a>
-            <a href={projeto.linkGit} target="_blank" rel="noreferrer" className="btn-secondary" onMouseMove={handleMouseMove} style={{ width: '100%', justifyContent: 'center' }}>
-              <FaGithub /> Repositório
             </a>
             <a 
               href={`https://wa.me/5511959117042?text=${encodeURIComponent(`Olá Renato, vi seu projeto ${projeto.title} no portfólio e gostei muito. Gostaria de conversar sobre uma oportunidade.`)}`} 
