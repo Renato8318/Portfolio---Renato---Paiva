@@ -1351,6 +1351,23 @@ body:not(.dark) .tech-list li {
   box-shadow: 0 0 30px var(--primary-color);
 }
 
+.badge-destaque {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  background: var(--primary-color);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  z-index: 10;
+  animation: pulseBadge 2s infinite ease-in-out;
+  pointer-events: none;
+}
+
 /* ESTILOS PARA A PÁGINA DE DETALHES */
 .projeto-detalhes-page {
   padding-top: 0px !important; /* Remove o espaço superior para o conteúdo subir */

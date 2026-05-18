@@ -33,10 +33,10 @@ const Hero = () => {
 
           <div className="buttons">
             <a href="https://www.linkedin.com/in/renato-paiva-developer/" target="_blank" rel="noopener noreferrer" 
-               className="btn-primary" 
+               className="contact-item linkedin-btn" 
                onMouseMove={handleMouseMove}
             >
-              <FaLinkedin className="linkedin-icon" /> LinkedIn
+              <FaLinkedin className="contact-icon" /> LinkedIn
             </a>
           </div>
         </div>
