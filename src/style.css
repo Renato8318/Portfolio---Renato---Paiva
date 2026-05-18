@@ -1754,11 +1754,12 @@ section {
   overflow-x: auto; /* Habilita a rolagem horizontal */
   scroll-snap-type: x mandatory; /* Faz os itens "grudarem" ao rolar */
   gap: 25px;
-  margin-top: 40px;
+  margin-top: 10px;
   padding: 20px 10px; /* Aumentado para não cortar o efeito de hover */
   justify-content: flex-start; /* Alinha os itens ao início */
   scrollbar-width: none; /* Esconde a barra no Firefox */
   -ms-overflow-style: none; /* Esconde no IE e Edge antigo */
+  align-items: center; 
 }
 
 .certificacoes-grid::-webkit-scrollbar {
@@ -1957,6 +1958,79 @@ section {
   display: block;
 }
 
+.screenshot-item video {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.video-item {
+  position: relative;
+}
+
+.video-label-neon {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 20;
+  background: rgba(15, 23, 42, 0.85);
+  color: #fff;
+  padding: 5px 12px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border: 1px solid var(--neon-color, var(--primary-color));
+  border-radius: 4px;
+  box-shadow: 0 0 15px var(--neon-color, var(--primary-color)), inset 0 0 5px var(--neon-color, var(--primary-color));
+  text-shadow: 0 0 10px var(--neon-color, var(--primary-color));
+  pointer-events: none;
+  animation: neon-pulse-glow 2s infinite alternate;
+}
+
+@keyframes neon-pulse-glow {
+  from { opacity: 0.8; box-shadow: 0 0 10px var(--neon-color, var(--primary-color)); }
+  to { opacity: 1; box-shadow: 0 0 25px var(--neon-color, var(--primary-color)); }
+}
+
+.video-speed-selector {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  gap: 4px;
+  background: rgba(15, 23, 42, 0.8);
+  padding: 4px;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--glass-border);
+  z-index: 10;
+}
+
+.video-speed-selector button {
+  background: none;
+  border: none;
+  color: var(--text-gray);
+  font-size: 0.65rem;
+  font-family: 'JetBrains Mono', monospace;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.video-speed-selector button.active {
+  background: var(--primary-color);
+  color: white;
+}
+
+.video-speed-selector button:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -2006,6 +2080,17 @@ body:not(.dark) .btn-credential:hover {
 @keyframes zoomIn {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
+}
+
+/* Estilo para o vídeo dentro do lightbox */
+.lightbox-content video {
+  max-width: 90%; /* Tamanho "YouTube-like" */
+  max-height: 80vh; /* Não ocupa a tela toda */
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 0 50px rgba(99, 102, 241, 0.5);
+  border: 1px solid var(--glass-border);
+  animation: zoomIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Responsividade */

@@ -19,6 +19,9 @@ const detalhesData = {
     tech: ["JavaScript", "Node.js", "PostgreSQL"],
     linkDemo: "https://projeto-controle-ponto.vercel.app/",
     linkGit: "https://github.com/Renato8318/ProjetoControlePonto",
+    accentColor: "#00f2ff", // Ciano tecnológico
+    video: "/img/veritime-demo.mp4", // Coloque o nome do seu arquivo aqui
+    videoZoom: 1.4,
     screenshots: ["/img/veritime-ss1.png", "/img/veritime-ss2.png", "/img/veritime-ss3.png"]
   },
   sessaoplay: {
@@ -36,6 +39,10 @@ const detalhesData = {
     tech: ["JavaScript", "CSS", "TMDB API"],
     linkDemo: "https://meu-clone-nu-nine-32.vercel.app/",
     linkGit: "https://github.com/Renato8318/Netflix-Clone",
+    accentColor: "#e50914", // Vermelho Netflix
+    video: "/img/sessaoplay-demo.mp4", // Coloque o nome do seu arquivo aqui
+    videoZoom: 1.15, // Aumentado para compensar o corte do cabeçalho
+    videoPosition: "left 10%", // Move o conteúdo do vídeo 10% para baixo, cortando o topo
     screenshots: ["/img/sessaoplay-ss1.png", "/img/sessaoplay-ss2.png", "/img/sessaoplay-ss3.png"]
   },
   amicao: {
@@ -53,6 +60,9 @@ const detalhesData = {
     tech: ["HTML", "CSS", "JavaScript"],
     linkDemo: "https://adoteum-pet.vercel.app/",
     linkGit: "https://github.com/Renato8318/AdoteumPet",
+    accentColor: "#22c55e", // Verde natureza/pets
+    video: "/img/amicao-demo.mp4", // Coloque o nome do seu arquivo aqui
+    videoZoom: 1.2,
     screenshots: ["/img/amicao-ss1.png", "/img/amicao-ss2.png", "/img/amicao-ss3.png"]
   }
 };
@@ -66,14 +76,18 @@ const ProjetoDetalhes = () => {
   const [scale, setScale] = useState(1);
   const [touchStartDist, setTouchStartDist] = useState(0);
   const lightboxContentRef = useRef(null);
+  const [selectedVideo, setSelectedVideo] = useState(null); // Novo estado para o vídeo no lightbox
 
   // Efeito para fechar o zoom ao pressionar a tecla ESC
   useEffect(() => {
     const handleEsc = (e) => {
-      if (e.key === "Escape") setSelectedImage(null);
+      if (e.key === "Escape") {
+        setSelectedImage(null);
+        setSelectedVideo(null);
+      }
     };
 
-    if (selectedImage) {
+    if (selectedImage || selectedVideo) { // Verifica se qualquer lightbox está aberto
       window.addEventListener("keydown", handleEsc);
       document.body.style.overflow = "hidden"; // Bloqueia o scroll ao abrir
     }
@@ -81,7 +95,7 @@ const ProjetoDetalhes = () => {
       window.removeEventListener("keydown", handleEsc);
       document.body.style.overflow = "auto"; // Libera o scroll ao fechar
     };
-  }, [selectedImage]);
+  }, [selectedImage, selectedVideo]); // Depende de ambos os estados de lightbox
 
   // Lógica de Zoom via Scroll e Pinça
   const handleWheel = (e) => {
@@ -117,10 +131,16 @@ const ProjetoDetalhes = () => {
       element.addEventListener('wheel', handleWheel, { passive: false });
       return () => element.removeEventListener('wheel', handleWheel);
     }
-  }, [selectedImage]);
+  }, [selectedImage, selectedVideo]); // Re-anexa o listener se o estado de qualquer lightbox mudar
 
-  const closeLightbox = () => {
+  const closeImageLightbox = () => {
     setSelectedImage(null);
+    setScale(1);
+    setTouchStartDist(0);
+  };
+
+  const closeVideoLightbox = () => {
+    setSelectedVideo(null);
     setScale(1);
     setTouchStartDist(0);
   };
@@ -350,12 +370,39 @@ const ProjetoDetalhes = () => {
       {/* Galeria de Screenshots */}
       {projeto.screenshots && (
         <div className="projeto-galeria-section" style={{ marginTop: '60px' }}>
-          <h3 style={{ marginBottom: '20px', textAlign: 'left' }}>Galeria do Projeto</h3>
+          <h3 style={{ marginBottom: '10px', textAlign: 'left' }}>Galeria do Projeto</h3>
           <div className="certificacoes-wrapper">
             <button className={`nav-arrow left ${!canScrollLeft ? 'hidden' : ''}`} onClick={() => scroll("left")} aria-label="Anterior">
               <FaChevronLeft />
             </button>
             <div className="certificacoes-grid" ref={scrollRef}>
+              {projeto.video && (
+                <div 
+                  className="screenshot-item video-item" 
+                  style={{ cursor: 'zoom-in' }}
+                  onClick={() => setSelectedVideo(projeto.video)}
+                >
+                  <div 
+                    className="video-label-neon" 
+                    style={{ "--neon-color": projeto.accentColor }}
+                  >
+                    Demonstração
+                  </div>
+                  <video 
+                    src={projeto.video} 
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="card-img"
+                    style={{ 
+                      transform: `scale(${projeto.videoZoom || 1.4})`,
+                      objectPosition: projeto.videoPosition || "center",
+                      transformOrigin: "left center"
+                    }}
+                  />
+                </div>
+              )}
               {projeto.screenshots.map((img, idx) => (
                 <div 
                   key={idx} 
@@ -376,11 +423,12 @@ const ProjetoDetalhes = () => {
     </section>
 
       {/* Modal de Zoom fora da section para garantir centralização absoluta na tela */}
+      {/* Lightbox para Imagens */}
       {selectedImage && (
-        <div className="lightbox-overlay" onClick={closeLightbox}>
+        <div className="lightbox-overlay" onClick={closeImageLightbox}>
           <button 
-            className="close-lightbox" 
-            onClick={closeLightbox}
+            className="close-lightbox"
+            onClick={closeImageLightbox}
             aria-label="Fechar"
           >
             &times;
@@ -397,6 +445,41 @@ const ProjetoDetalhes = () => {
               src={selectedImage} 
               alt="Visualização ampliada" 
               style={{ transform: `scale(${scale})`, transition: touchStartDist > 0 ? 'none' : 'transform 0.1s ease-out' }} 
+            />
+          </div>
+        </div>
+      )}
+
+      {/* Lightbox para Vídeos */}
+      {selectedVideo && (
+        <div className="lightbox-overlay" onClick={closeVideoLightbox}>
+          <button
+            className="close-lightbox"
+            onClick={closeVideoLightbox}
+            aria-label="Fechar"
+          >
+            &times;
+          </button>
+          <div
+            className="lightbox-content"
+            onClick={(e) => e.stopPropagation()}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={() => setTouchStartDist(0)}
+            ref={lightboxContentRef}
+          >
+            <video
+              src={selectedVideo}
+              controls // Permite ao usuário controlar o vídeo
+              autoPlay
+              muted // Inicia mudo, o usuário pode ativar o som
+              loop
+              playsInline
+              style={{
+                transform: `scale(${scale})`,
+                transition: touchStartDist > 0 ? 'none' : 'transform 0.1s ease-out',
+                transformOrigin: "center center" // Zoom do usuário a partir do centro
+              }}
             />
           </div>
         </div>
