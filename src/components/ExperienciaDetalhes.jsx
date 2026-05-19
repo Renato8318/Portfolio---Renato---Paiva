@@ -3,6 +3,16 @@ import { useParams, Link } from "react-router-dom";
 import { FaArrowLeft, FaBuilding, FaCalendarAlt, FaChartLine, FaDatabase, FaUsers, FaClock, FaChartBar, FaHeadset, FaSearch, FaPython, FaCode } from "react-icons/fa";
 import { SiSalesforce, SiSelenium, SiPandas } from "react-icons/si";
 
+// Função utilitária para converter HEX para RGB
+const hexToRgb = (hex) => {
+  if (!hex) return '99, 102, 241'; // Default primary color RGB
+  const bigint = parseInt(hex.slice(1), 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `${r}, ${g}, ${b}`;
+};
+
 const expData = {
   "assistente-planejamento-ti": {
     title: "Assistente de Planejamento de TI | MIS & Power BI",
@@ -16,6 +26,8 @@ const expData = {
       { icon: <FaDatabase />, text: "Criação de queries SQL para extração e tratamento de grandes volumes de dados." },
       { icon: <FaUsers />, text: "Apoio consultivo a lideranças para otimização de produtividade e redução de custos operacionais." }
     ],
+    accentColor: "#00bfff", // Deep Sky Blue
+    accentColorRgb: hexToRgb("#00bfff"),
     techTags: [
       { name: "Power BI", icon: <FaChartBar />, color: "var(--tech-pbi)" },
       { name: "SQL", icon: <FaDatabase />, color: "var(--tech-sql)" },
@@ -34,15 +46,28 @@ const expData = {
       { icon: <FaPython />, text: "Desenvolvimento de scripts Python para automação de tarefas repetitivas (RPA)." },
       { icon: <FaSearch />, text: "Análise de causa raiz para falhas críticas de sistema." }
     ],
+    accentColor: "#8a2be2", // Blue Violet
+    accentColorRgb: hexToRgb("#8a2be2"),
     techTags: [
       { name: "Python", icon: <FaPython />, color: "var(--tech-python)" },
       { name: "Selenium", icon: <SiSelenium />, color: "var(--tech-selenium)" },
       { name: "Salesforce", icon: <SiSalesforce />, color: "var(--tech-salesforce)" },
-      { name: "SQL", icon: <FaDatabase />, color: "var(--tech-sql)" },
-      { name: "RPA", icon: <FaCode />, color: "var(--tech-rpa)" }
+      { name: "RPA", icon: <FaCode />, color: "var(--tech-rpa)" },
     ]
   }
 };
+
+// Adiciona accentColorRgb a cada objeto de experiência
+Object.keys(expData).forEach(key => {
+  // Garante que accentColor e accentColorRgb existam, com fallback para primary-color
+  expData[key].accentColor = expData[key].accentColor || '#6366f1';
+  expData[key].accentColorRgb = hexToRgb(expData[key].accentColor);
+
+  // Corrige a estrutura de techTags se necessário, garantindo que accentColorRgb não seja adicionado lá
+  if (Array.isArray(expData[key].techTags)) {
+    // Não precisa fazer nada aqui, pois accentColorRgb é para o objeto principal
+  }
+});
 
 const ExperienciaDetalhes = () => {
   const { slug } = useParams();
@@ -51,6 +76,21 @@ const ExperienciaDetalhes = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [slug]);
+
+  // Lógica da Barra de Progresso de Leitura
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const updateScrollProgress = () => {
+      const currentScroll = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollHeight > 0) {
+        setScrollProgress((currentScroll / scrollHeight) * 100);
+      }
+    };
+    window.addEventListener("scroll", updateScrollProgress);
+    return () => window.removeEventListener("scroll", updateScrollProgress);
+  }, []);
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -61,20 +101,29 @@ const ExperienciaDetalhes = () => {
   if (!exp) return <div className="container"><h2>Experiência não encontrada</h2></div>;
 
   return (
-    <section className="container projeto-detalhes-page" style={{ textAlign: 'left' }}>
-      <Link to="/" className="btn-secondary back-btn">
-        <FaArrowLeft /> Voltar para a Home
-      </Link>
-      
-      <h1 onMouseMove={handleMouseMove}>{exp.title}</h1>
-      
-      <div className="exp-info-header" style={{ marginBottom: '30px' }}>
-        <p className="exp-company" style={{ fontSize: '1.2rem', marginBottom: '5px' }}>
-          <FaBuilding className="exp-icon" /> {exp.company}
-        </p>
-        <p style={{ color: 'var(--text-gray)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <FaCalendarAlt color="var(--primary-color)" /> {exp.period}
-        </p>
+    <>
+      {/* Barra de Progresso Dinâmica */}
+      <div className="reading-progress-container">
+        <div className="reading-progress-bar" style={{ width: `${scrollProgress}%`, '--accent-color': exp.accentColor }}></div>
+      </div>
+      <section className="container projeto-detalhes-page" style={{ '--accent-color': exp.accentColor, '--accent-color-rgb': exp.accentColorRgb }}>
+      <div className="project-detail-intro-header">
+        <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
+          <Link to="/" className="btn-secondary back-btn" onMouseMove={handleMouseMove}>
+            <FaArrowLeft /> Voltar para a Home
+          </Link>
+        </div>
+        
+        <h1 onMouseMove={handleMouseMove}>{exp.title}</h1>
+        
+        <div className="exp-info-header">
+          <p className="exp-company" style={{ fontSize: '1.2rem', marginBottom: '5px' }}>
+            <FaBuilding className="exp-icon" /> {exp.company}
+          </p>
+          <p style={{ color: 'var(--text-gray)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <FaCalendarAlt color="var(--primary-color)" /> {exp.period}
+          </p>
+        </div>
       </div>
 
       <div className="projeto-detalhes-wrapper">
@@ -125,6 +174,7 @@ const ExperienciaDetalhes = () => {
         </div>
       </div>
     </section>
+    </>
   );
 };
 

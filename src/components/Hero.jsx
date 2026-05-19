@@ -8,7 +8,7 @@ const Hero = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setIsFlipped((prev) => !prev);
-    }, 5000); // 5000ms = 5 segundos
+    }, 4000); // 4000ms = 4 segundos
 
     return () => clearInterval(interval); // Limpa o timer ao sair da página
   }, []);

@@ -46,14 +46,20 @@ function AppContent() {
     else setGreeting("Boa noite");
   }, []); // Inicializa apenas uma vez
 
+  // Verifica se está na página do projeto Amicão para forçar o tema claro e evitar bugs visuais
+  const isAmicaoPage = location.pathname === "/projeto/amicao";
+
   useEffect(() => {
-    if (darkMode) {
+    if (darkMode && !isAmicaoPage) {
       document.body.classList.add("dark");
     } else {
       document.body.classList.remove("dark");
     }
-    localStorage.setItem("theme", JSON.stringify(darkMode));
-  }, [darkMode]);
+    
+    if (!isAmicaoPage) {
+      localStorage.setItem("theme", JSON.stringify(darkMode));
+    }
+  }, [darkMode, isAmicaoPage]);
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -69,6 +75,22 @@ function AppContent() {
         <div className="data-node n2"></div>
         <div className="data-node n3"></div>
         <div className="data-node n4"></div>
+        <div className="data-node n5"></div>
+        <div className="data-node n6"></div>
+        <div className="data-node n7"></div>
+        <div className="data-node n8"></div>
+        <div className="data-node n9"></div>
+        <div className="data-node n10"></div>
+        <div className="data-node n11"></div>
+        <div className="data-node n12"></div>
+        <div className="data-node n13"></div>
+        <div className="data-node n14"></div>
+        <div className="data-node n15"></div>
+        <div className="data-node n16"></div>
+        <div className="data-node n17"></div>
+        <div className="data-node n18"></div>
+        <div className="data-node n19"></div>
+        <div className="data-node n20"></div>
       </div>
 
       <header className="header" onMouseMove={handleMouseMove}>

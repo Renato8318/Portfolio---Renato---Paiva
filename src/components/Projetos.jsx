@@ -7,8 +7,8 @@ const projetos = [
     title: "Veritime",
     icon: <FaClock />,
     slug: "veritime",
-    description: "Plataforma de gestão de ponto integrada.",
-    tech: ["JavaScript", "Node.js", "PostgreSQL"],
+    description: "Gestão de ponto eletrônico em tempo real com persistência local.",
+    tech: ["React", "JavaScript", "CSS3"],
     img: "/img/veritime.png",
     linkDemo: "https://projeto-controle-ponto.vercel.app/",
     linkGit: "https://github.com/Renato8318/ProjetoControlePonto",
@@ -31,7 +31,7 @@ const projetos = [
     description: "Adoção de cães online.",
     tech: ["HTML", "CSS", "JavaScript"],
     img: "/img/amicao.png",
-    linkDemo: "https://adoteum-pet.vercel.app/",
+    linkDemo: "https://adoteum-pet.vercel.app/?theme=light",
     linkGit: "https://github.com/Renato8318/AdoteumPet"
   }
 ];

@@ -1,10 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { FaArrowLeft, FaBuilding, FaCalendarAlt, FaAward, FaExternalLinkAlt, FaCheckCircle } from "react-icons/fa";
+import { FaArrowLeft, FaBuilding, FaCalendarAlt, FaAward, FaExternalLinkAlt, FaCheckCircle, FaUserGraduate, FaNetworkWired, FaPalette, FaLaptopCode, FaPython } from "react-icons/fa";
+
+// Função utilitária para converter HEX para RGB
+const hexToRgb = (hex) => {
+  if (!hex) return '99, 102, 241'; // Default primary color RGB
+  const bigint = parseInt(hex.slice(1), 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `${r}, ${g}, ${b}`;
+};
 
 const certData = {
   "analise-desenvolvimento-sistemas": {
-    title: "🎓 Tecnólogo em Análise e Desenvolvimento de Sistemas",
+    title: "Tecnólogo em Análise e Desenvolvimento de Sistemas",
+    icon: <FaUserGraduate />,
     issuer: "Universidade Cruzeiro do Sul",
     date: "2022 - 2024",
     description: "Capacitação em desenvolvimento de software, banco de dados, análise de requisitos, arquitetura de sistemas e metodologias ágeis, com foco em tecnologia, inovação e resolução de problemas.",
@@ -13,12 +24,14 @@ const certData = {
       "Desenvolvimento de Software", "Análise de Sistemas", 
       "Banco de Dados (Oracle / SQL Server)", "Java e XML", 
       "UML / RUP", "Metodologias Ágeis (Scrum)", 
-      "Segurança da Informação", "Arquitetura de Sistemas", 
+      "Segurança da Informação", "Arquitetura de Sistemas",
       "Inteligência Artificial e Machine Learning"
-    ]
+    ],
+    accentColor: "#ff8c00", // Dark Orange
   },
   "redes-computadores-alura": {
-    title: "🌐 Redes de Computadores",
+    title: "Redes de Computadores",
+    icon: <FaNetworkWired />,
     issuer: "Alura",
     date: "18 de Junho de 2025",
     description: "🚀 Finalização de 4 cursos da Trilha Alura focados em infraestrutura, conectividade e segurança, com carga horária total de 37 horas.",
@@ -31,7 +44,8 @@ const certData = {
     ]
   },
   "ui-design-devs-alura": {
-    title: "🎨 Formação UI Design para Devs",
+    title: "Formação UI Design para Devs",
+    icon: <FaPalette />,
     issuer: "Alura",
     date: "Junho de 2025",
     description: "✨ Formação focada em fundamentos de design, heurísticas e animações para desenvolvedores criarem interfaces mais atraentes e funcionais.",
@@ -43,7 +57,8 @@ const certData = {
     ]
   },
   "desenvolvimento-frontend-alura": {
-    title: "💻 Formação Desenvolvimento Front-end",
+    title: "Formação Desenvolvimento Front-end",
+    icon: <FaLaptopCode />,
     issuer: "Alura",
     date: "Junho de 2025",
     description: "⚡ Cursos focados na criação de aplicações web dinâmicas, cobrindo desde a manipulação do DOM e Promises até a implementação de CRUD e domínio do ambiente Node.js.",
@@ -57,10 +72,12 @@ const certData = {
       "JavaScript: implementando CRUD com requisições HTTP", 
       "JavaScript: evoluindo a sua aplicação com ES6+", 
       "Node.js e terminal"
-    ]
+    ],
+    accentColor: "#ffd700", // Gold
   },
   "python-oo-alura": {
-    title: "🐍 Python: aplicando a Orientação a Objetos",
+    title: "Python: aplicando a Orientação a Objetos",
+    icon: <FaPython />,
     issuer: "Alura",
     date: "Junho de 2025",
     description: "⚙️ Exploração aprofundada da Programação Orientada a Objetos em Python, focando na estruturação de classes, utilização de construtores, implementação de decorators como @property e organização de código através de importação e composição.",
@@ -71,9 +88,16 @@ const certData = {
       "Property e métodos de classe", 
       "Importando classe e composição", 
       "Consolidando os conhecimentos de POO"
-    ]
+    ],
+    accentColor: "#4169e1", // Royal Blue
   }
 };
+
+// Adiciona accentColorRgb a cada objeto de certificação
+Object.keys(certData).forEach(key => {
+  certData[key].accentColorRgb = hexToRgb(certData[key].accentColor || '#6366f1'); // Fallback para primary-color
+});
+
 
 const CertificacaoDetalhes = () => {
   const { slug } = useParams();
@@ -81,6 +105,22 @@ const CertificacaoDetalhes = () => {
   const [isZoomed, setIsZoomed] = useState(false);
   const [scale, setScale] = useState(1);
   const [touchStartDist, setTouchStartDist] = useState(0);
+
+  // Lógica da Barra de Progresso de Leitura
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const updateScrollProgress = () => {
+      const currentScroll = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollHeight > 0) {
+        setScrollProgress((currentScroll / scrollHeight) * 100);
+      }
+    };
+    window.addEventListener("scroll", updateScrollProgress);
+    return () => window.removeEventListener("scroll", updateScrollProgress);
+  }, []);
+
   const lightboxContentRef = useRef(null);
 
   useEffect(() => {
@@ -154,21 +194,33 @@ const CertificacaoDetalhes = () => {
   if (!cert) return <div className="container"><h2>Certificação não encontrada</h2></div>;
 
   return (
-    <>
-      <section className="container projeto-detalhes-page" style={{ textAlign: 'left' }}>
-      <Link to="/" className="btn-secondary back-btn">
-        <FaArrowLeft /> Voltar para a Home
-      </Link>
-      
-      <h1 onMouseMove={handleMouseMove}>{cert.title}</h1>
-      
-      <div className="exp-info-header" style={{ marginBottom: '30px' }}>
-        <p className="exp-company" style={{ fontSize: '1.2rem', marginBottom: '5px' }}>
-          <FaBuilding className="exp-icon" /> {cert.issuer}
-        </p>
-        <p style={{ color: 'var(--text-gray)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <FaCalendarAlt color="var(--primary-color)" /> {cert.date}
-        </p>
+    <div className="certificacao-detalhes-wrapper">
+      {/* Barra de Progresso Dinâmica */}
+      <div className="reading-progress-container">
+        <div className="reading-progress-bar" style={{ width: `${scrollProgress}%`, '--accent-color': cert.accentColor }}></div>
+      </div>
+
+      <section className="container projeto-detalhes-page" style={{ '--accent-color': cert.accentColor, '--accent-color-rgb': cert.accentColorRgb }}>
+      <div className="project-detail-intro-header">
+        <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
+          <Link to="/" className="btn-secondary back-btn" onMouseMove={handleMouseMove}>
+            <FaArrowLeft /> Voltar para a Home
+          </Link>
+        </div>
+        
+        <h1 onMouseMove={handleMouseMove} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px' }}>
+          <span style={{ color: 'var(--primary-color)' }}>{cert.icon}</span>
+          {cert.title}
+        </h1>
+        
+        <div className="exp-info-header">
+          <p className="exp-company" style={{ fontSize: '1.2rem', marginBottom: '5px' }}>
+            <FaBuilding className="exp-icon" /> {cert.issuer}
+          </p>
+          <p style={{ color: 'var(--text-gray)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <FaCalendarAlt color="var(--primary-color)" /> {cert.date}
+          </p>
+        </div>
       </div>
 
       <div className="projeto-detalhes-wrapper">
@@ -243,7 +295,7 @@ const CertificacaoDetalhes = () => {
           </div>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

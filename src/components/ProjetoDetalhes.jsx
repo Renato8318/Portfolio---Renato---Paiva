@@ -1,66 +1,82 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { FaGithub, FaLinkedin, FaRocket, FaArrowLeft, FaWhatsapp, FaHeart, FaThumbsUp, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaRocket, FaArrowLeft, FaWhatsapp, FaHeart, FaThumbsUp, FaChevronLeft, FaChevronRight, FaHistory, FaFilm, FaPaw } from "react-icons/fa";
 import { SiVercel } from "react-icons/si";
+
+// Função utilitária para converter HEX para RGB
+const hexToRgb = (hex) => {
+  if (!hex) return '99, 102, 241'; // Default primary color RGB
+  const bigint = parseInt(hex.slice(1), 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return `${r}, ${g}, ${b}`;
+};
 
 const detalhesData = {
   veritime: {
-    title: "🕒 Veritime",
+    title: "Veritime",
+    icon: <FaHistory />,
     tagline: "Veritime — O tempo no seu controle",
-    descricao: "Sistema de acompanhamento de ponto eletrônico que permite ao usuário visualizar em tempo real sua jornada de trabalho, escala e controle de pausas.",
-    problema: "Falta de visibilidade e controle sobre registros de ponto e pausas.",
-    solucao: "Aplicação web com monitoramento em tempo real da jornada de trabalho.",
-    desafio: "Atualizar informações dinamicamente sem comprometer a performance.",
-    decisaoTecnica: "Uso de JavaScript para manipulação dinâmica do DOM e integração com API.",
-    aprendizado: "Consumo de API, organização de código e melhoria de performance.",
-    resultado: "Melhor controle da jornada e redução de inconsistências nos registros.",
-    contexto: "Contexto: inspirado em sistemas corporativos reais de controle de ponto.",
+    descricao: "Interface inteligente de controle de ponto eletrônico, projetada para oferecer transparência e precisão no monitoramento de jornadas de trabalho e intervalos.",
+    problema: "A dificuldade em visualizar o saldo de horas e o status da jornada em tempo real gera insegurança e falhas no cumprimento de escalas.",
+    solucao: "Uma Single Page Application que automatiza o cálculo de horas trabalhadas, fornecendo feedbacks visuais instantâneos sobre o status do colaborador.",
+    desafio: "Sincronizar a contagem regressiva de pausas e o cronômetro da jornada sem gerar atrasos na renderização ou inconsistências nos dados exibidos.",
+    decisaoTecnica: "Arquitetura centrada em React Hooks para gerenciamento de ciclos de tempo e utilização de LocalStorage para garantir a persistência dos dados entre sessões do navegador.",
+    aprendizado: "Aprofundamento em lógica de intervalos assíncronos (setInterval), manipulação avançada de objetos Date e estruturação de layouts para Dashboards.",
+    resultado: "Uma ferramenta funcional e precisa que elimina a necessidade de cálculos manuais e melhora a autogestão do tempo pelo usuário.",
+    contexto: "Desenvolvido como uma solução prática para automação de processos de RH, focando em usabilidade e precisão técnica.",
     imagem: "/img/veritime.png",
-    tech: ["JavaScript", "Node.js", "PostgreSQL"],
+    tech: ["React", "JavaScript", "CSS3"],
     linkDemo: "https://projeto-controle-ponto.vercel.app/",
     linkGit: "https://github.com/Renato8318/ProjetoControlePonto",
-    accentColor: "#00f2ff", // Ciano tecnológico
+    accentColor: "#00f3ff", // Cyber Cyan Neon
+    accentColorRgb: hexToRgb("#00f3ff"),
     video: "/img/veritime-demo.mp4", // Coloque o nome do seu arquivo aqui
     videoZoom: 1.4,
     screenshots: ["/img/veritime-ss1.png", "/img/veritime-ss2.png", "/img/veritime-ss3.png"]
   },
   sessaoplay: {
-    title: "🎬 SessãoPlay",
+    title: "SessãoPlay",
+    icon: <FaFilm />,
     tagline: "SessãoPlay — O entretenimento na palma da sua mão",
-    descricao: "Aplicação de streaming robusta que utiliza integração em tempo real com APIs externas para oferecer um catálogo completo de filmes e séries com navegação fluida.",
+    descricao: "Single Page Application (SPA) de entretenimento que utiliza consumo de dados em larga escala para oferecer um catálogo imersivo de produções cinematográficas.",
     problema: "Usuários enfrentavam dificuldades para encontrar informações técnicas e trailers de lançamentos em uma interface que fosse rápida e amigável.",
     solucao: "Desenvolvimento de uma plataforma centralizada com busca inteligente, categorização por gênero e carregamento dinâmico de metadados via TMDB API.",
-    desafio: "O maior desafio técnico foi o gerenciamento do estado assíncrono para garantir que a interface não 'travasse' durante a renderização de imagens em alta resolução e dados pesados da API.",
-    decisaoTecnica: "Utilização de manipulação nativa do DOM e Fetch API para gerenciar requisições assíncronas e renderização dinâmica dos metadados.",
-    aprendizado: "Aprimorei o domínio sobre consumo de APIs RESTful, tratamento de estados de erro (UX de fallback) e otimização de performance em interfaces ricas em mídia.",
+    desafio: "Otimizar o carregamento de múltiplas fontes de mídia simultâneas, mantendo a responsividade da UI durante o processamento de respostas JSON complexas.",
+    decisaoTecnica: "Uso estratégico de requisições assíncronas (Async/Await) e manipulação eficiente do DOM para renderização sob demanda (Lazy Loading conceitual).",
+    aprendizado: "Domínio em integração de serviços de terceiros (REST APIs), tratamento de exceções para UX de fallback e refinamento de layouts complexos com CSS Grid.",
     resultado: "Uma plataforma estável e 100% responsiva, proporcionando uma experiência de usuário comparável a grandes players de mercado.",
     contexto: "Desenvolvido como projeto de consolidação de arquitetura front-end escalável e integração de serviços externos.",
     imagem: "/img/sessaoplay.png",
     tech: ["JavaScript", "CSS", "TMDB API"],
     linkDemo: "https://meu-clone-nu-nine-32.vercel.app/",
     linkGit: "https://github.com/Renato8318/Netflix-Clone",
-    accentColor: "#e50914", // Vermelho Netflix
+    accentColor: "#ff004c", // Neon Crimson
+    accentColorRgb: hexToRgb("#ff004c"),
     video: "/img/sessaoplay-demo.mp4", // Coloque o nome do seu arquivo aqui
     videoZoom: 1.15, // Aumentado para compensar o corte do cabeçalho
     videoPosition: "left 10%", // Move o conteúdo do vídeo 10% para baixo, cortando o topo
     screenshots: ["/img/sessaoplay-ss1.png", "/img/sessaoplay-ss2.png", "/img/sessaoplay-ss3.png"]
   },
   amicao: {
-    title: "🐶 Amicão",
+    title: "Amicão",
+    icon: <FaPaw />,
     tagline: "Amicão — Encontre seu melhor amigo hoje",
-    descricao: "Plataforma social dedicada à facilitação do processo de adoção de animais, conectando tutores e pets através de uma vitrine digital intuitiva.",
-    problema: "A falta de organização visual e a dispersão de informações em sites de abrigos tornavam o processo de adoção confuso e desestimulante para novos tutores.",
+    descricao: "Solução digital focada em responsabilidade social, otimizando a conexão entre ONGs de proteção animal e potenciais adotantes através de uma interface humanizada.",
+    problema: "A fragmentação de informações e interfaces datadas dificultavam o fluxo de adoção, reduzindo o alcance de animais resgatados.",
     solucao: "Criação de um portal direto e acolhedor, onde a clareza visual e a facilidade de contato são os pilares da jornada do usuário.",
-    desafio: "Projetar uma interface extremamente leve e acessível para dispositivos móveis de entrada, garantindo que o tempo de carregamento fosse mínimo mesmo em conexões lentas.",
-    decisaoTecnica: "Optei por uma abordagem 'Pure Web' utilizando HTML5 semântico e CSS moderno (Grid e Flexbox) para atingir performance máxima sem a sobrecarga de frameworks externos.",
-    aprendizado: "Aprofundamento em manipulação nativa do DOM com JavaScript, conceitos de design centrado no usuário (User-Centered Design) e otimização de recursos estáticos.",
+    desafio: "Maximizar a performance em dispositivos mobile de baixo custo, garantindo que a aplicação seja leve e acessível inclusive em conexões de rede limitadas.",
+    decisaoTecnica: "Adoção da filosofia 'Mobile-First' e utilização de Vanilla JavaScript puro para garantir o menor bundle size possível, priorizando a semântica do HTML5.",
+    aprendizado: "Refinamento em princípios de User Experience (UX), otimização de ativos estáticos e estratégias de SEO para causas sociais.",
     resultado: "Uma plataforma rápida e eficiente que remove barreiras tecnológicas entre os animais e seus futuros lares.",
     contexto: "Inspirado em necessidades reais de ONGs de proteção animal, visando modernizar a presença digital do terceiro setor.",
     imagem: "/img/amicao.png",
     tech: ["HTML", "CSS", "JavaScript"],
-    linkDemo: "https://adoteum-pet.vercel.app/",
+    linkDemo: "https://adoteum-pet.vercel.app/?theme=light",
     linkGit: "https://github.com/Renato8318/AdoteumPet",
-    accentColor: "#22c55e", // Verde natureza/pets
+    accentColor: "#39ff14", // Electric Lime Neon
+    accentColorRgb: hexToRgb("#39ff14"),
     video: "/img/amicao-demo.mp4", // Coloque o nome do seu arquivo aqui
     videoZoom: 1.2,
     screenshots: ["/img/amicao-ss1.png", "/img/amicao-ss2.png", "/img/amicao-ss3.png"]
@@ -77,6 +93,22 @@ const ProjetoDetalhes = () => {
   const [touchStartDist, setTouchStartDist] = useState(0);
   const lightboxContentRef = useRef(null);
   const [selectedVideo, setSelectedVideo] = useState(null); // Novo estado para o vídeo no lightbox
+
+  // Lógica da Barra de Progresso de Leitura
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const updateScrollProgress = () => {
+      const currentScroll = window.scrollY;
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (scrollHeight > 0) {
+        setScrollProgress((currentScroll / scrollHeight) * 100);
+      }
+    };
+
+    window.addEventListener("scroll", updateScrollProgress);
+    return () => window.removeEventListener("scroll", updateScrollProgress);
+  }, []);
 
   // Efeito para fechar o zoom ao pressionar a tecla ESC
   useEffect(() => {
@@ -252,20 +284,31 @@ const ProjetoDetalhes = () => {
 
   return (
     <>
-      <section className="container projeto-detalhes-page">
-      <Link to="/" className="btn-secondary back-btn">
-        <FaArrowLeft /> Voltar para a Home
-      </Link>
-      
-      <h1 onMouseMove={handleMouseMove}>{projeto.title}</h1>
-
-      {projeto.tagline && <p className="tagline">{projeto.tagline}</p>}
-
-      <div className="card-techs" style={{ marginBottom: '15px' }}>
-        {projeto.tech?.map((t, i) => (
-          <span key={i} className="tech-tag">{t}</span>
-        ))}
+      {/* Barra de Progresso Dinâmica */}
+      <div className="reading-progress-container">
+        <div className="reading-progress-bar" style={{ width: `${scrollProgress}%`, '--accent-color': projeto.accentColor }}></div>
       </div>
+
+      <section className="container projeto-detalhes-page" style={{ '--accent-color': projeto.accentColor, '--accent-color-rgb': projeto.accentColorRgb }}>
+        <div className="project-detail-intro-header">
+          <div style={{ display: 'flex', justifyContent: 'flex-start', width: '100%' }}>
+            <Link to="/" className="btn-secondary back-btn" onMouseMove={handleMouseMove}>
+              <FaArrowLeft /> Voltar para a Home
+            </Link>
+          </div>
+          
+          <h1 onMouseMove={handleMouseMove} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '15px' }}>
+            <span style={{ color: projeto.accentColor, filter: `drop-shadow(0 0 10px ${projeto.accentColor}44)` }}>{projeto.icon}</span>
+            {projeto.title}
+          </h1>
+          {projeto.tagline && <p className="tagline">{projeto.tagline}</p>}
+
+          <div className="card-techs">
+          {projeto.tech?.map((t, i) => (
+            <span key={i} className="tech-tag">{t}</span>
+          ))}
+        </div>
+        </div>
       
       <div className="projeto-detalhes-wrapper">
         <div className="projeto-detalhes-img">
@@ -394,6 +437,7 @@ const ProjetoDetalhes = () => {
                     muted
                     loop
                     playsInline
+                    preload="auto"
                     className="card-img"
                     style={{ 
                       transform: `scale(${projeto.videoZoom || 1.4})`,
@@ -475,6 +519,7 @@ const ProjetoDetalhes = () => {
               muted // Inicia mudo, o usuário pode ativar o som
               loop
               playsInline
+              preload="auto"
               style={{
                 transform: `scale(${scale})`,
                 transition: touchStartDist > 0 ? 'none' : 'transform 0.1s ease-out',

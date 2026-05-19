@@ -11,6 +11,7 @@
 :root {
   --primary-color: #6366f1; /* Indigo Moderno */
   --bg-dark: #020617;       /* Slate 950 - Profundidade de dados */
+  --primary-color-rgb: 99, 102, 241; /* RGB para uso em rgba() */
   --bg-light: #ffffff;
   --card-bg: #0f172a;       /* Slate 900 para cards */
   --text-white: #ffffff;
@@ -114,8 +115,9 @@ body:not(.dark) {
   height: 4px;
   background: var(--primary-color);
   border-radius: 50%;
-  filter: blur(1px) drop-shadow(0 0 8px var(--primary-color));
-  opacity: 0.3;
+  filter: blur(1px) drop-shadow(0 0 12px var(--primary-color));
+  opacity: 0.4;
+  pointer-events: none;
 }
 
 body:not(.dark) .data-node {
@@ -123,11 +125,26 @@ body:not(.dark) .data-node {
   filter: blur(0.5px) drop-shadow(0 0 4px rgba(99, 102, 241, 0.2)); /* Brilho mais suave */
 }
 
-
 .n1 { top: 20%; left: 10%; animation: floatNode 8s infinite alternate; }
 .n2 { top: 60%; left: 85%; animation: floatNode 12s infinite alternate-reverse; }
 .n3 { top: 80%; left: 15%; animation: floatNode 10s infinite alternate; }
 .n4 { top: 15%; left: 75%; animation: floatNode 15s infinite alternate-reverse; }
+.n5 { top: 40%; left: 30%; width: 6px; height: 6px; filter: blur(2px); animation: floatNode 20s infinite alternate; opacity: 0.2; }
+.n6 { top: 10%; left: 50%; width: 2px; height: 2px; animation: floatNode 25s infinite alternate-reverse; }
+.n7 { top: 90%; left: 60%; width: 5px; height: 5px; filter: blur(1.5px); animation: floatNode 18s infinite alternate; }
+.n8 { top: 45%; left: 90%; width: 3px; height: 3px; animation: floatNode 22s infinite alternate-reverse; }
+.n9 { top: 30%; left: 5%; width: 8px; height: 8px; filter: blur(4px); animation: floatNode 30s infinite alternate; opacity: 0.1; }
+.n10 { top: 70%; left: 40%; width: 2px; height: 2px; animation: floatNode 14s infinite alternate-reverse; }
+.n11 { top: 50%; left: 20%; width: 4px; height: 4px; animation: floatNode 11s infinite alternate; }
+.n12 { top: 35%; left: 65%; width: 2px; height: 2px; animation: floatNode 19s infinite alternate-reverse; }
+.n13 { top: 75%; left: 55%; width: 5px; height: 5px; filter: blur(1px); animation: floatNode 16s infinite alternate; }
+.n14 { top: 5%; left: 95%; width: 3px; height: 3px; animation: floatNode 21s infinite alternate-reverse; }
+.n15 { top: 85%; left: 5%; width: 10px; height: 10px; filter: blur(5px); animation: floatNode 35s infinite alternate; opacity: 0.08; }
+.n16 { top: 25%; left: 45%; width: 2px; height: 2px; animation: floatNode 13s infinite alternate-reverse; }
+.n17 { top: 55%; left: 10%; width: 4px; height: 4px; filter: blur(0.5px); animation: floatNode 17s infinite alternate; }
+.n18 { top: 95%; left: 80%; width: 3px; height: 3px; animation: floatNode 24s infinite alternate-reverse; }
+.n19 { top: 15%; left: 35%; width: 2px; height: 2px; animation: floatNode 12s infinite alternate; }
+.n20 { top: 65%; left: 25%; width: 7px; height: 7px; filter: blur(3px); animation: floatNode 28s infinite alternate-reverse; opacity: 0.12; }
 
 @keyframes floatNode {
   0% { 
@@ -135,9 +152,9 @@ body:not(.dark) .data-node {
     opacity: 0.2; 
   }
   50% { 
-    transform: translate(100px, 50px) scale(1.5); 
-    opacity: 0.5; 
-    box-shadow: 0 0 20px var(--primary-color);
+    transform: translate(60px, -40px) scale(1.2); 
+    opacity: 0.6; 
+    box-shadow: 0 0 25px var(--primary-color);
   }
   100% { 
     transform: translate(-50px, 100px) scale(0.8); 
@@ -720,7 +737,7 @@ body:not(.dark) .highlight::before {
   height: 320px;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 2;
   cursor: pointer;
 }
@@ -1441,10 +1458,15 @@ body:not(.dark) .tech-list li {
 }
 
 .back-btn {
-  margin-bottom: 5px; 
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 40px; /* Aumentado para dar respiro ao título */
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 1px;
+  padding: 10px 20px;
+  border-radius: 12px;
 }
 
 .projeto-detalhes-page h1 {
@@ -1478,6 +1500,14 @@ body:not(.dark) .tech-list li {
   gap: 40px;
   align-items: flex-start;
   margin-top: 30px;
+}
+
+.projeto-detalhes-wrapper {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 24px;
+  padding: 40px;
 }
 
 .projeto-detalhes-img {
