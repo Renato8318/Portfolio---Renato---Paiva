@@ -1813,24 +1813,21 @@ section {
   gap: 10px;
   z-index: 1;
   flex: 0 0 300px; /* Define uma largura fixa para cada item */
-  min-height: 400px; /* Altura mínima para manter uniformidade no carrossel */
+  height: 460px; /* Aumentado para equilibrar com a imagem maior */
   justify-content: flex-start;
   scroll-snap-align: start; /* Faz o item "grudar" no início da rolagem */
 }
 
 .cert-card-img {
-  height: auto !important;
+  height: 210px !important; /* Imagem mais imponente, ocupando quase 50% do card */
+  width: 100%;
   margin-bottom: 20px;
 }
 
 .cert-card-img img {
-  height: auto !important;
-  object-fit: contain !important;
-}
-
-.cert-card-img img {
-  height: auto !important;
-  object-fit: contain !important;
+  height: 100% !important;
+  width: 100% !important;
+  object-fit: cover !important; /* Garante que a imagem preencha o espaço sem distorcer */
 }
 
 /* Reflexo Shimmer para Certificações */
@@ -1860,6 +1857,46 @@ section {
   box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
 }
 
+/* Grade Curricular (Certificações) */
+.grade-curricular-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Agora com 3 colunas no desktop */
+  gap: 20px;
+  margin-bottom: 40px;
+  text-align: left;
+}
+
+.modulo-item {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 15px;
+  border-radius: 12px;
+  border: 1px solid var(--border-subtle);
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.modulo-item:hover {
+  transform: translateY(-5px);
+  border-color: var(--primary-color);
+  background: rgba(99, 102, 241, 0.05);
+}
+
+body:not(.dark) .modulo-item {
+  background: rgba(99, 102, 241, 0.02);
+  border-color: rgba(99, 102, 241, 0.1);
+}
+
+@media (max-width: 1100px) {
+  .grade-curricular-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 colunas para telas médias */
+  }
+}
+
+@media (max-width: 768px) {
+  .grade-curricular-grid {
+    grid-template-columns: 1fr; /* Lista única apenas no mobile */
+  }
+}
+
 .certificacao-item:hover::after {
   left: 150%;
 }
@@ -1881,7 +1918,12 @@ section {
   font-size: 1.3rem;
   font-weight: 700;
   color: var(--text-white);
-  margin-bottom: 5px;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Limita títulos longos a 2 linhas */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 3.2rem; /* Mantém espaço consistente mesmo para títulos de 1 linha */
 }
 
 .cert-description {

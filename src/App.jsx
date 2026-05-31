@@ -46,20 +46,14 @@ function AppContent() {
     else setGreeting("Boa noite");
   }, []); // Inicializa apenas uma vez
 
-  // Verifica se está na página do projeto Amicão para forçar o tema claro e evitar bugs visuais
-  const isAmicaoPage = location.pathname === "/projeto/amicao";
-
   useEffect(() => {
-    if (darkMode && !isAmicaoPage) {
+    if (darkMode) {
       document.body.classList.add("dark");
     } else {
       document.body.classList.remove("dark");
     }
-    
-    if (!isAmicaoPage) {
-      localStorage.setItem("theme", JSON.stringify(darkMode));
-    }
-  }, [darkMode, isAmicaoPage]);
+    localStorage.setItem("theme", JSON.stringify(darkMode));
+  }, [darkMode]);
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();

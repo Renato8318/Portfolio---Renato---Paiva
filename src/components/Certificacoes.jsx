@@ -4,6 +4,18 @@ import { FaAward, FaCalendarAlt, FaChevronLeft, FaChevronRight, FaBuilding, FaPl
 
 const certificationsData = [
   {
+    id: 6,
+    slug: "lean-six-sigma-yellow-belt",
+    title: "📊 Lean Six Sigma Yellow Belt",
+    issuer: "FM2S Educação e Consultoria",
+    date: "Maio de 2026",
+    description: "Certificação em melhoria contínua, análise estratégica de processos e otimização de resultados baseada em dados.",
+    img: "/img/certificado-lean-six-sigma.jpg",
+    credentialUrl: "", 
+    icon: <FaAward />,
+    destaque: true,
+  },
+  {
     id: 1,
     slug: "analise-desenvolvimento-sistemas",
     title: "🎓 Tecnólogo em Análise e Desenvolvimento de Sistemas",
@@ -13,7 +25,6 @@ const certificationsData = [
     img: "/img/diploma-ads.jpg", // Certifique-se de colocar a foto nesta pasta
     credentialUrl: "", // Deixe vazio se não tiver link, ou coloque o link do LinkedIn/PDF
     icon: <FaUserGraduate />,
-    destaque: true,
   },
   {
     id: 2,

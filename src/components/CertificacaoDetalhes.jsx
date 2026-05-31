@@ -90,6 +90,74 @@ const certData = {
       "Consolidando os conhecimentos de POO"
     ],
     accentColor: "#4169e1", // Royal Blue
+  },
+  "lean-six-sigma-yellow-belt": {
+    title: "Lean Six Sigma Yellow Belt",
+    icon: <FaAward />,
+    issuer: "FM2S Educação e Consultoria",
+    date: "Maio de 2026",
+    description: "Certificação em melhoria contínua e análise de processos, focada na identificação de gargalos e otimização de resultados. A metodologia Lean Six Sigma complementa minha atuação em Inteligência de Dados, permitindo transformar dados operacionais em estratégias de impacto real.",
+    img: "/img/certificado-lean-six-sigma.jpg",
+    competencias: [
+      "Power BI", "Python", "SQL", 
+      "MIS & Planejamento de TI", "Lean Six Sigma", 
+      "Melhoria Contínua", "Análise de Processos"
+    ],
+    accentColor: "#eab308", // Yellow Belt Amber
+    gradeCurricular: [
+      {
+        modulo: "Módulo 1 - Introdução ao Lean Seis Sigma",
+        topicos: [
+          "Introdução ao Lean Seis Sigma: o que é e o que se tornou",
+          "Origem da metodologia Seis Sigma",
+          "Como realizar um projeto de Melhoria",
+          "Roteiro para realização de projetos de Melhoria",
+          "Divisão dos Belts e as ferramentas de cada Belt"
+        ]
+      },
+      {
+        modulo: "Módulo 2 - Fundamentos do Lean Seis Sigma",
+        topicos: [
+          "Fundamentos do Lean Seis Sigma: história da Melhoria de processos",
+          "Conceitos fundamentais: os pilares do Conhecimento Profundo",
+          "Mudança, Melhoria e as Três Questões Fundamentais",
+          "Questão 1 - O que melhorar: contextualização e objetivos",
+          "Questão 2 - Medição da melhoria: dados confiáveis e indicadores",
+          "Questão 3 - Mudanças geradoras de melhoria",
+          "Roteiros, habilidades e estratégias do agente de Melhoria",
+          "Roteiro DMAIC e suas ferramentas"
+        ]
+      },
+      {
+        modulo: "Módulo 3 - Define",
+        topicos: [
+          "Introdução à fase do Define",
+          "SIPOC: conceito, passo-a-passo e estudo de caso",
+          "VOC (Voice of Customer): coleta de informações do cliente",
+          "Árvore CTC: definição de indicadores",
+          "O contrato de Melhoria: elementos principais e elaboração"
+        ]
+      },
+      {
+        modulo: "Módulo 4 - Measure",
+        topicos: [
+          "Introdução à fase do Measure e Análise de processos",
+          "Mapeamento de processos e Tipos de Fluxograma",
+          "Coleta de dados: variáveis e passo-a-passo",
+          "Análise de dados: Pareto, Histogramas e Tendências",
+          "Apresentação de resultados do Measure"
+        ]
+      },
+      {
+        modulo: "Módulo 5 - Analyze, Improve e Control",
+        topicos: [
+          "Os Sete Desperdícos do Lean",
+          "Diagrama de Ishikawa e os Cinco Porquês",
+          "Poka Yoke: processos à prova de erros",
+          "Ciclo PDSA e Plano de Implementação"
+        ]
+      }
+    ]
   }
 };
 
@@ -267,6 +335,26 @@ const CertificacaoDetalhes = () => {
           </div>
         </div>
       </div>
+
+      {cert.gradeCurricular && (
+        <div className="grade-curricular-section" style={{ marginTop: '50px' }}>
+          <h3 style={{ marginBottom: '25px', textAlign: 'left' }}>Conteúdo Programático</h3>
+          <div className="grade-curricular-grid">
+            {cert.gradeCurricular.map((mod, idx) => (
+              <div key={idx} className="modulo-item">
+                <h4 style={{ color: 'var(--primary-color)', marginBottom: '10px', fontSize: '0.9rem', textTransform: 'uppercase' }}>{mod.modulo}</h4>
+                <ul style={{ listStyle: 'none', padding: 0 }}>
+                  {mod.topicos.map((topico, i) => (
+                    <li key={i} style={{ fontSize: '0.8rem', color: 'var(--text-gray)', marginBottom: '6px', display: 'flex', gap: '8px', lineHeight: '1.4' }}>
+                      <span style={{ color: 'var(--primary-color)' }}>•</span> {topico}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </section>
 
       {/* Modal de Zoom fora da section para evitar problemas de posicionamento */}
