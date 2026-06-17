@@ -73,10 +73,12 @@ body.dark {
     linear-gradient(rgba(99, 102, 241, 0.07) 1px, transparent 1px),
     linear-gradient(90deg, rgba(99, 102, 241, 0.07) 1px, transparent 1px),
     radial-gradient(circle at center, rgba(99, 102, 241, 0.03) 0%, transparent 80%);
-  background-size: 60px 60px, 60px 60px, 100% 100%;
+  background-size: 60px 60px;
   background-attachment: fixed;
-  animation: gridMove 40s linear infinite;
+  /* background-position é pesado para animar, considere remover a animação do grid de fundo */
 }
+
+/* Se quiser manter a animação de fundo, use transform em um pseudo-elemento em vez de background-position */
 
 body:not(.dark) {
   background: #f8fafc; /* Fundo Slate bem claro e limpo */
@@ -118,6 +120,7 @@ body:not(.dark) {
   filter: blur(1px) drop-shadow(0 0 12px var(--primary-color));
   opacity: 0.4;
   pointer-events: none;
+  will-change: transform, opacity; /* Força aceleração de hardware */
 }
 
 body:not(.dark) .data-node {
@@ -152,12 +155,12 @@ body:not(.dark) .data-node {
     opacity: 0.2; 
   }
   50% { 
-    transform: translate(60px, -40px) scale(1.2); 
+    transform: translate3d(60px, -40px, 0) scale(1.2); 
     opacity: 0.6; 
-    box-shadow: 0 0 25px var(--primary-color);
+    /* box-shadow aqui força repaint constante, removido para performance */
   }
   100% { 
-    transform: translate(-50px, 100px) scale(0.8); 
+    transform: translate3d(-50px, 100px, 0) scale(0.8); 
     opacity: 0.2; 
   }
 }
@@ -175,13 +178,13 @@ body.dark::before {
     radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.15) 0%, transparent 40%);
   z-index: 0;
   pointer-events: none;
-  animation: meshFlow 20s infinite alternate ease-in-out;
+  /* Mesh flow fixo ou com animação simplificada */
+  will-change: transform;
 }
 
 @keyframes meshFlow {
-  0% { transform: scale(1) translate(0, 0); }
-  50% { transform: scale(1.2) translate(5%, 5%); filter: hue-rotate(15deg); }
-  100% { transform: scale(1) translate(-5%, -5%); }
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(2%, 2%); }
 }
 
 @keyframes gridMove {
@@ -206,21 +209,10 @@ body.dark::after {
 }
 
 @keyframes scan-line-anim {
-  0% {
-    top: -5%;
-    opacity: 0;
-  }
-  5% {
-    opacity: 0.4;
-  }
-  20% {
-    top: 105%;
-    opacity: 0.4;
-  }
-  21%, 100% {
-    top: 105%;
-    opacity: 0;
-  }
+  0% { transform: translateY(-100%); opacity: 0; }
+  5% { opacity: 0.4; }
+  20% { transform: translateY(1000%); opacity: 0.4; }
+  21%, 100% { transform: translateY(1000%); opacity: 0; }
 }
 
 @keyframes backgroundPulse {
@@ -235,7 +227,7 @@ body.dark::after {
   width: 100%;
   z-index: 1000;
   transition: 0.3s;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(4px); /* Reduzido ainda mais para fluidez no scroll */
   border-bottom: 1px solid var(--glass-border);
   background: rgba(255, 255, 255, 0.8);
 }
@@ -719,12 +711,13 @@ body:not(.dark) .highlight::before {
 .hero-img-wrapper:hover::before {
   opacity: 0.5;
   animation: hero-scan-line 3s linear infinite;
+  top: 15px; /* Posição inicial fixa */
 }
 
 @keyframes hero-scan-line {
-  0% { top: 15px; }
-  50% { top: 265px; }
-  100% { top: 15px; }
+  0% { transform: translateY(0); }
+  50% { transform: translateY(250px); }
+  100% { transform: translateY(0); }
 }
 
 .hero-img-wrapper:hover::after {
@@ -737,7 +730,7 @@ body:not(.dark) .highlight::before {
   height: 320px;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.4s ease; /* Transição mais rápida e simples */
   z-index: 2;
   cursor: pointer;
 }
@@ -905,8 +898,10 @@ section h2::after, .footer h2::after, .projeto-detalhes-page h1::after {
   transition: all 0.4s ease;
 }
 
-section h2:hover::after, .footer h2:hover::after, .projeto-detalhes-page h1:hover::after, section:hover h2::after, .footer:hover h2::after {
+/* Removido o seletor section:hover para que a animação só ocorra quando o mouse estiver DIRETAMENTE no título */
+section h2:hover::after, .footer h2:hover::after, .projeto-detalhes-page h1:hover::after {
   animation: water-ripple 2.5s infinite;
+  will-change: transform, opacity;
 }
 
 /* Animação de Explosão Central */
@@ -920,19 +915,10 @@ section h2:hover::after, .footer h2:hover::after, .projeto-detalhes-page h1:hove
 @keyframes water-ripple {
   0% {
     transform: translate(-50%, -50%) scale(0);
-    box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.6),
-                0 0 0 0 rgba(99, 102, 241, 0.4),
-                0 0 0 0 rgba(99, 102, 241, 0.2);
     opacity: 1;
   }
-  20% {
-    opacity: 0.6;
-  }
   100% {
-    transform: translate(-50%, -50%) scale(8);
-    box-shadow: 0 0 40px 60px rgba(99, 102, 241, 0),
-                0 0 70px 100px rgba(99, 102, 241, 0),
-                0 0 100px 140px rgba(99, 102, 241, 0);
+    transform: translate(-50%, -50%) scale(4); /* Reduzido o scale final */
     opacity: 0;
   }
 }
