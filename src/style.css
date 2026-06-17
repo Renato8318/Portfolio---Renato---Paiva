@@ -2311,4 +2311,45 @@ body:not(.dark) .btn-credential:hover {
     background: rgba(248, 250, 252, 0.9);
     border-left: 1px solid rgba(99, 102, 241, 0.2);
   }
+
+  /* Otimizações de Performance para Mobile */
+  
+  /* 1. Desativar Scanlines Globais e Locais */
+  body.dark::after,
+  .scan-line,
+  .hud-overlay,
+  .hero-img-wrapper::before {
+    animation: none !important;
+    display: none !important;
+  }
+
+  /* 2. Parar Animações Contínuas de Background e Elementos Decorativos */
+  .data-node,
+  .ring-1, 
+  .ring-2,
+  .highlight::before,
+  body.dark::before {
+    animation: none !important;
+  }
+
+  /* 3. Remover Backdrop Filter (Blur) - Extremamente pesado no scroll mobile */
+  .header,
+  .nav,
+  .card,
+  .experiencia-item,
+  .soft-skill-item,
+  .projeto-detalhes-wrapper {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background-opacity: 0.95 !important; /* Torna o fundo mais sólido para manter legibilidade */
+  }
+
+  /* 4. Desativar efeitos de brilho que seguem o mouse (não funcionam bem no touch) */
+  .header::before,
+  .hero-img-wrapper::after,
+  .card::after,
+  .btn-primary::before,
+  .btn-secondary::before {
+    display: none !important;
+  }
 }
