@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { FaArrowLeft, FaBuilding, FaCalendarAlt, FaChartLine, FaDatabase, FaUsers, FaClock, FaChartBar, FaHeadset, FaSearch, FaPython, FaCode } from "react-icons/fa";
 import { SiSalesforce, SiSelenium, SiPandas } from "react-icons/si";
@@ -17,7 +17,7 @@ const expData = {
   "assistente-planejamento-ti": {
     title: "Assistente de Planejamento de TI | MIS & Power BI",
     company: "VERMONT TI E CALL CENTER LTDA",
-    period: "Nov/2025 – Atual",
+    period: "Nov/2025 – Jul/2026",
     fullDescription: "Atuação estratégica no planejamento operacional da área de TI, focada na otimização de fluxos e suporte analítico para a diretoria técnica.",
     topics: [
       { icon: <FaChartLine />, text: "Monitoramento constante de indicadores de performance (KPIs) e SLAs." },
@@ -38,7 +38,7 @@ const expData = {
   "analista-suporte-automacoes": {
     title: "Analista de Suporte & Desenvolvedor de Automações",
     company: "Jotatei - Informática",
-    period: "Período Anterior",
+    period: "Mai/2023 – Dez/2024",
     fullDescription: "Especialista em resolução de problemas complexos e automação de processos internos para ganho de escala.",
     topics: [
       { icon: <FaHeadset />, text: "Suporte especializado nos sistemas SGD Express e Acione-me." },

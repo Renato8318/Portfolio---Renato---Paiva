@@ -56,9 +56,15 @@ function AppContent() {
   }, [darkMode]);
 
   const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
-    e.currentTarget.style.setProperty("--y", `${e.clientY - rect.top}px`);
+    const target = e.currentTarget;
+    const x = e.clientX;
+    const y = e.clientY;
+
+    requestAnimationFrame(() => {
+      const rect = target.getBoundingClientRect();
+      target.style.setProperty("--x", `${x - rect.left}px`);
+      target.style.setProperty("--y", `${y - rect.top}px`);
+    });
   };
 
   return (

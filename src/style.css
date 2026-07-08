@@ -37,6 +37,7 @@
 /* Scrollbar Estilo Dashboard */
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 ::-webkit-scrollbar-track {
   background: var(--bg-dark);
@@ -74,14 +75,12 @@ body.dark {
     linear-gradient(90deg, rgba(99, 102, 241, 0.07) 1px, transparent 1px),
     radial-gradient(circle at center, rgba(99, 102, 241, 0.03) 0%, transparent 80%);
   background-size: 60px 60px;
-  background-attachment: fixed;
-  /* background-position é pesado para animar, considere remover a animação do grid de fundo */
 }
 
 /* Se quiser manter a animação de fundo, use transform em um pseudo-elemento em vez de background-position */
 
 body:not(.dark) {
-  background: #f8fafc; /* Fundo Slate bem claro e limpo */
+  background-color: #f8fafc; /* Fundo Slate bem claro e limpo */
   color: #0f172a;
   --card-bg: #ffffff;
   --text-white: #0f172a; /* Agora os títulos h2 aparecem em preto azulado */
@@ -93,7 +92,6 @@ body:not(.dark) {
     linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
     linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
   background-size: 60px 60px;
-  background-attachment: fixed;
 
   /* Ajustes de Contraste para Modo Claro */
   --tech-pbi: #B45309;        /* Tom de âmbar mais escuro para fundo branco */
@@ -279,7 +277,7 @@ body.dark .header {
 .marquee-content {
   display: flex;
   white-space: nowrap;
-  animation: marquee 20s linear infinite;
+  animation: marquee 40s linear infinite;
 }
 
 .marquee-content span {
@@ -1766,20 +1764,14 @@ section {
 
 /* CERTIFICAÇÕES */
 .certificacoes-grid {
-  display: flex; /* Transforma em flexbox */
-  overflow-x: auto; /* Habilita a rolagem horizontal */
-  scroll-snap-type: x mandatory; /* Faz os itens "grudarem" ao rolar */
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
   gap: 25px;
   margin-top: 10px;
-  padding: 20px 10px; /* Aumentado para não cortar o efeito de hover */
-  justify-content: flex-start; /* Alinha os itens ao início */
-  scrollbar-width: none; /* Esconde a barra no Firefox */
-  -ms-overflow-style: none; /* Esconde no IE e Edge antigo */
-  align-items: center; 
-}
-
-.certificacoes-grid::-webkit-scrollbar {
-  display: none; /* Esconde a barra no Chrome, Safari e Edge moderno */
+  padding: 20px 10px;
+  justify-content: flex-start;
+  align-items: center;
 }
 
 .certificacao-item {
@@ -2226,6 +2218,23 @@ body:not(.dark) .btn-credential:hover {
     flex: 0 0 85%; /* Ocupa 85% da largura da tela no mobile */
     min-width: 260px;
     scroll-snap-align: center;
+  }
+
+  .experiencia-grid {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding: 20px 10px;
+    justify-content: flex-start;
+  }
+
+  .experiencia-item {
+    flex: 0 0 85%;
+    min-width: 280px;
+    scroll-snap-align: center;
+    max-height: 400px;
   }
   
   .nav-arrow {

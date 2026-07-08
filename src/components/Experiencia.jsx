@@ -18,10 +18,9 @@ const Experiencia = () => {
 
       <div className="experiencia-grid">
         <div className="experiencia-item destaque">
-          <span className="badge-destaque">Atual</span>
           
           <span className="exp-title" onMouseMove={handleMouseMove}>Assistente de Planejamento de TI | MIS & Power BI</span>
-          <span className="exp-company"><FaBuilding className="exp-icon" /> VERMONT TI E CALL CENTER LTDA | Nov/2025 – Atual</span>
+          <span className="exp-company"><FaBuilding className="exp-icon" /> VERMONT TI E CALL CENTER LTDA | Nov/2025 – Jul/2026</span>
           
           <ul className="exp-list">
             <li onMouseMove={handleMouseMove}>
@@ -63,7 +62,7 @@ const Experiencia = () => {
 
         <div className="experiencia-item">
           <span className="exp-title" onMouseMove={handleMouseMove}>Analista de Suporte & Desenvolvedor de Automações</span>
-          <span className="exp-company"><FaBuilding className="exp-icon" /> Jotatei - Informática</span>
+          <span className="exp-company"><FaBuilding className="exp-icon" /> Jotatei - Informática | Mai/2023 – Dez/2024</span>
           
           <ul className="exp-list">
             <li onMouseMove={handleMouseMove}>
