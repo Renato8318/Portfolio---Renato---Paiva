@@ -2,75 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaAward, FaCalendarAlt, FaChevronLeft, FaChevronRight, FaBuilding, FaPlus, FaUserGraduate, FaNetworkWired, FaPalette, FaLaptopCode, FaPython } from "react-icons/fa";
 
-const certificationsData = [
-  {
-    id: 6,
-    slug: "lean-six-sigma-yellow-belt",
-    title: "📊 Lean Six Sigma Yellow Belt",
-    issuer: "FM2S Educação e Consultoria",
-    date: "Maio de 2026",
-    description: "Certificação em melhoria contínua, análise estratégica de processos e otimização de resultados baseada em dados.",
-    img: "/img/certificado-lean-six-sigma.jpg",
-    credentialUrl: "", 
-    icon: <FaAward />,
-    destaque: true,
-  },
-  {
-    id: 1,
-    slug: "analise-desenvolvimento-sistemas",
-    title: "🎓 Tecnólogo em Análise e Desenvolvimento de Sistemas",
-    issuer: "Universidade Cruzeiro do Sul",
-    date: "2022 - 2024",
-    description: "Capacitação em desenvolvimento de software, banco de dados, análise de requisitos, arquitetura de sistemas e metodologias ágeis, com foco em tecnologia, inovação e resolução de problemas.",
-    img: "/img/diploma-ads.jpg", // Certifique-se de colocar a foto nesta pasta
-    credentialUrl: "", // Deixe vazio se não tiver link, ou coloque o link do LinkedIn/PDF
-    icon: <FaUserGraduate />,
-  },
-  {
-    id: 2,
-    slug: "redes-computadores-alura",
-    title: "🌐 Redes de Computadores",
-    issuer: "Alura",
-    date: "18 de Junho de 2025",
-    description: "🚀 Finalização de 4 cursos da Trilha Alura focados em infraestrutura, conectividade e segurança.",
-    img: "/img/certificado-alura-redes.jpg", 
-    credentialUrl: "", 
-    icon: <FaNetworkWired />,
-  },
-  {
-    id: 3,
-    slug: "ui-design-devs-alura",
-    title: "🎨 Formação UI Design para Devs",
-    issuer: "Alura",
-    date: "Junho de 2025",
-    description: "✨ Formação focada em fundamentos de design, heurísticas e animações para desenvolvedores.",
-    img: "/img/certificado-alura-ui.jpg", // Salve a imagem com este nome na pasta public/img/
-    credentialUrl: "", 
-    icon: <FaPalette />,
-  },
-  {
-    id: 4,
-    slug: "desenvolvimento-frontend-alura",
-    title: "💻 Formação Desenvolvimento Front-end",
-    issuer: "Alura",
-    date: "Junho de 2025",
-    description: "⚡ Cursos focados na criação de aplicações web dinâmicas, manipulação do DOM e Node.js.",
-    img: "/img/certificado-alura-frontend.jpg", // Salve a imagem com este nome na pasta public/img/
-    credentialUrl: "", 
-    icon: <FaLaptopCode />,
-  },
-  {
-    id: 5,
-    slug: "python-oo-alura",
-    title: "🐍 Python: aplicando a Orientação a Objetos",
-    issuer: "Alura",
-    date: "Junho de 2025",
-    description: "⚙️ Desenvolvimento de competências em Programação Orientada a Objetos com Python.",
-    img: "/img/certificado-alura-python-oo.jpg", // Nome sugerido para a imagem
-    credentialUrl: "", 
-    icon: <FaPython />,
-  }
-];
+import { certificacoesData as certificationsData } from "../data/certificacoesData";
 
 const Certificacoes = () => {
   const scrollRef = useRef(null);

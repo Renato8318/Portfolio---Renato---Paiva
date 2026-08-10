@@ -2,49 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import ProjectCard from "./ProjectCard";
 import { FaClock, FaPlay, FaPaw, FaChartLine, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 
-const projetos = [
-  {
-    title: "PlanVision",
-    icon: <FaChartLine />,
-    slug: "planvision",
-    description: "Plataforma de gestão operacional, inteligência de negócios e controle de RH com Analytics.",
-    tech: ["React", "Vite", "Recharts", "CSS3"],
-    img: "/img/planvision.png",
-    linkDemo: "https://plan-vision.vercel.app/",
-    linkGit: "https://github.com/Renato8318/PlanVision",
-    destaque: true
-  },
-  {
-    title: "Veritime",
-    icon: <FaClock />,
-    slug: "veritime",
-    description: "Gestão de ponto eletrônico em tempo real com persistência local.",
-    tech: ["React", "JavaScript", "CSS3"],
-    img: "/img/veritime.png",
-    linkDemo: "https://projeto-controle-ponto.vercel.app/",
-    linkGit: "https://github.com/Renato8318/ProjetoControlePonto"
-  },
-  {
-    title: "SessãoPlay",
-    icon: <FaPlay />,
-    slug: "sessaoplay",
-    description: "Streaming de filmes com API.",
-    tech: ["JavaScript", "CSS", "TMDB API"],
-    img: "/img/sessaoplay.png",
-    linkDemo: "https://meu-clone-nu-nine-32.vercel.app/",
-    linkGit: "https://github.com/Renato8318/Netflix-Clone"
-  },
-  {
-    title: "Amicão",
-    icon: <FaPaw />,
-    slug: "amicao",
-    description: "Adoção de cães online.",
-    tech: ["HTML", "CSS", "JavaScript"],
-    img: "/img/amicao.png",
-    linkDemo: "https://adoteum-pet.vercel.app/?theme=light",
-    linkGit: "https://github.com/Renato8318/AdoteumPet"
-  }
-];
+import { projetosData as projetos } from "../data/projetosData";
 
 const Projetos = () => {
   const scrollRef = useRef(null);

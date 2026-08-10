@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaPython, FaHeadset, FaBuilding, FaSearch, FaChartLine, FaDatabase, FaUsers, FaClock, FaChartBar, FaPlus } from "react-icons/fa";
-import { SiSalesforce, SiSelenium, SiPandas } from "react-icons/si";
+import { FaBuilding, FaPlus } from "react-icons/fa";
+import { experienciaData } from "../data/experienciaData";
 
 const Experiencia = () => {
   const handleMouseMove = (e) => {
@@ -17,86 +17,42 @@ const Experiencia = () => {
       </h2>
 
       <div className="experiencia-grid">
-        <div className="experiencia-item destaque">
-          
-          <span className="exp-title" onMouseMove={handleMouseMove}>Assistente de Planejamento de TI | MIS & Power BI</span>
-          <span className="exp-company"><FaBuilding className="exp-icon" /> VERMONT TI E CALL CENTER LTDA | Nov/2025 – Jul/2026</span>
-          
-          <ul className="exp-list">
-            <li onMouseMove={handleMouseMove}>
-              <FaChartLine className="exp-icon" /> 
-              <span>Atuação estratégica no planejamento operacional de TI, acompanhando indicadores de performance, produtividade e SLAs (Service Level Agreement).</span>
-            </li>
-            <li onMouseMove={handleMouseMove}>
-              <FaClock className="exp-icon" /> 
-              <span>Responsável por atividades de Tráfego & MIS: monitoramento em tempo real, análise de volumetria e dimensionamento de recursos.</span>
-            </li>
-            <li className="exp-highlight" onMouseMove={handleMouseMove}>
-              <div className="exp-highlight-header">
-                <FaChartBar className="exp-icon" /> <strong>Destaque em BI & Dashboards:</strong>
-              </div>
-              <p>
-                Criação de dashboards e relatórios analíticos em Power BI, transformando dados em informações estratégicas para tomada de decisão.
-              </p>
-              <div className="exp-tech-tags">
-                <span className="tech-tag-sm"><FaChartBar /> Power BI</span>
-                <span className="tech-tag-sm"><FaDatabase /> SQL</span>
-                <span className="tech-tag-sm"><FaChartLine /> MIS & KPI</span>
-              </div>
-            </li>
-            <li onMouseMove={handleMouseMove}>
-              <FaDatabase className="exp-icon" /> 
-              <span>Vivência com banco de dados, realizando consultas, extração, tratamento e consolidação de informações para geração de insights.</span>
-            </li>
-            <li onMouseMove={handleMouseMove}>
-              <FaUsers className="exp-icon" /> 
-              <span>Interface constante com áreas técnicas e lideranças, apoiando decisões estratégicas e otimização de processos das equipes.</span>
-            </li>
-          </ul>
-          <div className="exp-fade-overlay">
-            <Link to="/experiencia/assistente-planejamento-ti" className="btn-details" onMouseMove={handleMouseMove}>
-              <FaPlus style={{ fontSize: '0.7rem' }} /> Saber mais
-            </Link>
+        {experienciaData.map(exp => (
+          <div key={exp.slug} className={`experiencia-item ${exp.destaque ? "destaque" : ""}`}>
+            <span className="exp-title" onMouseMove={handleMouseMove}>{exp.title}</span>
+            <span className="exp-company"><FaBuilding className="exp-icon" /> {exp.company} | {exp.period}</span>
+            
+            <ul className="exp-list">
+              {exp.cardTopics.map((topic, index) => (
+                topic.isHighlight ? (
+                  <li key={index} className="exp-highlight" onMouseMove={handleMouseMove}>
+                    <div className="exp-highlight-header">
+                      {topic.headerIcon} <strong>{topic.headerText}</strong>
+                    </div>
+                    <p>{topic.text}</p>
+                    {topic.tags && (
+                      <div className="exp-tech-tags">
+                        {topic.tags.map((tag, i) => (
+                          <span key={i} className="tech-tag-sm">{tag.icon} {tag.name}</span>
+                        ))}
+                      </div>
+                    )}
+                  </li>
+                ) : (
+                  <li key={index} onMouseMove={handleMouseMove}>
+                    <span className="exp-icon">{topic.icon}</span>
+                    <span>{topic.text}</span>
+                  </li>
+                )
+              ))}
+            </ul>
+            <div className="exp-fade-overlay">
+              <Link to={`/experiencia/${exp.slug}`} className="btn-details" onMouseMove={handleMouseMove}>
+                <FaPlus style={{ fontSize: '0.7rem' }} /> Saber mais
+              </Link>
+            </div>
           </div>
-        </div>
-
-        <div className="experiencia-item">
-          <span className="exp-title" onMouseMove={handleMouseMove}>Analista de Suporte & Desenvolvedor de Automações</span>
-          <span className="exp-company"><FaBuilding className="exp-icon" /> Jotatei - Informática | Mai/2023 – Dez/2024</span>
-          
-          <ul className="exp-list">
-            <li onMouseMove={handleMouseMove}>
-              <FaHeadset className="exp-icon" /> 
-              <span>Atuação em suporte técnico especializado nos sistemas empresariais <strong>SGD Express</strong> e <strong>Acione-me</strong>, garantindo alta disponibilidade e excelência no atendimento.</span>
-            </li>
-            <li onMouseMove={handleMouseMove}>
-              <SiSalesforce className="exp-icon" /> 
-              <span>Análise de dados e geração de relatórios via <strong>Salesforce</strong>, com foco em monitoramento de KPIs e suporte à tomada de decisão.</span>
-            </li>
-            <li className="exp-highlight" onMouseMove={handleMouseMove}>
-              <div className="exp-highlight-header">
-                <FaPython className="exp-icon" /> <strong>Destaque em Automação:</strong>
-              </div>
-              <p>
-                Desenvolvimento de robôs de <strong>Web Scraping</strong> e automações de processos repetitivos, otimizando o fluxo de trabalho interno.
-              </p>
-              <div className="exp-tech-tags">
-                <span className="tech-tag-sm"><FaPython /> Python</span>
-                <span className="tech-tag-sm"><SiSelenium /> Selenium</span>
-                <span className="tech-tag-sm"><SiPandas /> Pandas</span>
-              </div>
-            </li>
-            <li onMouseMove={handleMouseMove}>
-              <FaSearch className="exp-icon" /> 
-              <span>Investigação e resolução de falhas técnicas com abordagem analítica, entregando soluções personalizadas para o negócio.</span>
-            </li>
-          </ul>
-          <div className="exp-fade-overlay">
-            <Link to="/experiencia/analista-suporte-automacoes" className="btn-details" onMouseMove={handleMouseMove}>
-              <FaPlus style={{ fontSize: '0.7rem' }} /> Saber mais
-            </Link>
-          </div>
-        </div>
+        ))}
       </div>
     </section>
   );

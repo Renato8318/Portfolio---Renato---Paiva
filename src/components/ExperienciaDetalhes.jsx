@@ -3,75 +3,12 @@ import { useParams, Link } from "react-router-dom";
 import { FaArrowLeft, FaBuilding, FaCalendarAlt, FaChartLine, FaDatabase, FaUsers, FaClock, FaChartBar, FaHeadset, FaSearch, FaPython, FaCode } from "react-icons/fa";
 import { SiSalesforce, SiSelenium, SiPandas } from "react-icons/si";
 
-// Função utilitária para converter HEX para RGB
-const hexToRgb = (hex) => {
-  if (!hex) return '99, 102, 241'; // Default primary color RGB
-  const bigint = parseInt(hex.slice(1), 16);
-  const r = (bigint >> 16) & 255;
-  const g = (bigint >> 8) & 255;
-  const b = bigint & 255;
-  return `${r}, ${g}, ${b}`;
-};
+import { experienciaData } from "../data/experienciaData";
 
-const expData = {
-  "assistente-planejamento-ti": {
-    title: "Assistente de Planejamento de TI | MIS & Power BI",
-    company: "VERMONT TI E CALL CENTER LTDA",
-    period: "Nov/2025 – Jul/2026",
-    fullDescription: "Atuação estratégica no planejamento operacional da área de TI, focada na otimização de fluxos e suporte analítico para a diretoria técnica.",
-    topics: [
-      { icon: <FaChartLine />, text: "Monitoramento constante de indicadores de performance (KPIs) e SLAs." },
-      { icon: <FaClock />, text: "Gestão de tráfego e MIS: forecast de demanda e dimensionamento preciso de recursos humanos e técnicos." },
-      { icon: <FaChartBar />, text: "Desenvolvimento de dashboards complexos em Power BI integrando múltiplas fontes de dados." },
-      { icon: <FaDatabase />, text: "Criação de queries SQL para extração e tratamento de grandes volumes de dados." },
-      { icon: <FaUsers />, text: "Apoio consultivo a lideranças para otimização de produtividade e redução de custos operacionais." }
-    ],
-    accentColor: "#00bfff", // Deep Sky Blue
-    accentColorRgb: hexToRgb("#00bfff"),
-    techTags: [
-      { name: "Power BI", icon: <FaChartBar />, color: "var(--tech-pbi)" },
-      { name: "SQL", icon: <FaDatabase />, color: "var(--tech-sql)" },
-      { name: "MIS", icon: <FaChartLine />, color: "var(--primary-color)" },
-      { name: "Planejamento Estratégico", icon: <FaUsers />, color: "#10B981" }
-    ]
-  },
-  "analista-suporte-automacoes": {
-    title: "Analista de Suporte & Desenvolvedor de Automações",
-    company: "Jotatei - Informática",
-    period: "Mai/2023 – Dez/2024",
-    fullDescription: "Especialista em resolução de problemas complexos e automação de processos internos para ganho de escala.",
-    topics: [
-      { icon: <FaHeadset />, text: "Suporte especializado nos sistemas SGD Express e Acione-me." },
-      { icon: <SiSalesforce />, text: "Administração e extração de dados analíticos via Salesforce." },
-      { icon: <FaPython />, text: "Desenvolvimento de scripts Python para automação de tarefas repetitivas (RPA)." },
-      { icon: <FaSearch />, text: "Análise de causa raiz para falhas críticas de sistema." }
-    ],
-    accentColor: "#8a2be2", // Blue Violet
-    accentColorRgb: hexToRgb("#8a2be2"),
-    techTags: [
-      { name: "Python", icon: <FaPython />, color: "var(--tech-python)" },
-      { name: "Selenium", icon: <SiSelenium />, color: "var(--tech-selenium)" },
-      { name: "Salesforce", icon: <SiSalesforce />, color: "var(--tech-salesforce)" },
-      { name: "RPA", icon: <FaCode />, color: "var(--tech-rpa)" },
-    ]
-  }
-};
-
-// Adiciona accentColorRgb a cada objeto de experiência
-Object.keys(expData).forEach(key => {
-  // Garante que accentColor e accentColorRgb existam, com fallback para primary-color
-  expData[key].accentColor = expData[key].accentColor || '#6366f1';
-  expData[key].accentColorRgb = hexToRgb(expData[key].accentColor);
-
-  // Corrige a estrutura de techTags se necessário, garantindo que accentColorRgb não seja adicionado lá
-  if (Array.isArray(expData[key].techTags)) {
-    // Não precisa fazer nada aqui, pois accentColorRgb é para o objeto principal
-  }
-});
 
 const ExperienciaDetalhes = () => {
   const { slug } = useParams();
-  const exp = expData[slug];
+  const exp = experienciaData.find(e => e.slug === slug);
 
   useEffect(() => {
     window.scrollTo(0, 0);
