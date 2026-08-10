@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
-import { FaGithub, FaLinkedin, FaRocket, FaArrowLeft, FaWhatsapp, FaHeart, FaThumbsUp, FaChevronLeft, FaChevronRight, FaHistory, FaFilm, FaPaw } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaRocket, FaArrowLeft, FaWhatsapp, FaHeart, FaThumbsUp, FaChevronLeft, FaChevronRight, FaHistory, FaFilm, FaPaw, FaChartLine } from "react-icons/fa";
 import { SiVercel } from "react-icons/si";
 
 // Função utilitária para converter HEX para RGB
@@ -14,6 +14,26 @@ const hexToRgb = (hex) => {
 };
 
 const detalhesData = {
+  planvision: {
+    title: "PlanVision",
+    icon: <FaChartLine />,
+    tagline: "PlanVision — Gestão Operacional e Analytics Integrados",
+    descricao: "Plataforma avançada de gestão operacional, inteligência de negócios e controle de RH com integração de Analytics.",
+    problema: "A tomada de decisão em muitas empresas é prejudicada pela falta de dados centralizados e análises em tempo real.",
+    solucao: "Desenvolvimento de um dashboard dinâmico que unifica dados operacionais, de RH e métricas de negócios, facilitando o monitoramento e a estratégia.",
+    desafio: "Garantir a performance da aplicação ao lidar com múltiplos gráficos e grandes volumes de dados no frontend.",
+    decisaoTecnica: "Utilização do React com Vite para build rápido, e Recharts para a renderização otimizada e interativa dos dados.",
+    aprendizado: "Aprofundamento na construção de dashboards interativos, manipulação de estados complexos e visualização de dados.",
+    resultado: "Uma ferramenta que centraliza a gestão, fornecendo insights valiosos e melhorando a eficiência operacional das equipes.",
+    contexto: "Criado para demonstrar capacidades avançadas na criação de painéis gerenciais e interfaces de análise de dados.",
+    imagem: "/img/planvision.png",
+    tech: ["React", "Vite", "Recharts", "CSS3"],
+    linkDemo: "https://plan-vision.vercel.app/",
+    linkGit: "https://github.com/Renato8318/PlanVision",
+    accentColor: "#a855f7",
+    accentColorRgb: hexToRgb("#a855f7"),
+    screenshots: ["/img/planvision.png", "/img/planvision-ss1.png", "/img/planvision-ss2.png"]
+  },
   veritime: {
     title: "Veritime",
     icon: <FaHistory />,

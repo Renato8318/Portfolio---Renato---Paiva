@@ -132,16 +132,15 @@ function AppContent() {
       <div className="greeting-marquee">
         <div className="marquee-content">
           <span>
-            {greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PLANNING & MIS // POWER BI // PYTHON AUTOMATION // [ STATUS: OPEN TO WORK ] // {greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PLANNING & MIS // POWER BI // PYTHON AUTOMATION // [ STATUS: OPEN TO WORK ] //
+            {`${greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PLANNING & MIS // POWER BI // PYTHON AUTOMATION // [ STATUS: OPEN TO WORK ] // ${greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PLANNING & MIS // POWER BI // PYTHON AUTOMATION // [ STATUS: OPEN TO WORK ] //`}
           </span>
           <span>
-            {greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PLANNING & MIS // POWER BI // PYTHON AUTOMATION // [ STATUS: OPEN TO WORK ] // {greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PLANNING & MIS // POWER BI // PYTHON AUTOMATION // [ STATUS: OPEN TO WORK ] //
+            {`${greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PLANNING & MIS // POWER BI // PYTHON AUTOMATION // [ STATUS: OPEN TO WORK ] // ${greeting} // RENATO PAIVA :: FRONT-END DEVELOPER // PLANNING & MIS // POWER BI // PYTHON AUTOMATION // [ STATUS: OPEN TO WORK ] //`}
           </span>
         </div>
       </div>
 
       <Routes>
-        {/* Rota da Página Principal */}
         <Route path="/" element={
           <main className="container">
             <Hero />
