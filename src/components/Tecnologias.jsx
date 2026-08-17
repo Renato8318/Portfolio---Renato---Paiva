@@ -1,6 +1,7 @@
 import React from "react";
 import { FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaPython, FaGitAlt, FaDatabase, FaCode, FaChartBar } from 'react-icons/fa';
 import { SiSalesforce } from 'react-icons/si';
+import ScrambleText from './ScrambleText';
 const technologiesData = [
   { name: "HTML5", icon: <FaHtml5 /> },
   { name: "CSS3", icon: <FaCss3Alt /> },
@@ -31,7 +32,7 @@ const Tecnologias = () => {
       </div>
 
       <h2 onMouseMove={handleMouseMove}>
-        Tecnologias
+        <ScrambleText text="Tecnologias" />
       </h2>
 
       <ul className="tech-list">

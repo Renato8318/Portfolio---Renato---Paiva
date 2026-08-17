@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
+import ScrambleText from "./ScrambleText";
 
 const Hero = () => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -24,11 +25,11 @@ const Hero = () => {
       <div className="hero-container">
         <div className="hero-text">
           <h1>
-            <span className="highlight">Olá, eu sou Renato Paiva</span>
+            <span className="highlight"><ScrambleText text="Olá, eu sou Renato Paiva" /></span>
           </h1>
 
           <p>
-            Desenvolvedor Front-end e Analista de Planejamento de TI especializado em transformar dados operacionais em decisões estratégicas através de Dashboards e Automações.
+            Desenvolvedor Web e Analista de Planejamento de TI especializado em transformar dados operacionais em decisões estratégicas através de Dashboards e Automações.
           </p>
 
           <div className="buttons">

@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaBuilding, FaPlus } from "react-icons/fa";
 import { experienciaData } from "../data/experienciaData";
+import ScrambleText from "./ScrambleText";
 
 const Experiencia = () => {
   const handleMouseMove = (e) => {
@@ -13,7 +14,7 @@ const Experiencia = () => {
   return (
     <section id="experiencia" className="experiencia" data-aos="fade-up">
       <h2 onMouseMove={handleMouseMove}>
-        Experiência
+        <ScrambleText text="Experiência" />
       </h2>
 
       <div className="experiencia-grid">

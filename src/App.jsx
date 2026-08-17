@@ -11,7 +11,9 @@ import Certificacoes from "./components/Certificacoes"; // Import new component
 import Experiencia from "./components/Experiencia";
 import ProjetoDetalhes from "./components/ProjetoDetalhes";
 import ExperienciaDetalhes from "./components/ExperienciaDetalhes";
-import CertificacaoDetalhes from "./components/CertificacaoDetalhes"; // Certifique-se que esta linha está presente
+import CertificacaoDetalhes from "./components/CertificacaoDetalhes";
+import ScrambleText from "./components/ScrambleText";
+import CustomCursor from "./components/CustomCursor";
 
 function AppContent() {
   const [greeting, setGreeting] = useState("");
@@ -92,6 +94,7 @@ function AppContent() {
 
   return (
     <>
+      <CustomCursor />
       {/* Camada de Fundo Viva (Nós e Conexões) */}
       <div className="bg-tech-layer">
         <div className="data-node n1"></div>
@@ -194,7 +197,7 @@ function AppContent() {
       <footer id="contato" className="footer">
         <div className="container">
           <h2 onMouseMove={handleMouseMove}>
-            Contato
+            <ScrambleText text="Contato" />
           </h2>
           <p>Vamos trabalhar juntos? Me chame em uma das redes:</p>
           <div className="contact-links">

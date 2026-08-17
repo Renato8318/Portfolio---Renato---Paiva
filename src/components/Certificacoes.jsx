@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FaAward, FaCalendarAlt, FaChevronLeft, FaChevronRight, FaBuilding, FaPlus, FaUserGraduate, FaNetworkWired, FaPalette, FaLaptopCode, FaPython } from "react-icons/fa";
+import ScrambleText from "./ScrambleText";
 
 import { certificacoesData as certificationsData } from "../data/certificacoesData";
 
@@ -49,7 +50,7 @@ const Certificacoes = () => {
 
   return (
     <section id="certificacoes" className="certificacoes" data-aos="fade-up">
-      <h2 onMouseMove={handleMouseMove}>Certificações</h2>
+      <h2 onMouseMove={handleMouseMove}><ScrambleText text="Certificações" /></h2>
       
       <div className="certificacoes-wrapper">
         <button 

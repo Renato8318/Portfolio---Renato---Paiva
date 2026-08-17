@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import ProjectCard from "./ProjectCard";
 import { FaClock, FaPlay, FaPaw, FaChartLine, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import ScrambleText from "./ScrambleText";
 
 import { projetosData as projetos } from "../data/projetosData";
 
@@ -49,7 +50,7 @@ const Projetos = () => {
   return (
     <section id="projetos" className="projetos" data-aos="fade-up">
       <h2 onMouseMove={handleMouseMove}>
-        Meus Projetos
+        <ScrambleText text="Meus Projetos" />
       </h2>
 
       <div className="certificacoes-wrapper">
