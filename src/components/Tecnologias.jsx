@@ -1,7 +1,6 @@
 import React from "react";
 import { FaHtml5, FaCss3Alt, FaJsSquare, FaReact, FaPython, FaGitAlt, FaDatabase, FaCode, FaChartBar } from 'react-icons/fa';
 import { SiSalesforce } from 'react-icons/si';
-
 const technologiesData = [
   { name: "HTML5", icon: <FaHtml5 /> },
   { name: "CSS3", icon: <FaCss3Alt /> },

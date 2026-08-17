@@ -37,7 +37,7 @@ const ProjectCard = ({
           <div className="corner bl"></div>
           <div className="corner br"></div>
         </div>
-        <img src={img} alt={title} className="card-img" />
+        <img src={img} alt={title} className="card-img" loading="lazy" />
       </div>
 
       {/* Reações posicionadas logo abaixo da imagem */}

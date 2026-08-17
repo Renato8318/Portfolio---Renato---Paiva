@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation, Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css"; 
@@ -31,6 +31,7 @@ function AppContent() {
 
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const [activeSection, setActiveSection] = useState("home");
 
   // Função para formatar o link dinamicamente
   const getNavLink = (id) => {
@@ -44,6 +45,28 @@ function AppContent() {
     if (hours < 12) setGreeting("Bom dia");
     else if (hours < 18) setGreeting("Boa tarde");
     else setGreeting("Boa noite");
+
+    // IntersectionObserver para detectar seção ativa no menu
+    const sectionIds = ["home", "sobre", "tecnologias", "projetos", "certificacoes", "experiencia", "contato"];
+    const observers = [];
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: 0 }
+    );
+
+    sectionIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
   }, []); // Inicializa apenas uma vez
 
   useEffect(() => {
@@ -109,13 +132,13 @@ function AppContent() {
 
           <nav className={`nav ${menuOpen ? "open" : ""}`}>
             <ul className="nav-list" onClick={() => setMenuOpen(false)}>
-              <li><a href={getNavLink("home")}>Início</a></li>
-              <li><a href={getNavLink("sobre")}>Sobre</a></li>
-              <li><a href={getNavLink("tecnologias")}>Tecnologias</a></li>
-              <li><a href={getNavLink("projetos")}>Projetos</a></li>
-              <li><a href={getNavLink("certificacoes")}>Certificações</a></li> {/* Add new nav link */}
-              <li><a href={getNavLink("experiencia")}>Experiência</a></li>
-              <li><a href={getNavLink("contato")}>Contato</a></li>
+              <li><a href={getNavLink("home")} className={activeSection === 'home' ? 'nav-active' : ''}>Início</a></li>
+              <li><a href={getNavLink("sobre")} className={activeSection === 'sobre' ? 'nav-active' : ''}>Sobre</a></li>
+              <li><a href={getNavLink("tecnologias")} className={activeSection === 'tecnologias' ? 'nav-active' : ''}>Tecnologias</a></li>
+              <li><a href={getNavLink("projetos")} className={activeSection === 'projetos' ? 'nav-active' : ''}>Projetos</a></li>
+              <li><a href={getNavLink("certificacoes")} className={activeSection === 'certificacoes' ? 'nav-active' : ''}>Certificações</a></li>
+              <li><a href={getNavLink("experiencia")} className={activeSection === 'experiencia' ? 'nav-active' : ''}>Experiência</a></li>
+              <li><a href={getNavLink("contato")} className={activeSection === 'contato' ? 'nav-active' : ''}>Contato</a></li>
             </ul>
           </nav>
 

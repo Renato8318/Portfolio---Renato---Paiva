@@ -191,7 +191,7 @@ const ProjetoDetalhes = () => {
               <div className="corner tl"></div><div className="corner tr"></div>
               <div className="corner bl"></div><div className="corner br"></div>
             </div>
-            <img src={projeto.imagem} alt={projeto.title} className="card-img" />
+            <img src={projeto.imagem} alt={projeto.title} className="card-img" loading="lazy" />
           </div>
 
           {/* Seção de Reações logo abaixo da imagem na coluna da esquerda */}
@@ -244,17 +244,32 @@ const ProjetoDetalhes = () => {
           {/* Exibição Dinâmica dos Detalhes */}
           {projeto.descricao && <p>{projeto.descricao}</p>}
           
-          {projeto.problema && <p><strong>Problema:</strong> {projeto.problema}</p>}
-          {projeto.solucao && <p><strong>Solução:</strong> {projeto.solucao}</p>}
-          {projeto.desafio && <p><strong>Desafio:</strong> {projeto.desafio}</p>}
-          {projeto.decisaoTecnica && <p><strong>Decisão técnica:</strong> {projeto.decisaoTecnica}</p>}
-          {projeto.aprendizado && <p><strong>Aprendizado:</strong> {projeto.aprendizado}</p>}
-          
-          {projeto.resultado && (
-            <p className="impacto">
-              <strong>Resultado:</strong> {projeto.resultado}
-            </p>
-          )}
+          <div className="case-study-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginTop: '20px' }}>
+            {projeto.problema && <div className="case-study-item" style={{ background: 'rgba(255,255,255,0.05)', padding: '15px', borderRadius: '8px', borderLeft: `4px solid ${projeto.accentColor}` }}>
+              <h4 style={{ margin: '0 0 10px 0', color: projeto.accentColor }}>Problema</h4>
+              <p style={{ margin: 0, fontSize: '0.95rem' }}>{projeto.problema}</p>
+            </div>}
+            {projeto.desafio && <div className="case-study-item" style={{ background: 'rgba(255,255,255,0.05)', padding: '15px', borderRadius: '8px', borderLeft: `4px solid ${projeto.accentColor}` }}>
+              <h4 style={{ margin: '0 0 10px 0', color: projeto.accentColor }}>Desafio</h4>
+              <p style={{ margin: 0, fontSize: '0.95rem' }}>{projeto.desafio}</p>
+            </div>}
+            {projeto.solucao && <div className="case-study-item" style={{ background: 'rgba(255,255,255,0.05)', padding: '15px', borderRadius: '8px', borderLeft: `4px solid ${projeto.accentColor}` }}>
+              <h4 style={{ margin: '0 0 10px 0', color: projeto.accentColor }}>Solução</h4>
+              <p style={{ margin: 0, fontSize: '0.95rem' }}>{projeto.solucao}</p>
+            </div>}
+            {projeto.decisaoTecnica && <div className="case-study-item" style={{ background: 'rgba(255,255,255,0.05)', padding: '15px', borderRadius: '8px', borderLeft: `4px solid ${projeto.accentColor}` }}>
+              <h4 style={{ margin: '0 0 10px 0', color: projeto.accentColor }}>Decisão Técnica</h4>
+              <p style={{ margin: 0, fontSize: '0.95rem' }}>{projeto.decisaoTecnica}</p>
+            </div>}
+            {projeto.aprendizado && <div className="case-study-item" style={{ background: 'rgba(255,255,255,0.05)', padding: '15px', borderRadius: '8px', borderLeft: `4px solid ${projeto.accentColor}` }}>
+              <h4 style={{ margin: '0 0 10px 0', color: projeto.accentColor }}>Aprendizado</h4>
+              <p style={{ margin: 0, fontSize: '0.95rem' }}>{projeto.aprendizado}</p>
+            </div>}
+            {projeto.resultado && <div className="case-study-item impacto" style={{ background: 'rgba(255,255,255,0.05)', padding: '15px', borderRadius: '8px', borderLeft: `4px solid ${projeto.accentColor}` }}>
+              <h4 style={{ margin: '0 0 10px 0', color: projeto.accentColor }}>Resultado</h4>
+              <p style={{ margin: 0, fontSize: '0.95rem' }}>{projeto.resultado}</p>
+            </div>}
+          </div>
           
           {projeto.contexto && (
             <p className="contexto">
@@ -313,7 +328,7 @@ const ProjetoDetalhes = () => {
                   style={{ cursor: 'zoom-in' }}
                   onClick={() => setSelectedImage(img)}
                 >
-                  <img src={img} alt={`Screenshot ${idx + 1}`} className="card-img" />
+                  <img src={img} alt={`Screenshot ${idx + 1}`} className="card-img" loading="lazy" />
                 </div>
               ))}
             </div>
