@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 import ScrambleText from "./ScrambleText";
+import TypingText from "./TypingText";
 
 const Hero = () => {
   const [isFlipped, setIsFlipped] = useState(false);
@@ -29,7 +30,13 @@ const Hero = () => {
           </h1>
 
           <p>
-            Desenvolvedor Web e Analista de Planejamento de TI especializado em transformar dados operacionais em decisões estratégicas através de Dashboards e Automações.
+            <TypingText
+              text="Desenvolvedor Web & Analista de Dados — transformando dados em decisões estratégicas."
+              speed={40}
+              deleteSpeed={20}
+              pauseDelay={3000}
+              loop={true}
+            />
           </p>
 
           <div className="buttons">

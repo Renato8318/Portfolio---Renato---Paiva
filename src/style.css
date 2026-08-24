@@ -88,21 +88,40 @@ body:not(.dark) {
   background-color: #f8fafc; /* Fundo Slate bem claro e limpo */
   color: #0f172a;
   --card-bg: #ffffff;
-  --text-white: #0f172a; /* Agora os títulos h2 aparecem em preto azulado */
-  --text-gray: #334155;
-  --border-subtle: rgba(16, 185, 129, 0.1);
+  --text-white: #0f172a; /* Títulos e textos principais em slate escuro */
+  --text-gray: #475569;
+  --border-subtle: rgba(16, 185, 129, 0.16);
+  --glass-border: rgba(16, 185, 129, 0.22);
   
-  /* Subtle grid para o modo claro */
+  /* Grid técnico sutil para o modo claro */
   background-image: 
-    linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px);
+    linear-gradient(rgba(16, 185, 129, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.04) 1px, transparent 1px);
   background-size: 60px 60px;
 
   /* Ajustes de Contraste para Modo Claro */
-  --tech-pbi: #B45309;        /* Tom de âmbar mais escuro para fundo branco */
+  --tech-pbi: #B45309;        /* Âmbar escuro para fundo branco */
   --tech-salesforce: #0070D2; /* Azul Salesforce mais profundo */
   --tech-selenium: #15803D;   /* Verde mais fechado */
-  background-image: radial-gradient(rgba(99, 102, 241, 0.08) 1px, transparent 1px);
+}
+
+/* Fundo Aurora Light dinâmico (Tons suaves de Menta, Esmeralda e Gelo) */
+body:not(.dark)::before {
+  content: "";
+  position: fixed;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
+  background:
+    radial-gradient(ellipse at 25% 25%, rgba(16, 185, 129, 0.09) 0%, transparent 50%),
+    radial-gradient(ellipse at 75% 75%, rgba(14, 165, 233, 0.07) 0%, transparent 50%),
+    radial-gradient(ellipse at 60% 15%, rgba(52, 211, 153, 0.08) 0%, transparent 45%),
+    radial-gradient(ellipse at 15% 85%, rgba(20, 184, 166, 0.08) 0%, transparent 45%);
+  z-index: 0;
+  pointer-events: none;
+  animation: aurora-drift 22s ease-in-out infinite alternate;
+  will-change: transform;
 }
 
 /* CAMADA DE NÓS DE DADOS FLUTUANTES */
@@ -127,8 +146,8 @@ body:not(.dark) {
 }
 
 body:not(.dark) .data-node {
-  opacity: 0.08; /* Menos visível no modo claro */
-  filter: blur(0.5px) drop-shadow(0 0 4px rgba(99, 102, 241, 0.2)); /* Brilho mais suave */
+  opacity: 0.08;
+  filter: blur(0.5px) drop-shadow(0 0 4px rgba(16, 185, 129, 0.2));
 }
 
 .n1 { top: 20%; left: 10%; animation: floatNode 8s infinite alternate; }
@@ -168,21 +187,30 @@ body:not(.dark) .data-node {
   }
 }
 
-/* Adiciona brilhos (glows) tecnológicos ao fundo no modo Dark */
+/* Fundo Aurora animado em tons de Emerald + Teal + Deep Green */
 body.dark::before {
   content: "";
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: -20%;
+  left: -20%;
+  width: 140%;
+  height: 140%;
   background:
-    radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.2) 0%, transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(6, 182, 212, 0.15) 0%, transparent 40%);
+    radial-gradient(ellipse at 20% 30%, rgba(16, 185, 129, 0.22) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(20, 184, 166, 0.16) 0%, transparent 50%),
+    radial-gradient(ellipse at 55% 10%, rgba(5, 150, 105, 0.12) 0%, transparent 45%),
+    radial-gradient(ellipse at 10% 80%, rgba(6, 95, 70, 0.14) 0%, transparent 45%);
   z-index: 0;
   pointer-events: none;
-  /* Mesh flow fixo ou com animação simplificada */
+  animation: aurora-drift 18s ease-in-out infinite alternate;
   will-change: transform;
+}
+
+@keyframes aurora-drift {
+  0%   { transform: translate(0%, 0%) scale(1); }
+  33%  { transform: translate(3%, -2%) scale(1.04); }
+  66%  { transform: translate(-2%, 3%) scale(0.97); }
+  100% { transform: translate(2%, 1%) scale(1.02); }
 }
 
 @keyframes meshFlow {
@@ -242,7 +270,7 @@ body.dark::after {
   inset: 0;
   background: radial-gradient(
     circle 150px at var(--x, 50%) var(--y, 50%),
-    rgba(99, 102, 241, 0.2),
+    rgba(16, 185, 129, 0.15),
     transparent 80%
   );
   z-index: -1;
@@ -262,7 +290,7 @@ body.dark .header {
 /* ESTILO DO LETREIRO (MARQUEE) */
 .greeting-marquee {
   margin-top: 70px; /* Logo abaixo do header fixo */
-  background: rgba(99, 102, 241, 0.05);
+  background: rgba(16, 185, 129, 0.05);
   color: var(--primary-color);
   padding: 12px 0;
   font-family: 'JetBrains Mono', monospace; /* Toque técnico */
@@ -273,10 +301,10 @@ body.dark .header {
   position: relative;
   display: flex;
   z-index: 999;
-  border-top: 1px solid rgba(99, 102, 241, 0.2);
-  border-bottom: 1px solid rgba(99, 102, 241, 0.2);
-  letter-spacing: 4px; /* Resolve o problema das letras muito próximas */
-  text-shadow: 0 0 8px rgba(99, 102, 241, 0.3);
+  border-top: 1px solid rgba(16, 185, 129, 0.2);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+  letter-spacing: 4px;
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
 }
 
 .marquee-content {
@@ -398,13 +426,13 @@ body.dark .header {
 
 .nav-list a:hover {
   color: var(--primary-color);
-  text-shadow: 0 0 8px rgba(99, 102, 241, 0.5);
+  text-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
 }
 
 /* ── Indicador de Seção Ativa no Menu ── */
 .nav-list a.nav-active {
   color: var(--primary-color);
-  text-shadow: 0 0 10px rgba(99, 102, 241, 0.7);
+  text-shadow: 0 0 10px rgba(16, 185, 129, 0.7);
 }
 
 .nav-list a.nav-active::before {
@@ -434,10 +462,10 @@ body.dark .header {
 }
 
 body:not(.dark) .greeting-marquee {
-  background: rgba(99, 102, 241, 0.05); /* Fundo índigo claro */
+  background: rgba(16, 185, 129, 0.05); /* Fundo sutil esmeralda */
   color: var(--primary-color);
-  border-top: 1px solid rgba(99, 102, 241, 0.1);
-  border-bottom: 1px solid rgba(99, 102, 241, 0.1);
+  border-top: 1px solid rgba(16, 185, 129, 0.1);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.1);
   text-shadow: none; /* Remove text shadow para modo claro */
 }
 
@@ -453,7 +481,7 @@ body:not(.dark) .greeting-marquee {
 
 .dark-toggle:hover {
   border-color: var(--primary-color);
-  box-shadow: 0 0 15px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
 }
 
 /* Estilo para a seção de contato no rodapé */
@@ -574,7 +602,7 @@ body:not(.dark) .footer {
   content: "";
   position: absolute;
   inset: -20px -50px; /* Aumentado a área lateral do brilho */
-  background: radial-gradient(circle at center, rgba(99, 102, 241, 0.3), transparent 75%);
+  background: radial-gradient(circle at center, rgba(16, 185, 129, 0.25), transparent 75%);
   z-index: -1;
   animation: pulseNameGlow 3s infinite ease-in-out;
   pointer-events: none;
@@ -586,7 +614,7 @@ body:not(.dark) .highlight {
 
 /* Animação de brilho mais suave para o nome no modo claro */
 body:not(.dark) .highlight::before {
-  background: radial-gradient(circle at center, rgba(99, 102, 241, 0.15), transparent 75%); /* Brilho mais suave */
+  background: radial-gradient(circle at center, rgba(16, 185, 129, 0.12), transparent 75%); /* Brilho mais suave */
   animation: pulseNameGlowLight 3s infinite ease-in-out; /* Nova animação para modo claro */
 }
 
@@ -719,7 +747,7 @@ body:not(.dark) .highlight::before {
   content: "";
   position: absolute;
   inset: 5px; /* Começa levemente expandido para o efeito de "snap" */
-  background: radial-gradient(circle 150px at var(--x, 50%) var(--y, 50%), rgba(99, 102, 241, 0.3), transparent 70%) no-repeat;
+  background: radial-gradient(circle 150px at var(--x, 50%) var(--y, 50%), rgba(16, 185, 129, 0.3), transparent 70%) no-repeat;
   z-index: 4;
   pointer-events: none;
   opacity: 0;
@@ -782,8 +810,8 @@ body:not(.dark) .highlight::before {
   height: 100%;
   backface-visibility: hidden;
   border-radius: 50%;
-  border: 1.5px solid var(--primary-color) !important; /* Força a borda neon indigo */
-  box-shadow: 0 0 15px rgba(99, 102, 241, 0.6); /* Glow neon consistente */
+  border: 1.5px solid var(--primary-color) !important; /* Força a borda neon */
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); /* Glow neon consistente */
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -813,7 +841,7 @@ body:not(.dark) .highlight::before {
 .hero-img-wrapper:hover .hero-img-card {
   box-shadow: 
     -10px 10px 20px rgba(0, 0, 0, 0.5),
-    0 0 20px rgba(99, 102, 241, 0.4);
+    0 0 20px rgba(16, 185, 129, 0.4);
   border-color: var(--primary-color);
 }
 
@@ -827,7 +855,7 @@ body:not(.dark) .highlight::before {
 .ring-1 {
   width: 350px;
   height: 350px;
-  border: 2px dashed rgba(99, 102, 241, 0.4);
+  border: 2px dashed rgba(16, 185, 129, 0.35);
   opacity: 0.5;
   animation: rotateClockwise 10s linear infinite;
 }
@@ -835,7 +863,7 @@ body:not(.dark) .highlight::before {
 .ring-2 {
   width: 390px;
   height: 390px;
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.2);
   border-top: 3px solid var(--primary-color);
   animation: rotateCounterClockwise 7s linear infinite;
 }
@@ -873,88 +901,98 @@ body:not(.dark) .highlight::before {
   color: var(--text-gray);
 }
 
-/* ESTILIZAÇÃO PADRÃO PARA TÍTULOS DE SEÇÃO */
+/* ESTILIZAÇÃO PADRÃO PARA TÍTULOS DE SEÇÃO - OPÇÃO 2: HUD & LASER SCANLINE */
 section h2, .footer h2, .projeto-detalhes-page h1 {
   font-family: 'Space Grotesk', sans-serif;
   font-size: 2.8rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1px;
-  margin-bottom: 30px; /* Reduzido para aproximar o título do conteúdo */
+  margin-bottom: 30px;
   position: relative;
   display: inline-block;
   color: var(--text-white);
   z-index: 1;
-  cursor: default;
-  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  padding: 8px 16px;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Linha Laser de Varredura (Scanline Horizontal) */
 section h2::before, .footer h2::before, .projeto-detalhes-page h1::before {
   content: "";
   position: absolute;
-  inset: -30px;
-  background: radial-gradient(
-    circle 200px at var(--x, 50%) var(--y, 50%),
-    rgba(99, 102, 241, 0.4),
-    transparent 80%
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(16, 185, 129, 0.08) 25%,
+    rgba(16, 185, 129, 0.4) 50%,
+    rgba(52, 211, 153, 0.9) 52%,
+    rgba(16, 185, 129, 0.4) 54%,
+    rgba(16, 185, 129, 0.08) 75%,
+    transparent 100%
   );
   z-index: -1;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  border-radius: 50%;
+  filter: drop-shadow(0 0 8px var(--primary-color));
+  transition: opacity 0.3s ease;
+}
+
+/* Barra Tecnológica Inferior (HUD Data Bar) com nós nas extremidades */
+section h2::after, .footer h2::after, .projeto-detalhes-page h1::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--primary-color) 20%,
+    #34d399 50%,
+    var(--primary-color) 80%,
+    transparent
+  );
+  transform: translateX(-50%);
+  opacity: 0;
+  box-shadow: 0 0 10px var(--primary-color), 0 0 20px rgba(16, 185, 129, 0.5);
+  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Efeito Hover nos Títulos de Seção */
+section h2:hover, .footer h2:hover, .projeto-detalhes-page h1:hover {
+  text-shadow: 
+    0 0 10px rgba(16, 185, 129, 0.7),
+    0 0 22px rgba(20, 184, 166, 0.4);
+  letter-spacing: 2px;
+  transform: translateY(-2px);
 }
 
 section h2:hover::before, .footer h2:hover::before, .projeto-detalhes-page h1:hover::before {
   opacity: 1;
-  animation: title-burst 0.8s ease-out forwards;
+  animation: hud-laser-scan 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-section h2:hover, .footer h2:hover, .projeto-detalhes-page h1:hover {
-  text-shadow: 0 0 20px rgba(99, 102, 241, 0.6);
-  letter-spacing: 4px;
-  transform: scale(1.02);
-}
-
-section h2::after, .footer h2::after, .projeto-detalhes-page h1::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 30px;
-  height: 30px;
-  background: transparent;
-  border: 2px solid var(--primary-color);
-  border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  opacity: 0;
-  z-index: -1;
-  pointer-events: none;
-  transition: all 0.4s ease;
-}
-
-/* Removido o seletor section:hover para que a animação só ocorra quando o mouse estiver DIRETAMENTE no título */
 section h2:hover::after, .footer h2:hover::after, .projeto-detalhes-page h1:hover::after {
-  animation: water-ripple 2.5s infinite;
-  will-change: transform, opacity;
+  width: 85%;
+  opacity: 1;
 }
 
-/* Animação de Explosão Central */
-@keyframes title-burst {
-  0% { transform: scale(0.5); opacity: 0; }
-  50% { opacity: 0.8; }
-  100% { transform: scale(1.5); opacity: 0; }
-}
-
-/* Animação de Gota e Ondulações na Água */
-@keyframes water-ripple {
+/* Animação do Feixe de Laser */
+@keyframes hud-laser-scan {
   0% {
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 1;
+    left: -120%;
   }
   100% {
-    transform: translate(-50%, -50%) scale(4); /* Reduzido o scale final */
-    opacity: 0;
+    left: 120%;
   }
 }
 
@@ -992,8 +1030,10 @@ section h2:hover::after, .footer h2:hover::after, .projeto-detalhes-page h1:hove
 }
 
 body:not(.dark) .soft-skill-item {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(99, 102, 241, 0.2);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: #047857;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.08);
 }
 
 .soft-skill-item {
@@ -1002,7 +1042,7 @@ body:not(.dark) .soft-skill-item {
   background: rgba(15, 23, 42, 0.6); /* Vidro Fumê */
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(99, 102, 241, 0.3);
+  border: 1px solid rgba(16, 185, 129, 0.3);
   color: var(--primary-color);
   padding: 6px 16px;
   border-radius: 50px;
@@ -1022,7 +1062,7 @@ body:not(.dark) .soft-skill-item {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(99, 102, 241, 0.1),
+    rgba(16, 185, 129, 0.1),
     rgba(255, 255, 255, 0.1),
     transparent
   );
@@ -1033,10 +1073,10 @@ body:not(.dark) .soft-skill-item {
 }
 
 .soft-skill-item:hover {
-  background: rgba(99, 102, 241, 0.15);
+  background: rgba(16, 185, 129, 0.15);
   border-color: var(--primary-color);
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.2);
+  box-shadow: 0 5px 15px rgba(16, 185, 129, 0.2);
 }
 
 .soft-skill-item:hover::after {
@@ -1089,7 +1129,7 @@ body:not(.dark) .soft-skill-item {
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  background: rgba(99, 102, 241, 0.05); /* Fundo índigo para dark mode */
+  background: rgba(16, 185, 129, 0.05); /* Fundo sutil esmeralda */
   border: 1px solid var(--border-subtle);
   padding: 15px;
   border-radius: 12px;
@@ -1107,7 +1147,10 @@ body:not(.dark) .soft-skill-item {
 }
 
 body:not(.dark) .tech-list li {
-  background: rgba(99, 102, 241, 0.05); /* Fundo índigo claro para modo claro */
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #0f172a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
 }
 
 .tech-list li:hover {
@@ -1356,12 +1399,18 @@ body:not(.dark) .tech-list li {
 }
 
 .tech-tag {
-  background: rgba(59, 130, 246, 0.1);
+  background: rgba(16, 185, 129, 0.1);
   color: var(--primary-color);
   font-size: 0.8rem;
   padding: 4px 10px;
   border-radius: 4px;
   font-weight: bold;
+}
+
+body:not(.dark) .tech-tag {
+  background: rgba(16, 185, 129, 0.12);
+  color: #047857;
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
 /* BOTÕES */
@@ -1618,6 +1667,15 @@ body:not(.dark) .tech-list li {
   transform: translateX(100%);
 }
 
+body:not(.dark) .experiencia-item {
+  background: rgba(255, 255, 255, 0.85);
+  border-top: 1px solid rgba(16, 185, 129, 0.2);
+  border-right: 1px solid rgba(16, 185, 129, 0.2);
+  border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+  border-left: 4px solid var(--primary-color);
+  box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.1), 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
 .exp-fade-overlay {
   position: absolute;
   bottom: 0;
@@ -1633,13 +1691,7 @@ body:not(.dark) .tech-list li {
 }
 
 body:not(.dark) .exp-fade-overlay {
-  background: linear-gradient(transparent, #f8fafc);
-}
-
-body:not(.dark) .experiencia-item, body:not(.dark) .card {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(99, 102, 241, 0.1);
-  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.05);
+  background: linear-gradient(transparent, rgba(248, 250, 252, 0.95));
 }
 
 .btn-saiba-mais {
@@ -1994,15 +2046,25 @@ body:not(.dark) .experiencia-item, body:not(.dark) .card {
   transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Light mode overrides */
+/* Light mode overrides para Dashboard */
 body:not(.dark) .tab-btn {
-  background: rgba(255, 255, 255, 0.7);
-  color: var(--text-dark);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #0f172a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+body:not(.dark) .tab-btn:hover {
+  border-color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.12);
 }
 
 body:not(.dark) .tab-btn.active {
-  background: rgba(99, 102, 241, 0.1);
-  color: var(--primary-color);
+  background: rgba(16, 185, 129, 0.12);
+  border-color: var(--primary-color);
+  color: #047857;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.18);
 }
 
 body:not(.dark) .tab-btn .tab-subtitle {
@@ -2011,17 +2073,23 @@ body:not(.dark) .tab-btn .tab-subtitle {
 
 body:not(.dark) .kpi-card,
 body:not(.dark) .skills-evolution-card {
-  background: rgba(255, 255, 255, 0.7);
-  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.05);
+  background: rgba(255, 255, 255, 0.88);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.1), 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+body:not(.dark) .kpi-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 12px 35px -8px rgba(16, 185, 129, 0.2);
 }
 
 body:not(.dark) .kpi-value,
 body:not(.dark) .skill-val-label {
-  color: var(--text-dark);
+  color: #0f172a;
 }
 
 body:not(.dark) .skill-progress-bar-bg {
-  background: rgba(0, 0, 0, 0.05);
+  background: rgba(0, 0, 0, 0.06);
 }
 
 section {
@@ -2440,13 +2508,19 @@ body:not(.dark) .modulo-item {
 
 /* Modo Claro para Certificações */
 body:not(.dark) .certificacao-item {
-  background: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(99, 102, 241, 0.2);
-  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.08);
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(16, 185, 129, 0.22);
+  box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.1), 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+body:not(.dark) .certificacao-item:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--primary-color);
+  box-shadow: 0 16px 40px -10px rgba(16, 185, 129, 0.2);
 }
 
 body:not(.dark) .cert-title {
-  color: var(--text-white); /* Mantém a cor escura no modo claro */
+  color: #0f172a; /* Slate escuro com alto contraste */
 }
 
 body:not(.dark) .btn-credential {
@@ -2456,6 +2530,7 @@ body:not(.dark) .btn-credential {
 
 body:not(.dark) .btn-credential:hover {
   filter: brightness(1.1);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
 }
 
 @keyframes zoomIn {
@@ -2795,9 +2870,43 @@ body:not(.dark) .btn-credential:hover {
   vertical-align: middle;
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+/* Modo Claro Terminal Python (Estilo macOS Light Pro Studio) */
+body:not(.dark) .python-terminal-container {
+  background: #ffffff;
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.08), 0 0 20px rgba(16, 185, 129, 0.08);
+}
+
+body:not(.dark) .terminal-header {
+  background: #f1f5f9;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+body:not(.dark) .terminal-title {
+  color: #475569;
+  font-weight: 600;
+}
+
+body:not(.dark) .terminal-body {
+  color: #1e293b;
+  background: #fafafa;
+}
+
+body:not(.dark) .terminal-line .prompt {
+  color: #059669;
+}
+
+body:not(.dark) .terminal-line.system {
+  color: #64748b;
+}
+
+body:not(.dark) .terminal-line.success {
+  color: #059669;
+  font-weight: 600;
+}
+
+body:not(.dark) .typing-cursor .cursor {
+  background-color: #0f172a;
 }
 
 /* Glassmorphism Refinements */
@@ -2811,6 +2920,22 @@ body:not(.dark) .btn-credential:hover {
 body.dark .card, body.dark .projeto-detalhes-wrapper, body.dark .skills-evolution-card, body.dark .bento-item {
   background: rgba(10, 10, 10, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+body:not(.dark) .card,
+body:not(.dark) .bento-item,
+body:not(.dark) .projeto-detalhes-wrapper {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  box-shadow: 0 10px 30px -10px rgba(16, 185, 129, 0.1), 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+body:not(.dark) .card:hover,
+body:not(.dark) .bento-item:hover,
+body:not(.dark) .projeto-detalhes-wrapper:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: var(--primary-color);
+  box-shadow: 0 16px 40px -10px rgba(16, 185, 129, 0.18), 0 0 20px rgba(16, 185, 129, 0.12);
 }
 
 /* --- Bento Grid Styles --- */
@@ -3016,4 +3141,118 @@ body.dark .card, body.dark .projeto-detalhes-wrapper, body.dark .skills-evolutio
   min-width: 10px;
   font-family: 'Space Grotesk', sans-serif;
   letter-spacing: -0.02em;
+}
+
+/* =============================================
+   SUGESTÃO 2 — SHIMMER NOS TÍTULOS H2
+   ============================================= */
+body.dark h2 {
+  background: linear-gradient(
+    90deg,
+    #10b981 0%,
+    #ffffff 40%,
+    #10b981 60%,
+    #14b8a6 100%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer-title 4s linear infinite;
+}
+
+/* Modo claro: shimmer mais sutil com tons escuros */
+body:not(.dark) h2 {
+  background: linear-gradient(
+    90deg,
+    #059669 0%,
+    #0f172a 40%,
+    #059669 60%,
+    #0d9488 100%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer-title 4s linear infinite;
+}
+
+@keyframes shimmer-title {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* =============================================
+   SUGESTÃO 3 — PULSE-BORDER NOS CARDS (HEARTBEAT GLOW)
+   ============================================= */
+@keyframes pulse-border {
+  0%, 100% {
+    box-shadow:
+      0 0 0 0 rgba(16, 185, 129, 0),
+      0 4px 24px rgba(0, 0, 0, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 0 5px rgba(16, 185, 129, 0.18),
+      0 4px 24px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* Aplica pulse nos cards de projeto, certificação e bento */
+body.dark .projeto-card,
+body.dark .certificacao-item,
+body.dark .bento-item,
+body.dark .experiencia-item,
+body.dark .soft-skill-item {
+  animation: pulse-border 3.5s ease-in-out infinite;
+}
+
+@keyframes pulse-border-light {
+  0%, 100% {
+    box-shadow:
+      0 0 0 0 rgba(16, 185, 129, 0),
+      0 10px 30px -10px rgba(16, 185, 129, 0.08),
+      0 4px 12px rgba(0, 0, 0, 0.03);
+  }
+  50% {
+    box-shadow:
+      0 0 0 4px rgba(16, 185, 129, 0.16),
+      0 14px 35px -8px rgba(16, 185, 129, 0.14),
+      0 4px 12px rgba(0, 0, 0, 0.03);
+  }
+}
+
+body:not(.dark) .projeto-card,
+body:not(.dark) .certificacao-item,
+body:not(.dark) .bento-item,
+body:not(.dark) .experiencia-item,
+body:not(.dark) .soft-skill-item {
+  animation: pulse-border-light 3.5s ease-in-out infinite;
+}
+
+/* Offset para não pulsarem todos ao mesmo tempo */
+.certificacao-item:nth-child(2),
+.bento-item:nth-child(2),
+.projeto-card:nth-child(2)  { animation-delay: 0.6s; }
+
+.certificacao-item:nth-child(3),
+.bento-item:nth-child(3),
+.projeto-card:nth-child(3)  { animation-delay: 1.2s; }
+
+.certificacao-item:nth-child(4),
+.bento-item:nth-child(4),
+.projeto-card:nth-child(4)  { animation-delay: 1.8s; }
+
+.certificacao-item:nth-child(5),
+.bento-item:nth-child(5)    { animation-delay: 2.4s; }
+
+/* Hover pausa o pulse e dá um glow mais forte */
+.projeto-card:hover,
+.certificacao-item:hover,
+.bento-item:hover,
+.experiencia-item:hover {
+  animation-play-state: paused;
+  box-shadow:
+    0 0 0 2px rgba(16, 185, 129, 0.5),
+    0 8px 32px rgba(16, 185, 129, 0.2);
 }
