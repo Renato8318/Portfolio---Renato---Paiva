@@ -1,6 +1,7 @@
 import React from "react";
 import { FaMapMarkerAlt, FaCode, FaChartPie, FaPython, FaServer } from "react-icons/fa";
 import ScrambleText from "./ScrambleText";
+import CountUp from "./CountUp";
 
 const Sobre = () => {
   const handleMouseMove = (e) => {
@@ -49,7 +50,9 @@ const Sobre = () => {
             <div className="corner tl"></div><div className="corner tr"></div>
             <div className="corner bl"></div><div className="corner br"></div>
           </div>
-          <div className="stat-number">+10M</div>
+          <div className="stat-number">
+            <CountUp end={10} prefix="+" suffix="M" duration={1800} />
+          </div>
           <div className="stat-label">Dados Processados</div>
         </div>
 

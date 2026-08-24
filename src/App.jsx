@@ -14,12 +14,14 @@ import ExperienciaDetalhes from "./components/ExperienciaDetalhes";
 import CertificacaoDetalhes from "./components/CertificacaoDetalhes";
 import ScrambleText from "./components/ScrambleText";
 import CustomCursor from "./components/CustomCursor";
+import CommandPalette from "./components/CommandPalette";
 
 function AppContent() {
   const [greeting, setGreeting] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [cmdOpen, setCmdOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     try {
       const saved = localStorage.getItem("theme");
@@ -47,6 +49,19 @@ function AppContent() {
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2500);
   };
+
+  // Atalho global Ctrl+K / Cmd+K
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setCmdOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
@@ -117,6 +132,14 @@ function AppContent() {
     <>
       <CustomCursor />
       
+      {/* Modal Command Palette (Ctrl + K) */}
+      <CommandPalette 
+        isOpen={cmdOpen} 
+        onClose={() => setCmdOpen(false)} 
+        darkMode={darkMode}
+        setDarkMode={setDarkMode}
+      />
+
       {/* Barra de Progresso de Rolagem Neon */}
       <div 
         className="scroll-progress-bar" 
@@ -174,13 +197,25 @@ function AppContent() {
             </ul>
           </nav>
 
-          <button
-            className="dark-toggle"
-            onClick={() => setDarkMode(!darkMode)}
-            aria-label="Alternar tema claro/escuro"
-          >
-            {darkMode ? "🌞" : "🌙"}
-          </button>
+          <div className="header-actions">
+            {/* Botão de Abertura da Command Palette */}
+            <button 
+              className="cmd-trigger-btn"
+              onClick={() => setCmdOpen(true)}
+              title="Abrir Busca Rápida (Ctrl + K)"
+              aria-label="Abrir Command Palette"
+            >
+              <span>⌘K</span>
+            </button>
+
+            <button
+              className="dark-toggle"
+              onClick={() => setDarkMode(!darkMode)}
+              aria-label="Alternar tema claro/escuro"
+            >
+              {darkMode ? "🌞" : "🌙"}
+            </button>
+          </div>
         </div>
       </header>
 

@@ -17,15 +17,32 @@ const ProjectCard = ({
 }) => {
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
-    e.currentTarget.style.setProperty("--y", `${e.clientY - rect.top}px`);
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    // Calcula a rotação proporcional (máximo de 7 graus)
+    const rotateX = ((y - centerY) / centerY) * -7;
+    const rotateY = ((x - centerX) / centerX) * 7;
+
+    e.currentTarget.style.setProperty("--rx", `${rotateX.toFixed(2)}deg`);
+    e.currentTarget.style.setProperty("--ry", `${rotateY.toFixed(2)}deg`);
+    e.currentTarget.style.setProperty("--x", `${x}px`);
+    e.currentTarget.style.setProperty("--y", `${y}px`);
+  };
+
+  const handleMouseLeave = (e) => {
+    e.currentTarget.style.setProperty("--rx", "0deg");
+    e.currentTarget.style.setProperty("--ry", "0deg");
   };
 
   return (
     <div 
-      className={`card ${destaque ? "destaque" : ""}`} 
+      className={`card project-tilt-card ${destaque ? "destaque" : ""}`} 
       data-aos="zoom-in"
       onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       {destaque && <span className="badge-destaque">Destaque</span>}
       

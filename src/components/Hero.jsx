@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { FaLinkedin, FaGithub, FaFileDownload } from "react-icons/fa";
 import ScrambleText from "./ScrambleText";
 import TypingText from "./TypingText";
 
@@ -48,6 +48,18 @@ const Hero = () => {
           </p>
 
           <div className="buttons">
+            <a 
+              href="/Curriculo_Renato 2026.pdf" 
+              download="Curriculo_Renato_Paiva_2026.pdf"
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="contact-item cv-btn"
+              onMouseMove={handleMouseMove}
+              title="Baixar Currículo em PDF"
+            >
+              <FaFileDownload className="contact-icon" /> Baixar CV
+            </a>
+
             <a href="https://www.linkedin.com/in/renato-paiva-developer/" target="_blank" rel="noopener noreferrer" 
                className="contact-item linkedin-btn" 
                onMouseMove={handleMouseMove}
