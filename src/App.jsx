@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation, Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css"; 
-import { FaWhatsapp, FaLinkedin, FaReact, FaHtml5, FaCss3Alt, FaJsSquare, FaBars, FaTimes, FaArrowUp } from "react-icons/fa";
+import { FaWhatsapp, FaLinkedin, FaReact, FaHtml5, FaCss3Alt, FaJsSquare, FaBars, FaTimes, FaArrowUp, FaEnvelope, FaCopy, FaCheck } from "react-icons/fa";
 import Hero from "./components/Hero";
 import Sobre from "./components/Sobre";
 import Tecnologias from "./components/Tecnologias";
@@ -18,6 +18,8 @@ import CustomCursor from "./components/CustomCursor";
 function AppContent() {
   const [greeting, setGreeting] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [copiedEmail, setCopiedEmail] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     try {
       const saved = localStorage.getItem("theme");
@@ -40,6 +42,12 @@ function AppContent() {
     return isHome ? `#${id}` : `/#${id}`;
   };
 
+  const handleCopyEmail = () => {
+    navigator.clipboard.writeText("paivarenato8318@gmail.com");
+    setCopiedEmail(true);
+    setTimeout(() => setCopiedEmail(false), 2500);
+  };
+
   useEffect(() => {
     AOS.init({ duration: 800, once: true });
     
@@ -48,9 +56,19 @@ function AppContent() {
     else if (hours < 18) setGreeting("Boa tarde");
     else setGreeting("Boa noite");
 
+    // Monitor de Progresso de Rolagem
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        const progress = (window.scrollY / totalHeight) * 100;
+        setScrollProgress(progress);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
     // IntersectionObserver para detectar seção ativa no menu
     const sectionIds = ["home", "sobre", "tecnologias", "projetos", "certificacoes", "experiencia", "contato"];
-    const observers = [];
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -68,8 +86,11 @@ function AppContent() {
       if (el) observer.observe(el);
     });
 
-    return () => observer.disconnect();
-  }, []); // Inicializa apenas uma vez
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      observer.disconnect();
+    };
+  }, []);
 
   useEffect(() => {
     if (darkMode) {
@@ -95,6 +116,14 @@ function AppContent() {
   return (
     <>
       <CustomCursor />
+      
+      {/* Barra de Progresso de Rolagem Neon */}
+      <div 
+        className="scroll-progress-bar" 
+        style={{ width: `${scrollProgress}%` }}
+        aria-hidden="true"
+      />
+
       {/* Camada de Fundo Viva (Nós e Conexões) */}
       <div className="bg-tech-layer">
         <div className="data-node n1"></div>
@@ -170,10 +199,15 @@ function AppContent() {
         <Route path="/" element={
           <main className="container">
             <Hero />
+            <div className="section-divider"><span className="divider-node"></span></div>
             <Sobre />
+            <div className="section-divider"><span className="divider-node"></span></div>
             <Tecnologias />
+            <div className="section-divider"><span className="divider-node"></span></div>
             <Projetos />
-            <Certificacoes /> {/* Add new component */}
+            <div className="section-divider"><span className="divider-node"></span></div>
+            <Certificacoes />
+            <div className="section-divider"><span className="divider-node"></span></div>
             <Experiencia />
           </main>
         } />
@@ -199,19 +233,32 @@ function AppContent() {
           <h2 onMouseMove={handleMouseMove}>
             <ScrambleText text="Contato" />
           </h2>
-          <p>Vamos trabalhar juntos? Me chame em uma das redes:</p>
+          <p>Vamos trabalhar juntos? Me chame em uma das redes ou envie um e-mail direto:</p>
+          
           <div className="contact-links">
             <a href={`https://wa.me/5511959117042?text=${encodeURIComponent("Olá Renato, vi seu portfólio e gostaria de conversar sobre uma oportunidade técnica.")}`} target="_blank" rel="noopener noreferrer" className="contact-item whatsapp-btn">
               <FaWhatsapp className="contact-icon" /> WhatsApp
             </a>
+            
             <a href="https://www.linkedin.com/in/renato-paiva-developer/" target="_blank" rel="noopener noreferrer" className="contact-item linkedin-btn" onMouseMove={handleMouseMove}>
               <FaLinkedin className="contact-icon" /> LinkedIn
             </a>
+
+            <button 
+              onClick={handleCopyEmail} 
+              className={`contact-item copy-email-btn ${copiedEmail ? "copied" : ""}`}
+              onMouseMove={handleMouseMove}
+              title="Clique para copiar o e-mail"
+            >
+              {copiedEmail ? <FaCheck className="contact-icon text-success" /> : <FaEnvelope className="contact-icon" />}
+              <span>{copiedEmail ? "✓ E-mail Copiado!" : "paivarenato8318@gmail.com"}</span>
+              {!copiedEmail && <FaCopy className="copy-icon-sm" />}
+            </button>
           </div>
+
           <div className="footer-copyright">
             <p>
               &copy; {new Date().getFullYear()} Renato Paiva. Todos os direitos reservados.
-              
             </p>
             <div className="tech-stack-icons">
               <FaReact title="React" />

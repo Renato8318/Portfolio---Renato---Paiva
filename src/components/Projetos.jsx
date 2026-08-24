@@ -9,6 +9,22 @@ const Projetos = () => {
   const scrollRef = useRef(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [activeFilter, setActiveFilter] = useState("todos");
+
+  const filterCategories = [
+    { id: "todos", label: "Todos" },
+    { id: "react", label: "React / SPA" },
+    { id: "analytics", label: "Analytics & Dashboards" },
+    { id: "apis", label: "APIs & Front-End" },
+  ];
+
+  const filteredProjetos = projetos.filter((proj) => {
+    if (activeFilter === "todos") return true;
+    if (activeFilter === "react") return proj.tech?.some(t => t.toLowerCase().includes("react"));
+    if (activeFilter === "analytics") return proj.slug === "planvision" || proj.slug === "veritime" || proj.tech?.some(t => t.toLowerCase().includes("recharts"));
+    if (activeFilter === "apis") return proj.slug === "sessaoplay" || proj.slug === "amicao" || proj.tech?.some(t => t.toLowerCase().includes("api"));
+    return true;
+  });
 
   const checkScroll = () => {
     if (scrollRef.current) {
@@ -29,7 +45,7 @@ const Projetos = () => {
         window.removeEventListener("resize", checkScroll);
       };
     }
-  }, []);
+  }, [filteredProjetos]);
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -53,6 +69,19 @@ const Projetos = () => {
         <ScrambleText text="Meus Projetos" />
       </h2>
 
+      {/* Filtros de Categoria Interativos */}
+      <div className="project-filters" onMouseMove={handleMouseMove}>
+        {filterCategories.map((cat) => (
+          <button
+            key={cat.id}
+            className={`filter-btn ${activeFilter === cat.id ? "active" : ""}`}
+            onClick={() => setActiveFilter(cat.id)}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
       <div className="certificacoes-wrapper">
         <button 
           className={`nav-arrow left ${!canScrollLeft ? 'hidden' : ''}`} 
@@ -63,7 +92,7 @@ const Projetos = () => {
         </button>
 
         <div className="certificacoes-grid" ref={scrollRef}>
-          {projetos.map((proj) => (
+          {filteredProjetos.map((proj) => (
             <div key={proj.slug} style={{ minWidth: '320px', display: 'flex', flexDirection: 'column' }}>
               <ProjectCard {...proj} />
             </div>

@@ -3256,3 +3256,257 @@ body:not(.dark) .soft-skill-item {
     0 0 0 2px rgba(16, 185, 129, 0.5),
     0 8px 32px rgba(16, 185, 129, 0.2);
 }
+
+/* =============================================
+   1. BARRA DE PROGRESSO DE ROLAGEM NEON
+   ============================================= */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #10b981 0%, #34d399 50%, #06b6d4 100%);
+  z-index: 10001;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.8), 0 0 20px rgba(52, 211, 153, 0.4);
+  transition: width 0.1s ease-out;
+  pointer-events: none;
+}
+
+/* =============================================
+   2. STATUS BADGE HERO (OPEN TO WORK)
+   ============================================= */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 50px;
+  text-decoration: none;
+  margin-bottom: 20px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: fit-content;
+}
+
+.status-badge:hover {
+  background: rgba(16, 185, 129, 0.16);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+  transform: translateY(-2px);
+}
+
+.status-dot {
+  position: relative;
+  display: flex;
+  width: 8px;
+  height: 8px;
+}
+
+.status-dot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+}
+
+.status-ping {
+  position: absolute;
+  inset: -3px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  opacity: 0.75;
+  animation: radar-ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes radar-ping {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+
+.status-text {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  letter-spacing: 0.5px;
+}
+
+body:not(.dark) .status-badge {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.1);
+}
+
+body:not(.dark) .status-text {
+  color: #047857;
+}
+
+/* =============================================
+   3. FILTROS DE CATEGORIA EM PROJETOS
+   ============================================= */
+.project-filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: -10px auto 30px auto;
+  max-width: 700px;
+}
+
+.filter-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-gray);
+  padding: 8px 18px;
+  border-radius: 30px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(8px);
+  outline: none;
+}
+
+.filter-btn:hover {
+  color: var(--text-white);
+  border-color: rgba(16, 185, 129, 0.4);
+  background: rgba(16, 185, 129, 0.08);
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  background: rgba(16, 185, 129, 0.18);
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
+  transform: scale(1.04);
+}
+
+body:not(.dark) .filter-btn {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: #475569;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+body:not(.dark) .filter-btn:hover {
+  color: #0f172a;
+  border-color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+body:not(.dark) .filter-btn.active {
+  background: var(--primary-color);
+  color: #ffffff;
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+}
+
+/* =============================================
+   4. BOTÃO COPIAR E-MAIL COM FEEDBACK
+   ============================================= */
+.copy-email-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 50px;
+  color: var(--text-white);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  text-decoration: none;
+}
+
+.copy-email-btn:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.25);
+  transform: translateY(-2px);
+}
+
+.copy-email-btn.copied {
+  background: rgba(16, 185, 129, 0.2);
+  border-color: var(--primary-color);
+  color: #34d399;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+.copy-icon-sm {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
+body:not(.dark) .copy-email-btn {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  color: #0f172a;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+body:not(.dark) .copy-email-btn:hover {
+  border-color: var(--primary-color);
+  color: #047857;
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.18);
+}
+
+body:not(.dark) .copy-email-btn.copied {
+  background: #10b981;
+  color: #ffffff;
+  border-color: #10b981;
+}
+
+/* =============================================
+   5. DIVISORES DE SEÇÃO CIBERNÉTICOS (HUD BREAKERS)
+   ============================================= */
+.section-divider {
+  position: relative;
+  width: 100%;
+  max-width: 1000px;
+  height: 1px;
+  margin: 30px auto;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(16, 185, 129, 0.05) 15%,
+    rgba(16, 185, 129, 0.35) 50%,
+    rgba(16, 185, 129, 0.05) 85%,
+    transparent 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider-node {
+  width: 8px;
+  height: 8px;
+  background: var(--primary-color);
+  transform: rotate(45deg);
+  border-radius: 1px;
+  box-shadow: 0 0 10px var(--primary-color);
+  filter: drop-shadow(0 0 4px var(--primary-color));
+}
+
+body:not(.dark) .section-divider {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(16, 185, 129, 0.08) 15%,
+    rgba(16, 185, 129, 0.3) 50%,
+    rgba(16, 185, 129, 0.08) 85%,
+    transparent 100%
+  );
+}

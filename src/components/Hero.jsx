@@ -25,6 +25,14 @@ const Hero = () => {
     <section id="home" className="hero" data-aos="fade-up">
       <div className="hero-container">
         <div className="hero-text">
+          {/* Status Badge - Open to Work / Disponível */}
+          <a href="#contato" className="status-badge" onMouseMove={handleMouseMove}>
+            <span className="status-dot">
+              <span className="status-ping"></span>
+            </span>
+            <span className="status-text">Disponível para Novos Projetos & Contratação</span>
+          </a>
+
           <h1>
             <span className="highlight"><ScrambleText text="Olá, eu sou Renato Paiva" /></span>
           </h1>
