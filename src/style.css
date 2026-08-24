@@ -705,7 +705,7 @@ body:not(.dark) .highlight::before {
   align-items: center;
   gap: 12px;
   text-decoration: none;
-  color: #0077B5; 
+  color: var(--text-white); 
   font-size: 1.5rem;
   font-weight: 700;
   transition: 0.3s;
@@ -717,7 +717,17 @@ body:not(.dark) .highlight::before {
 
 .github-btn:hover {
   transform: scale(1.1);
-  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+  color: var(--text-white);
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+}
+
+body:not(.dark) .github-btn {
+  color: #24292f; /* Preto oficial do GitHub no modo claro */
+}
+
+body:not(.dark) .github-btn:hover {
+  color: #0f172a;
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.15));
 }
 
 .linkedin-icon {
