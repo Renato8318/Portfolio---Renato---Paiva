@@ -85,10 +85,20 @@ const Hero = () => {
               title="Clique para girar"
             >
               <div className="hero-img-face front">
-                <img src="/img/foto-perfil.jpg" alt="Renato Paiva" />
+                <div className="hud-overlay">
+                  <div className="scan-line"></div>
+                  <div className="corner tl"></div><div className="corner tr"></div>
+                  <div className="corner bl"></div><div className="corner br"></div>
+                </div>
+                <img src="/img/foto-perfil.png" alt="Renato Paiva" />
               </div>
               <div className="hero-img-face back">
-                <img src="/img/foto-avatar.jpg" alt="Renato Avatar" />
+                <div className="hud-overlay">
+                  <div className="scan-line"></div>
+                  <div className="corner tl"></div><div className="corner tr"></div>
+                  <div className="corner bl"></div><div className="corner br"></div>
+                </div>
+                <img src="/img/foto-avatar.png" alt="Renato Avatar" />
               </div>
             </div>
           </div>

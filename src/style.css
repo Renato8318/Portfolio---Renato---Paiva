@@ -803,6 +803,7 @@ body:not(.dark) .github-btn:hover {
   justify-content: center;
   align-items: center;
   perspective: 1000px; /* Base para o efeito 3D */
+  border-radius: 16px;
 }
 
 /* Glow interativo que segue o mouse sobre a foto */
@@ -815,35 +816,13 @@ body:not(.dark) .github-btn:hover {
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.4s ease, inset 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border-radius: 50%;
+  border-radius: 16px;
 }
 
-/* Barra de Scan (Scanner Biométrico) */
-.hero-img-wrapper::before {
-  content: "";
-  position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  height: 2px;
-  background: var(--primary-color);
-  z-index: 5;
-  opacity: 0;
-  box-shadow: 0 0 15px var(--primary-color);
-  pointer-events: none;
-  transition: opacity 0.3s;
-}
-
+/* Desativado scanner antigo no wrapper para usar o novo interno mais preciso */
+.hero-img-wrapper::before,
 .hero-img-wrapper:hover::before {
-  opacity: 0.5;
-  animation: hero-scan-line 3s linear infinite;
-  top: 15px; /* Posição inicial fixa */
-}
-
-@keyframes hero-scan-line {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(250px); }
-  100% { transform: translateY(0); }
+  display: none !important;
 }
 
 .hero-img-wrapper:hover::after {
@@ -859,6 +838,7 @@ body:not(.dark) .github-btn:hover {
   transition: transform 0.4s ease; /* Transição mais rápida e simples */
   z-index: 2;
   cursor: pointer;
+  border-radius: 16px;
 }
 
 /* Removemos o giro automático no hover para usar a classe do React */
@@ -872,14 +852,21 @@ body:not(.dark) .github-btn:hover {
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  border-radius: 50%;
-  border: 1.5px solid var(--primary-color) !important; /* Força a borda neon */
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); /* Glow neon consistente */
+  border-radius: 16px;
+  border: 1px solid rgba(16, 185, 129, 0.3) !important; /* Força a borda neon sutil */
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); /* Glow neon consistente */
   overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--card-bg); /* Garante que não haja fundo transparente estranho */
+  
+  /* Grid de tecnologia neon em vez de fundo escuro liso */
+  background: radial-gradient(circle at center, rgba(16, 185, 129, 0.15) 0%, #0A0F1C 85%);
+  background-image: 
+    linear-gradient(rgba(16, 185, 129, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at center, rgba(16, 185, 129, 0.15) 0%, #0A0F1C 90%);
+  background-size: 20px 20px, 20px 20px, 100% 100%;
 }
 
 .hero-img-face.back {
@@ -890,14 +877,32 @@ body:not(.dark) .github-btn:hover {
   width: 100%;
   height: 100%;
   object-fit: cover; /* Preenche o círculo completamente */
-  border-radius: 50%;
+  border-radius: 16px;
 }
 
 .hero-img-face.front img {
-  width: 92%;
-  height: 92%;
+  width: 100% !important;
+  height: 100% !important;
   object-position: center 20%; /* Sobe a imagem para mostrar o terno e centralizar o rosto */
   transform: scale(1.1); /* Um leve zoom para eliminar o excesso de fundo no topo */
+  border-radius: 16px;
+}
+
+/* Estilos específicos do HUD da foto do Hero */
+.hero-img-face .hud-overlay {
+  opacity: 1 !important;
+  inset: 0;
+}
+
+.hero-img-face .scan-line {
+  animation: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero-img-wrapper:hover .scan-line {
+  animation: scanMove 3s linear infinite;
+  opacity: 0.6;
 }
 
 /* Brilho adicional no verso */
@@ -933,7 +938,7 @@ body:not(.dark) .github-btn:hover {
 
 /* Unificação da Aura de Brilho no wrapper para evitar conflito com o Scanner */
 .hero-img-wrapper {
-  border-radius: 50%;
+  border-radius: 16px;
 }
 
 @keyframes rotateClockwise {
@@ -2693,6 +2698,17 @@ body:not(.dark) .certificacao-item:hover {
 body:not(.dark) .cert-card-img {
   background: rgba(241, 245, 249, 0.85);
   border-color: rgba(16, 185, 129, 0.15);
+}
+
+body:not(.dark) .hero-img-face {
+  background: radial-gradient(circle at center, rgba(16, 185, 129, 0.08) 0%, #f8fafc 85%);
+  background-image: 
+    linear-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.05) 1px, transparent 1px),
+    radial-gradient(circle at center, rgba(16, 185, 129, 0.08) 0%, #f8fafc 90%);
+  background-size: 20px 20px, 20px 20px, 100% 100%;
+  border-color: rgba(16, 185, 129, 0.25) !important;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
 }
 
 body:not(.dark) .cert-title {
