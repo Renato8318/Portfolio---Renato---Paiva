@@ -797,51 +797,57 @@ body:not(.dark) .github-btn:hover {
 
 .hero-img-wrapper {
   position: relative;
-  width: 360px;
-  height: 360px;
+  width: 380px;
+  height: 420px;
   display: flex;
   justify-content: center;
   align-items: center;
-  perspective: 1000px; /* Base para o efeito 3D */
-  border-radius: 16px;
+  perspective: 1200px;
 }
 
-/* Glow interativo que segue o mouse sobre a foto */
+/* Glow pulsante atrás da foto — único "elemento" visível em volta */
+.hero-img-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  background: radial-gradient(ellipse at 50% 60%, rgba(16, 185, 129, 0.22) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+  animation: heroGlowPulse 4s ease-in-out infinite;
+  border-radius: 50%;
+}
+
+/* Glow de mouse interativo */
 .hero-img-wrapper::after {
   content: "";
   position: absolute;
-  inset: 5px; /* Começa levemente expandido para o efeito de "snap" */
-  background: radial-gradient(circle 150px at var(--x, 50%) var(--y, 50%), rgba(16, 185, 129, 0.3), transparent 70%) no-repeat;
-  z-index: 4;
+  inset: 0;
+  background: radial-gradient(circle 120px at var(--x, 50%) var(--y, 50%), rgba(16, 185, 129, 0.18), transparent 70%) no-repeat;
+  z-index: 5;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.4s ease, inset 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-  border-radius: 16px;
-}
-
-/* Desativado scanner antigo no wrapper para usar o novo interno mais preciso */
-.hero-img-wrapper::before,
-.hero-img-wrapper:hover::before {
-  display: none !important;
+  transition: opacity 0.4s ease;
 }
 
 .hero-img-wrapper:hover::after {
   opacity: 1;
-  inset: 15px; /* O foco "fecha" e se ajusta à moldura da foto no hover */
+}
+
+@keyframes heroGlowPulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.08); }
 }
 
 .hero-img-card {
-  width: 320px;
-  height: 320px;
+  width: 340px;
+  height: 400px;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.4s ease; /* Transição mais rápida e simples */
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 2;
   cursor: pointer;
-  border-radius: 16px;
 }
 
-/* Removemos o giro automático no hover para usar a classe do React */
 .hero-img-card.flipped {
   transform: rotateY(180deg);
 }
@@ -852,93 +858,96 @@ body:not(.dark) .github-btn:hover {
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  border-radius: 16px;
-  border: 1px solid rgba(16, 185, 129, 0.3) !important; /* Força a borda neon sutil */
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); /* Glow neon consistente */
-  overflow: hidden;
+  border: none !important;
+  box-shadow: none !important;
+  overflow: visible;
   display: flex;
   justify-content: center;
-  align-items: center;
-  
-  /* Grid de tecnologia neon em vez de fundo escuro liso */
-  background: radial-gradient(circle at center, rgba(16, 185, 129, 0.15) 0%, #0A0F1C 85%);
-  background-image: 
-    linear-gradient(rgba(16, 185, 129, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 185, 129, 0.08) 1px, transparent 1px),
-    radial-gradient(circle at center, rgba(16, 185, 129, 0.15) 0%, #0A0F1C 90%);
-  background-size: 20px 20px, 20px 20px, 100% 100%;
+  align-items: flex-end;
+  background: transparent !important;
 }
 
 .hero-img-face.back {
   transform: rotateY(180deg);
 }
 
+/* A imagem em si: sem borda, dissolve nas bordas via mask-image */
 .hero-img-face img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* Preenche o círculo completamente */
-  border-radius: 16px;
+  object-fit: cover;
+  object-position: center top;
+  border-radius: 0;
+  border: none;
+  display: block;
+  /* Dissolução: a imagem some suavemente em todas as bordas */
+  -webkit-mask-image: radial-gradient(ellipse 85% 85% at 50% 45%, black 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 85% 85% at 50% 45%, black 40%, transparent 100%);
+  transition: transform 0.4s ease, filter 0.4s ease;
+  filter: drop-shadow(0 0 18px rgba(16, 185, 129, 0.25));
 }
 
 .hero-img-face.front img {
-  width: 100% !important;
-  height: 100% !important;
-  object-position: center 20%; /* Sobe a imagem para mostrar o terno e centralizar o rosto */
-  transform: scale(1.1); /* Um leve zoom para eliminar o excesso de fundo no topo */
-  border-radius: 16px;
+  object-position: center 15%;
 }
 
-/* Estilos específicos do HUD da foto do Hero */
-.hero-img-face .hud-overlay {
-  opacity: 1 !important;
-  inset: 0;
+.hero-img-wrapper:hover .hero-img-face img {
+  transform: scale(1.04);
+  filter: drop-shadow(0 0 28px rgba(16, 185, 129, 0.45));
 }
 
-.hero-img-face .scan-line {
-  animation: none;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+/* Unificação da Aura de Brilho no wrapper */
+.hero-img-wrapper {
+  border-radius: 0;
 }
 
-.hero-img-wrapper:hover .scan-line {
-  animation: scanMove 3s linear infinite;
-  opacity: 0.6;
-}
-
-/* Brilho adicional no verso */
-.hero-img-wrapper:hover .hero-img-card {
-  box-shadow: 
-    -10px 10px 20px rgba(0, 0, 0, 0.5),
-    0 0 20px rgba(16, 185, 129, 0.4);
-  border-color: var(--primary-color);
-}
-
-/* Anéis Tecnológicos */
-.ring {
+/* Canvas de partículas — cobre todo o wrapper, fica atrás */
+.hero-particles-canvas {
   position: absolute;
-  border-radius: 50%;
+  inset: -80px;
+  width: calc(100% + 160px);
+  height: calc(100% + 160px);
+  pointer-events: none;
   z-index: 1;
 }
 
-.ring-1 {
-  width: 350px;
-  height: 350px;
-  border: 2px dashed rgba(16, 185, 129, 0.35);
-  opacity: 0.5;
-  animation: rotateClockwise 10s linear infinite;
+/* Anel orbital pulsante em CSS (complementa as partículas) */
+.hero-orbit-ring {
+  position: absolute;
+  width: 310px;
+  height: 105px;
+  border: 1.5px solid rgba(16, 185, 129, 0.25);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateX(70deg);
+  pointer-events: none;
+  z-index: 1;
+  animation: orbitRingPulse 3s ease-in-out infinite;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.15), inset 0 0 12px rgba(16, 185, 129, 0.08);
 }
 
-.ring-2 {
-  width: 390px;
-  height: 390px;
-  border: 1px solid rgba(16, 185, 129, 0.2);
-  border-top: 3px solid var(--primary-color);
-  animation: rotateCounterClockwise 7s linear infinite;
+.hero-orbit-ring::before {
+  content: "";
+  position: absolute;
+  width: 380px;
+  height: 130px;
+  border: 1px solid rgba(16, 185, 129, 0.12);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-/* Unificação da Aura de Brilho no wrapper para evitar conflito com o Scanner */
-.hero-img-wrapper {
-  border-radius: 16px;
+@keyframes orbitRingPulse {
+  0%, 100% { opacity: 0.5; border-color: rgba(16, 185, 129, 0.2); box-shadow: 0 0 10px rgba(16, 185, 129, 0.1); }
+  50%       { opacity: 1;   border-color: rgba(16, 185, 129, 0.5); box-shadow: 0 0 25px rgba(16, 185, 129, 0.3); }
+}
+
+.hero-img-wrapper:hover .hero-orbit-ring {
+  animation-duration: 1.2s;
+  border-color: rgba(16, 185, 129, 0.7);
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.4), inset 0 0 20px rgba(16, 185, 129, 0.15);
 }
 
 @keyframes rotateClockwise {
@@ -2701,15 +2710,15 @@ body:not(.dark) .cert-card-img {
 }
 
 body:not(.dark) .hero-img-face {
-  background: radial-gradient(circle at center, rgba(16, 185, 129, 0.08) 0%, #f8fafc 85%);
-  background-image: 
-    linear-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 185, 129, 0.05) 1px, transparent 1px),
-    radial-gradient(circle at center, rgba(16, 185, 129, 0.08) 0%, #f8fafc 90%);
-  background-size: 20px 20px, 20px 20px, 100% 100%;
-  border-color: rgba(16, 185, 129, 0.25) !important;
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.15);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
 }
+
+body:not(.dark) .hero-img-wrapper::before {
+  background: radial-gradient(ellipse at 50% 60%, rgba(16, 185, 129, 0.15) 0%, transparent 70%);
+}
+
 
 body:not(.dark) .cert-title {
   color: #0f172a; /* Slate escuro com alto contraste */
