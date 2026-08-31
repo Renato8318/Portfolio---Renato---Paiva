@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaGithub, FaPlus } from "react-icons/fa";
+import { FaGithub, FaPlus, FaArrowRight } from "react-icons/fa";
 import { SiVercel } from "react-icons/si";
 import Reactions from "./Reactions";
 
@@ -73,16 +73,20 @@ const ProjectCard = ({
       </div>
 
       <div className="links">
-        <a href={linkDemo} target="_blank" rel="noreferrer" className="btn-card">
-          <SiVercel /> Ver Demo
+        <a href={linkDemo} target="_blank" rel="noreferrer" className="btn-card btn-demo" onMouseMove={handleMouseMove}>
+          <span className="btn-live-dot">
+            <span className="btn-live-ping"></span>
+          </span>
+          <SiVercel className="btn-icon" /> Ver Demo
         </a>
 
-        <a href={linkGit} target="_blank" rel="noreferrer" className="btn-card">
-          <FaGithub /> GitHub
+        <a href={linkGit} target="_blank" rel="noreferrer" className="btn-card btn-github" onMouseMove={handleMouseMove}>
+          <FaGithub className="btn-icon" /> GitHub
         </a>
 
         <Link to={`/projeto/${slug}`} className="btn-details" onMouseMove={handleMouseMove}>
-          <FaPlus style={{ fontSize: '0.7rem' }} /> Saber mais
+          <span>Saber mais</span>
+          <FaArrowRight className="btn-arrow-icon" />
         </Link>
       </div>
     </div>

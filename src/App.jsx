@@ -2,7 +2,9 @@ import { useState, useEffect, useRef } from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation, Link } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css"; 
-import { FaWhatsapp, FaLinkedin, FaReact, FaHtml5, FaCss3Alt, FaJsSquare, FaBars, FaTimes, FaArrowUp, FaEnvelope, FaCopy, FaCheck } from "react-icons/fa";
+import { FaWhatsapp, FaLinkedin, FaReact, FaHtml5, FaCss3Alt, FaJsSquare, FaBars, FaTimes, FaArrowUp, FaEnvelope, FaCopy, FaCheck, FaPython, FaDatabase } from "react-icons/fa";
+import { SiGmail } from "react-icons/si";
+import { BsSunFill, BsMoonStarsFill } from "react-icons/bs";
 import Hero from "./components/Hero";
 import Sobre from "./components/Sobre";
 import Tecnologias from "./components/Tecnologias";
@@ -22,6 +24,7 @@ function AppContent() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [cmdOpen, setCmdOpen] = useState(false);
+  const [showFloatingTop, setShowFloatingTop] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     try {
       const saved = localStorage.getItem("theme");
@@ -45,7 +48,7 @@ function AppContent() {
   };
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText("paivarenato8318@gmail.com");
+    navigator.clipboard.writeText("paivarenato08@gmail.com");
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2500);
   };
@@ -71,16 +74,19 @@ function AppContent() {
     else if (hours < 18) setGreeting("Boa tarde");
     else setGreeting("Boa noite");
 
-    // Monitor de Progresso de Rolagem
+    // Monitor de Progresso de Rolagem e Botão Flutuante
     const handleScroll = () => {
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop || window.scrollY || 0;
       const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
       if (totalHeight > 0) {
-        const progress = (window.scrollY / totalHeight) * 100;
+        const progress = (scrollY / totalHeight) * 100;
         setScrollProgress(progress);
       }
+      setShowFloatingTop(scrollY > 200);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Executa na montagem
 
     // IntersectionObserver para detectar seção ativa no menu
     const sectionIds = ["home", "sobre", "tecnologias", "projetos", "certificacoes", "experiencia", "contato"];
@@ -147,6 +153,16 @@ function AppContent() {
         aria-hidden="true"
       />
 
+      {/* Botão Flutuante Voltar ao Topo */}
+      <button 
+        className={`floating-back-to-top ${showFloatingTop ? "visible" : ""}`}
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+        aria-label="Voltar ao topo da página"
+        title="Voltar ao Topo"
+      >
+        <FaArrowUp />
+      </button>
+
       {/* Camada de Fundo Viva (Nós e Conexões) */}
       <div className="bg-tech-layer">
         <div className="data-node n1"></div>
@@ -212,8 +228,12 @@ function AppContent() {
               className="dark-toggle"
               onClick={() => setDarkMode(!darkMode)}
               aria-label="Alternar tema claro/escuro"
+              title={darkMode ? "Mudar para modo claro" : "Mudar para modo escuro"}
             >
-              {darkMode ? "🌞" : "🌙"}
+              {darkMode 
+                ? <BsSunFill className="theme-icon sun" /> 
+                : <BsMoonStarsFill className="theme-icon moon" />
+              }
             </button>
           </div>
         </div>
@@ -285,8 +305,8 @@ function AppContent() {
               onMouseMove={handleMouseMove}
               title="Clique para copiar o e-mail"
             >
-              {copiedEmail ? <FaCheck className="contact-icon text-success" /> : <FaEnvelope className="contact-icon" />}
-              <span>{copiedEmail ? "✓ E-mail Copiado!" : "paivarenato8318@gmail.com"}</span>
+              {copiedEmail ? <FaCheck className="contact-icon text-success" /> : <SiGmail className="contact-icon" />}
+              <span>{copiedEmail ? "✓ E-mail Copiado!" : "paivarenato08@gmail.com"}</span>
               {!copiedEmail && <FaCopy className="copy-icon-sm" />}
             </button>
           </div>
@@ -297,18 +317,13 @@ function AppContent() {
             </p>
             <div className="tech-stack-icons">
               <FaReact title="React" />
+              <FaPython title="Python" />
+              <FaDatabase title="SQL & Banco de Dados" />
+              <FaJsSquare title="JavaScript" />
               <FaHtml5 title="HTML5" />
               <FaCss3Alt title="CSS3" />
-              <FaJsSquare title="JavaScript" />
             </div>
           </div>
-          <button 
-            className="back-to-top" 
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            aria-label="Voltar ao topo"
-          >
-            <FaArrowUp /> <span>Topo</span>
-          </button>
         </div>
       </footer>
     </>

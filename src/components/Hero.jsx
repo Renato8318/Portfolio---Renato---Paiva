@@ -53,7 +53,7 @@ const Hero = () => {
               download="Curriculo_Renato_Paiva_2026.pdf"
               target="_blank" 
               rel="noopener noreferrer" 
-              className="contact-item cv-btn"
+              className="cv-btn"
               onMouseMove={handleMouseMove}
               title="Baixar Currículo em PDF"
             >
@@ -61,13 +61,13 @@ const Hero = () => {
             </a>
 
             <a href="https://www.linkedin.com/in/renato-paiva-developer/" target="_blank" rel="noopener noreferrer" 
-               className="contact-item linkedin-btn" 
+               className="linkedin-btn" 
                onMouseMove={handleMouseMove}
             >
               <FaLinkedin className="contact-icon" /> LinkedIn
             </a>
             <a href="https://github.com/Renato8318" target="_blank" rel="noopener noreferrer" 
-               className="contact-item github-btn" 
+               className="github-btn" 
                onMouseMove={handleMouseMove}
             >
               <FaGithub className="contact-icon" /> GitHub

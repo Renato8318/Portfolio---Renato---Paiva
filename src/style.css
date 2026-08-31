@@ -470,18 +470,69 @@ body:not(.dark) .greeting-marquee {
 }
 
 .dark-toggle {
-  background: none;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid var(--border-subtle);
-  padding: 5px;
-  border-radius: 8px;
-  font-size: 1.5rem;
+  padding: 7px 10px;
+  border-radius: 10px;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  line-height: 1;
 }
 
 .dark-toggle:hover {
   border-color: var(--primary-color);
   box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+  transform: scale(1.12);
+}
+
+.dark-toggle:active {
+  transform: scale(0.9);
+}
+
+/* Ícone Sol — BsSunFill (modo escuro ativo, clica para ir ao claro) */
+.theme-icon.sun {
+  color: #fcd34d;
+  filter: drop-shadow(0 0 8px rgba(252, 211, 77, 0.8)) drop-shadow(0 0 16px rgba(251, 191, 36, 0.4));
+  animation: sun-pulse 3s ease-in-out infinite;
+}
+
+/* Ícone Lua — BsMoonStarsFill (modo claro ativo, clica para ir ao escuro) */
+.theme-icon.moon {
+  color: #c4b5fd;
+  filter: drop-shadow(0 0 8px rgba(196, 181, 253, 0.7)) drop-shadow(0 0 14px rgba(139, 92, 246, 0.4));
+  animation: moon-float 4s ease-in-out infinite;
+}
+
+@keyframes sun-pulse {
+  0%, 100% { 
+    filter: drop-shadow(0 0 6px rgba(252, 211, 77, 0.7)) drop-shadow(0 0 12px rgba(251, 191, 36, 0.3));
+    transform: scale(1);
+  }
+  50% { 
+    filter: drop-shadow(0 0 10px rgba(252, 211, 77, 1)) drop-shadow(0 0 20px rgba(251, 191, 36, 0.6));
+    transform: scale(1.08);
+  }
+}
+
+@keyframes moon-float {
+  0%, 100% { 
+    filter: drop-shadow(0 0 6px rgba(196, 181, 253, 0.6));
+    transform: translateY(0px) rotate(-5deg);
+  }
+  50% { 
+    filter: drop-shadow(0 0 12px rgba(196, 181, 253, 0.9)) drop-shadow(0 0 20px rgba(139, 92, 246, 0.5));
+    transform: translateY(-2px) rotate(5deg);
+  }
+}
+
+body:not(.dark) .dark-toggle {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(139, 92, 246, 0.35);
 }
 
 /* Estilo para a seção de contato no rodapé */
@@ -533,28 +584,30 @@ body:not(.dark) .footer {
 
 .tech-stack-icons {
   display: flex;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 16px;
+  margin-top: 15px;
   justify-content: center;
+  align-items: center;
 }
 
 .tech-stack-icons svg {
-  font-size: 1.2rem; /* Tamanho pequeno para os ícones */
-  color: var(--text-gray); /* Cor sutil para combinar com o texto */
-  transition: color 0.3s ease, transform 0.3s ease;
-  cursor: default;
+  font-size: 1.4rem;
+  color: var(--text-gray);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }
 
-/* Efeito de aumento ao passar o mouse */
 .tech-stack-icons svg:hover {
-  transform: scale(1.3);
+  transform: translateY(-4px) scale(1.25);
 }
 
-/* Cores específicas por tecnologia no rodapé */
-.tech-stack-icons svg:nth-child(1):hover { color: #61dafb; } /* React */
-.tech-stack-icons svg:nth-child(2):hover { color: #e34f26; } /* HTML5 */
-.tech-stack-icons svg:nth-child(3):hover { color: #1572b6; } /* CSS3 */
-.tech-stack-icons svg:nth-child(4):hover { color: #f7df1e; } /* JavaScript */
+/* Cores e Brilho das marcas no rodapé */
+.tech-stack-icons svg[title*="React"]:hover { color: #61dafb; filter: drop-shadow(0 0 10px rgba(97, 218, 251, 0.6)); }
+.tech-stack-icons svg[title*="Python"]:hover { color: #3776ab; filter: drop-shadow(0 0 10px rgba(55, 118, 171, 0.6)); }
+.tech-stack-icons svg[title*="SQL"]:hover { color: #00758f; filter: drop-shadow(0 0 10px rgba(0, 117, 143, 0.6)); }
+.tech-stack-icons svg[title*="JavaScript"]:hover { color: #f7df1e; filter: drop-shadow(0 0 10px rgba(247, 223, 30, 0.6)); }
+.tech-stack-icons svg[title*="HTML"]:hover { color: #e34f26; filter: drop-shadow(0 0 10px rgba(227, 79, 38, 0.6)); }
+.tech-stack-icons svg[title*="CSS"]:hover { color: #1572b6; filter: drop-shadow(0 0 10px rgba(21, 114, 182, 0.6)); }
 
 .whatsapp-btn {
   display: flex;
@@ -1423,43 +1476,129 @@ body:not(.dark) .tech-tag {
   border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
-/* BOTÕES */
+/* BOTÕES DOS CARDS DE PROJETOS */
+.links {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+  width: 100%;
+}
+
 .btn-card {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin: 10px;
-  padding: 8px 16px;
-  background: var(--primary-color);
-  color: white;
+  gap: 6px;
+  padding: 7px 14px;
   border-radius: 8px;
   text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
 }
 
-.btn-card:hover {
-  box-shadow: 0 0 15px var(--primary-color);
+/* Botão Primário: Live Demo */
+.btn-card.btn-demo {
+  background: var(--primary-color);
+  color: #ffffff;
+  border: 1px solid var(--primary-color);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
 }
 
+.btn-card.btn-demo:hover {
+  background: #059669;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+  transform: translateY(-2px);
+}
+
+/* Indicador Pulsante Live */
+.btn-live-dot {
+  position: relative;
+  display: flex;
+  width: 6px;
+  height: 6px;
+  margin-right: 2px;
+}
+
+.btn-live-dot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-color: #ffffff;
+  border-radius: 50%;
+}
+
+.btn-live-ping {
+  position: absolute;
+  inset: -2px;
+  background-color: #ffffff;
+  border-radius: 50%;
+  opacity: 0.8;
+  animation: live-ping-anim 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes live-ping-anim {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* Botão Secundário: GitHub (Ghost) */
+.btn-card.btn-github {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-white);
+}
+
+.btn-card.btn-github:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+body:not(.dark) .btn-card.btn-github {
+  background: rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #0f172a;
+}
+
+body:not(.dark) .btn-card.btn-github:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+/* Botão Detalhes com Seta Deslizante */
 .btn-details {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin: 0;
-  padding: 8px 16px;
+  gap: 6px;
+  padding: 7px 14px;
   background: transparent;
   color: var(--primary-color);
   border: 1px solid var(--primary-color);
   border-radius: 8px;
   text-decoration: none;
-  transition: 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-weight: 600;
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   backdrop-filter: blur(4px);
 }
 
+.btn-details .btn-arrow-icon {
+  font-size: 0.75rem;
+  transition: transform 0.25s ease;
+}
+
 .btn-details:hover {
-  background: rgba(99, 102, 241, 0.1); /* Fundo índigo claro */
+  background: rgba(16, 185, 129, 0.12);
   transform: translateY(-2px);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.25);
+}
+
+.btn-details:hover .btn-arrow-icon {
+  transform: translateX(4px);
 }
 
 /* DESTAQUE */
@@ -1565,13 +1704,20 @@ body:not(.dark) .tech-tag {
   opacity: 0.9;
 }
 
+.projeto-detalhes-img .card-img-wrapper,
 .projeto-detalhes-img.card-img-wrapper {
   height: auto !important; /* Remove a limitação de 160px na página de detalhes */
+  max-height: none !important;
+  overflow: hidden;
+  border-radius: 12px;
+  display: block;
 }
 
-.projeto-detalhes-img .card-img {
+.projeto-detalhes-img .card-img,
+.projeto-detalhes-img img {
   height: auto !important;
-  max-height: none !important;
+  max-height: 500px !important;
+  width: 100% !important;
   object-fit: contain !important;
 }
 
@@ -2206,15 +2352,30 @@ section {
 }
 
 .cert-card-img {
-  height: 210px !important; /* Imagem mais imponente, ocupando quase 50% do card */
+  height: 180px !important;
   width: 100%;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
+  background: rgba(10, 15, 28, 0.7);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .cert-card-img img {
-  height: 100% !important;
+  max-height: 100% !important;
+  max-width: 100% !important;
   width: 100% !important;
-  object-fit: cover !important; /* Garante que a imagem preencha o espaço sem distorcer */
+  height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  transition: transform 0.4s ease;
+}
+
+.certificacao-item:hover .cert-card-img img {
+  transform: scale(1.05);
 }
 
 /* Reflexo Shimmer para Certificações */
@@ -2527,6 +2688,11 @@ body:not(.dark) .certificacao-item:hover {
   background: rgba(255, 255, 255, 0.95);
   border-color: var(--primary-color);
   box-shadow: 0 16px 40px -10px rgba(16, 185, 129, 0.2);
+}
+
+body:not(.dark) .cert-card-img {
+  background: rgba(241, 245, 249, 0.85);
+  border-color: rgba(16, 185, 129, 0.15);
 }
 
 body:not(.dark) .cert-title {
@@ -2971,11 +3137,61 @@ body:not(.dark) .projeto-detalhes-wrapper:hover {
   flex-direction: column;
   justify-content: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
+}
+
+/* Glow que segue o mouse — igual aos cards de projetos */
+.bento-item::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle 120px at var(--x, 50%) var(--y, 50%),
+    rgba(16, 185, 129, 0.15),
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+.bento-item:hover::before {
+  opacity: 1;
+}
+
+.bento-item > * {
+  position: relative;
+  z-index: 1;
 }
 
 .bento-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(16, 185, 129, 0.15);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 25px rgba(16, 185, 129, 0.2);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+/* ---- Glow que segue o mouse nos bento cards ---- */
+/* Usa a abordagem de background-image em vez de ::before para
+   não conflitar com o hud-overlay que tem z-index alto */
+.bento-glow {
+  background-image: radial-gradient(
+    circle 140px at var(--x, -9999px) var(--y, -9999px),
+    rgba(16, 185, 129, 0.13),
+    transparent 70%
+  ) !important;
+  background-color: rgba(255, 255, 255, 0.03);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* HUD overlay ativado em qualquer bento:hover (não só .card:hover) */
+.bento-glow:hover .bento-hud {
+  opacity: 1;
+}
+
+body:not(.dark) .bento-glow {
+  background-color: rgba(255, 255, 255, 0.85);
 }
 
 .bento-main {
@@ -3524,35 +3740,38 @@ body:not(.dark) .section-divider {
 /* =============================================
    6. BOTÃO BAIXAR CV (HERO)
    ============================================= */
-.cv-btn {
+/* Reset para não herdar estilos de linkedin-btn/github-btn */
+a.cv-btn,
+a.cv-btn:visited {
   background: var(--primary-color) !important;
   color: #ffffff !important;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 22px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 0.95rem;
-  border: 1px solid var(--primary-color);
-  box-shadow: 0 0 15px rgba(16, 185, 129, 0.35);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 10px 20px !important;
+  border-radius: 8px !important;
+  text-decoration: none !important;
+  font-weight: 700 !important;
+  font-size: 0.92rem !important;
+  border: 1.5px solid var(--primary-color) !important;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.4) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  z-index: 1 !important;
+  letter-spacing: 0.3px;
 }
 
-.cv-btn:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 0 25px rgba(16, 185, 129, 0.6);
-  filter: brightness(1.1);
+a.cv-btn:hover {
+  transform: translateY(-3px) scale(1.04) !important;
+  box-shadow: 0 0 28px rgba(16, 185, 129, 0.65) !important;
+  filter: brightness(1.08) !important;
 }
 
-body:not(.dark) .cv-btn {
+body:not(.dark) a.cv-btn {
   background: var(--primary-color) !important;
   color: #ffffff !important;
-  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35) !important;
 }
 
 /* =============================================
@@ -3833,4 +4052,59 @@ body:not(.dark) .cmd-palette-footer {
 @keyframes cmd-scale {
   from { opacity: 0; transform: scale(0.95) translateY(-10px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* =============================================
+   10. BOTÃO FLUTUANTE VOLTAR AO TOPO (FAB)
+   ============================================= */
+.floating-back-to-top {
+  position: fixed !important;
+  bottom: 32px !important;
+  right: 32px !important;
+  width: 48px;
+  height: 48px;
+  background: rgba(10, 15, 28, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1.5px solid rgba(16, 185, 129, 0.5);
+  color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  cursor: pointer;
+  z-index: 99999 !important;
+  pointer-events: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.8);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease, background 0.3s ease;
+  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25), 0 2px 8px rgba(0,0,0,0.4);
+}
+
+.floating-back-to-top.visible {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) scale(1) !important;
+}
+
+.floating-back-to-top:hover {
+  background: var(--primary-color);
+  color: #ffffff;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.7), 0 4px 16px rgba(0,0,0,0.3);
+  transform: translateY(-4px) scale(1.12) !important;
+}
+
+body:not(.dark) .floating-back-to-top {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid rgba(16, 185, 129, 0.45);
+  color: #047857;
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.15), 0 2px 8px rgba(0,0,0,0.1);
+}
+
+body:not(.dark) .floating-back-to-top:hover {
+  background: var(--primary-color);
+  color: #ffffff;
 }

@@ -6,8 +6,18 @@ import CountUp from "./CountUp";
 const Sobre = () => {
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    e.currentTarget.style.setProperty("--x", `${e.clientX - rect.left}px`);
-    e.currentTarget.style.setProperty("--y", `${e.clientY - rect.top}px`);
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty("--x", `${x}px`);
+    e.currentTarget.style.setProperty("--y", `${y}px`);
+    // Aplica o glow diretamente como background-image adicional
+    e.currentTarget.style.setProperty("--mouse-x", `${x}px`);
+    e.currentTarget.style.setProperty("--mouse-y", `${y}px`);
+  };
+
+  const handleMouseLeave = (e) => {
+    e.currentTarget.style.removeProperty("--mouse-x");
+    e.currentTarget.style.removeProperty("--mouse-y");
   };
 
   return (
@@ -17,12 +27,12 @@ const Sobre = () => {
       </h2>
       <div className="bento-grid">
         {/* Main Resume Box */}
-        <div className="bento-item bento-main" data-aos="fade-up" data-aos-delay="100" onMouseMove={handleMouseMove}>
-          <div className="hud-overlay">
+        <div className="bento-item bento-main bento-glow" data-aos="fade-up" data-aos-delay="100" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+          <div className="hud-overlay bento-hud">
             <div className="corner tl"></div><div className="corner tr"></div>
             <div className="corner bl"></div><div className="corner br"></div>
           </div>
-          <h3>DNA Analítico & Web</h3>
+          <h3>DNA Analítico &amp; Web</h3>
           <p>
             Sou um Desenvolvedor Web focado no <strong>Planejamento de TI e Inteligência de Dados (MIS)</strong>. Minha trajetória é marcada pela transição entre o suporte técnico especializado e a criação de soluções automatizadas de alto nível.
           </p>
@@ -32,8 +42,8 @@ const Sobre = () => {
         </div>
 
         {/* Location Box */}
-        <div className="bento-item bento-location" data-aos="fade-up" data-aos-delay="200" onMouseMove={handleMouseMove}>
-          <div className="hud-overlay">
+        <div className="bento-item bento-location bento-glow" data-aos="fade-up" data-aos-delay="200" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+          <div className="hud-overlay bento-hud">
             <div className="corner tl"></div><div className="corner tr"></div>
             <div className="corner bl"></div><div className="corner br"></div>
           </div>
@@ -45,8 +55,8 @@ const Sobre = () => {
         </div>
 
         {/* Numbers/Stats Box */}
-        <div className="bento-item bento-stats" data-aos="fade-up" data-aos-delay="300" onMouseMove={handleMouseMove}>
-          <div className="hud-overlay">
+        <div className="bento-item bento-stats bento-glow" data-aos="fade-up" data-aos-delay="300" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+          <div className="hud-overlay bento-hud">
             <div className="corner tl"></div><div className="corner tr"></div>
             <div className="corner bl"></div><div className="corner br"></div>
           </div>
@@ -57,8 +67,8 @@ const Sobre = () => {
         </div>
 
         {/* Tech Focus Box */}
-        <div className="bento-item bento-tech" data-aos="fade-up" data-aos-delay="400" onMouseMove={handleMouseMove}>
-          <div className="hud-overlay">
+        <div className="bento-item bento-tech bento-glow" data-aos="fade-up" data-aos-delay="400" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+          <div className="hud-overlay bento-hud">
             <div className="corner tl"></div><div className="corner tr"></div>
             <div className="corner bl"></div><div className="corner br"></div>
           </div>
@@ -72,8 +82,8 @@ const Sobre = () => {
         </div>
 
         {/* Soft Skills Box */}
-        <div className="bento-item bento-soft" data-aos="fade-up" data-aos-delay="500" onMouseMove={handleMouseMove}>
-          <div className="hud-overlay">
+        <div className="bento-item bento-soft bento-glow" data-aos="fade-up" data-aos-delay="500" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+          <div className="hud-overlay bento-hud">
             <div className="corner tl"></div><div className="corner tr"></div>
             <div className="corner bl"></div><div className="corner br"></div>
           </div>

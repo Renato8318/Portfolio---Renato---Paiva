@@ -1,8 +1,64 @@
 import React from "react";
-import { FaUserGraduate, FaNetworkWired, FaPalette, FaLaptopCode, FaPython, FaAward } from "react-icons/fa";
+import { FaUserGraduate, FaNetworkWired, FaPalette, FaLaptopCode, FaPython, FaAward, FaChartBar } from "react-icons/fa";
 import { hexToRgb } from "./projetosData";
 
 export const certificacoesData = [
+  {
+    id: 7,
+    slug: "power-bi-alura",
+    title: "Formação Power BI",
+    icon: <FaChartBar />,
+    issuer: "Alura",
+    date: "31 de Agosto de 2026",
+    description: "📊 Finalização de 4 cursos da Trilha Alura de Power BI com carga horária estimada de 32 horas. Focado em Business Intelligence, modelagem dimensional de dados (Star Schema), fórmulas e cálculos avançados em DAX, criação de dashboards interativos e storytelling com dados para tomada de decisões estratégicas.",
+    img: "/img/certificado-alura-bi.jpg",
+    credentialUrl: "https://cursos.alura.com.br/degree/certificate/4d90c715-d26d-43dc-868a-7109f3f7ec67",
+    destaque: true,
+    competencias: [
+      "Power BI & Power Query (ETL)",
+      "Fórmulas e Métricas DAX",
+      "Modelagem Dimensional de Dados",
+      "Criação de Dashboards Interativos",
+      "Storytelling com Dados e KPIs",
+      "Visualização e Análise de Dados"
+    ],
+    accentColor: "#f2c811",
+    accentColorRgb: hexToRgb("#f2c811"),
+    gradeCurricular: [
+      {
+        modulo: "Módulo 1 - Power BI Desktop e ETL",
+        topicos: [
+          "Importação e conexão de fontes de dados diversas",
+          "Tratamento, limpeza e transformação no Power Query",
+          "Padronização de tipos de dados e etapas aplicadas"
+        ]
+      },
+      {
+        modulo: "Módulo 2 - Modelagem de Dados e Relacionamentos",
+        topicos: [
+          "Conceitos de Modelagem Dimensional (Star Schema)",
+          "Criação e gerenciamento de relacionamentos entre tabelas",
+          "Construção de tabelas de dimensão calendário (dCalendario)"
+        ]
+      },
+      {
+        modulo: "Módulo 3 - Fórmulas DAX e Inteligência de Tempo",
+        topicos: [
+          "Colunas calculadas vs. Medidas implícitas e explícitas",
+          "Funções essenciais: CALCULATE, FILTER, ALL, RELATED, SUMX",
+          "Cálculos de Inteligência de Tempo e análise de períodos"
+        ]
+      },
+      {
+        modulo: "Módulo 4 - Design de Dashboards e Storytelling",
+        topicos: [
+          "Construção de layouts intuitivos com boas práticas de UX/UI para BI",
+          "Gráficos interativos, filtros dinâmicos e tooltips customizados",
+          "Storytelling orientado a indicadores (KPIs) de negócio"
+        ]
+      }
+    ]
+  },
   {
     id: 6,
     slug: "lean-six-sigma-yellow-belt",
@@ -13,7 +69,6 @@ export const certificacoesData = [
     description: "Certificação em melhoria contínua e análise de processos, focada na identificação de gargalos e otimização de resultados. A metodologia Lean Six Sigma complementa minha atuação em Inteligência de Dados, permitindo transformar dados operacionais em estratégias de impacto real.",
     img: "/img/certificado-lean-six-sigma.jpg",
     credentialUrl: "", 
-    destaque: true,
     competencias: [
       "Power BI", "Python", "SQL", 
       "MIS & Planejamento de TI", "Lean Six Sigma", 

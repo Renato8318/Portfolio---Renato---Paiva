@@ -159,7 +159,7 @@ const CertificacaoDetalhes = () => {
             <img src={cert.img} alt={cert.title} style={{ width: '100%', borderRadius: '12px' }} />
           </div>
 
-          <div style={{ marginTop: '30px' }}>
+          <div style={{ marginTop: '30px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
             <a 
               href={`https://wa.me/5511959117042?text=${encodeURIComponent(`Olá Renato, vi os detalhes da sua certificação em ${cert.title} e gostaria de conversar.`)}`} 
               target="_blank" 
@@ -170,6 +170,19 @@ const CertificacaoDetalhes = () => {
             >
               Conversar sobre isso
             </a>
+
+            {cert.credentialUrl && (
+              <a 
+                href={cert.credentialUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="btn-secondary" 
+                style={{ width: '100%', justifyContent: 'center' }}
+                onMouseMove={handleMouseMove}
+              >
+                <FaExternalLinkAlt style={{ fontSize: '0.8rem' }} /> Ver Credencial Oficial
+              </a>
+            )}
           </div>
         </div>
       </div>
